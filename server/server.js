@@ -2,6 +2,8 @@ require('dotenv').config()
 const express = require('express')
 const multer = require('multer')
 const mongoose = require('mongoose')
+const User = require("./models/User");
+const userRoute = require("./routes/users");
 
 /* CONFIG */
 const app = express()
@@ -25,6 +27,7 @@ const upload = multer({ storage });
 
 /* ROUTES */
 app.get('/', (req, res) => res.sendStatus(200));
+app.use('/users', userRoute);
 
 /* MONGOOSE SETUP */
 const PORT = process.env.PORT || 3000;
@@ -32,7 +35,13 @@ mongoose.connect(process.env.ATLAS_URI, {
     useNewUrlParser: true,
     useUnifiedTopology: true,
 })
-.then(() => {
+.then(async () => {
     app.listen(PORT, () => console.log(`Server: ${PORT}`));
+    // const user = User({
+    //     username: "prakhar29",
+    //     email: "prakhar29sharma@gmail.com",
+    //     password: "helloworld123"
+    // })
+    // await user.save()
 })
 .catch((err) => console.log(`Error: ${err}`));

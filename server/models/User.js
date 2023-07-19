@@ -9,15 +9,6 @@ const userSchema = new mongoose.Schema({
         trim: true,
         minlength: 2,
         immutable: true,
-        validate: {
-            // checking if user already exists
-            validator: function(v, cb) {
-                User.find({name: v}, function(err,docs){
-                    cb(docs.length == 0);
-                });
-            },
-            message: 'User already exists!'
-        }
     },
     email: {
         type: String,
