@@ -80,13 +80,13 @@ export default function Sidebar2() {
   return (
     <Box sx={{ display: 'flex' }}>
       <CssBaseline />
-     
+      {/* <Box height={80}/> */}
       <Drawer variant="permanent" open={open}>
-        {/* <DrawerHeader>
-          <IconButton onClick={()=>setOpen(!open)}>
+        <DrawerHeader>
+          <IconButton>
             {theme.direction === 'rtl' ? <ChevronRightIcon /> : <ChevronLeftIcon />}
           </IconButton>
-        </DrawerHeader> */}
+        </DrawerHeader>
         <Divider />
         <List>
             <ListItem disablePadding sx={{ display: 'block' }} onClick={()=>(navigate("/Profile"))}>

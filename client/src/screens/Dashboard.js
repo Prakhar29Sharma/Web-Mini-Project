@@ -8,7 +8,8 @@ export default function Dashboard() {
   return (
     <div>
       <Navbars/>
-      <Box sx={{ display: 'flex',padding:3 }}>
+      <Box height={80}/>
+      <Box sx={{ display: 'flex' }}>
         <Sidebar2/>
         
         <h3>Dashboard</h3>
