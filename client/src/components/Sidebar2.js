@@ -12,9 +12,11 @@ import ListItem from '@mui/material/ListItem';
 import ListItemButton from '@mui/material/ListItemButton';
 import ListItemIcon from '@mui/material/ListItemIcon';
 import ListItemText from '@mui/material/ListItemText';
-
+import {BiLogoDiscourse} from 'react-icons/bi';
+import { AiOutlineDashboard } from 'react-icons/ai';
 import {CgProfile} from 'react-icons/cg';
-
+import { useNavigate } from 'react-router-dom';
+import { useAppStore } from '../appStore';
 
 const drawerWidth = 240;
 
@@ -69,7 +71,10 @@ const Drawer = styled(MuiDrawer, { shouldForwardProp: (prop) => prop !== 'open' 
 
 export default function Sidebar2() {
   const theme = useTheme();
-  const [open, setOpen] = useState(false);
+  //const [open, setOpen] = useState(false);
+  const navigate=useNavigate();
+  const open = useAppStore((state) => state.dopen);
+
   
 
   return (
@@ -77,14 +82,14 @@ export default function Sidebar2() {
       <CssBaseline />
      
       <Drawer variant="permanent" open={open}>
-        <DrawerHeader>
+        {/* <DrawerHeader>
           <IconButton onClick={()=>setOpen(!open)}>
             {theme.direction === 'rtl' ? <ChevronRightIcon /> : <ChevronLeftIcon />}
           </IconButton>
-        </DrawerHeader>
+        </DrawerHeader> */}
         <Divider />
         <List>
-            <ListItem disablePadding sx={{ display: 'block' }} >
+            <ListItem disablePadding sx={{ display: 'block' }} onClick={()=>(navigate("/Profile"))}>
               <ListItemButton
                 sx={{
                   minHeight: 48,
@@ -105,7 +110,7 @@ export default function Sidebar2() {
               </ListItemButton>
             </ListItem>
           
-            <ListItem disablePadding sx={{ display: 'block' }} >
+            <ListItem disablePadding sx={{ display: 'block' }} onClick={()=>(navigate("/"))} >
               <ListItemButton
                 sx={{
                   minHeight: 48,
@@ -120,9 +125,30 @@ export default function Sidebar2() {
                     justifyContent: 'center',
                   }}
                 >
-                  <CgProfile size={30}/>
+                  <AiOutlineDashboard size={30}/>
                 </ListItemIcon>
-                <ListItemText primary="Home" sx={{ opacity: open ? 1 : 0 }} />
+                <ListItemText primary="Dashboard" sx={{ opacity: open ? 1 : 0 }}  />
+              </ListItemButton>
+            </ListItem>
+
+            <ListItem disablePadding sx={{ display: 'block' }} onClick={()=>(navigate("/Course"))}>
+              <ListItemButton
+                sx={{
+                  minHeight: 48,
+                  justifyContent: open ? 'initial' : 'center',
+                  px: 2.5,
+                }}
+              >
+                <ListItemIcon
+                  sx={{
+                    minWidth: 0,
+                    mr: open ? 3 : 'auto',
+                    justifyContent: 'center',
+                  }}
+                >
+                  <BiLogoDiscourse size={30}/>
+                </ListItemIcon>
+                <ListItemText primary="Course" sx={{ opacity: open ? 1 : 0 }} />
               </ListItemButton>
             </ListItem>
           

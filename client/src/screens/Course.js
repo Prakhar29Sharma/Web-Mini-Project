@@ -9,13 +9,9 @@ export default function Dashboard() {
       <Box sx={{ display: 'flex',padding:3 }}>
         <Sidebar2/>
         
-        <h3>Dashboard</h3>
+        <h3>Settings</h3>
         <Box component='main' sx = {{ flexGrow:1,p:3}}>
-        <Typography paragraph >
-        Temporary navigation drawers can toggle open or closed. Closed by default, the drawer opens temporarily above all other content until a section is selected.
-
-The Drawer can be cancelled by clicking the overlay or pressing the Esc key. It closes when an item is selected, handled by controlling the open prop.
-        </Typography >
+        
         </Box>
         
       </Box>

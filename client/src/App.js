@@ -8,7 +8,7 @@ import {
 
 import Dashboard from './screens/Dashboard';
 import Profile from './screens/Profile';
-import Settings from './screens/Settings';
+import Course from './screens/Course';
 
 function App() {
   return (
@@ -18,7 +18,7 @@ function App() {
           <Routes>
             <Route path="/" element={<Dashboard/>} />
             <Route path="/Profile" element={<Profile/>} />
-            <Route path="/Settings" element={<Settings />} />
+            <Route path="/Course" element={<Course/>} />
           </Routes>
         </div>
       </Router>
