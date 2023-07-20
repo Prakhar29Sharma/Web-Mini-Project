@@ -1,1 +1,20 @@
-GET http://localhost:3000/
+GET http://localhost:3000/users
+
+###
+
+GET http://localhost:3000/users/64b8302a7900557e8c64a64a
+
+###
+
+GET http://localhost:3000/users/role/admin
+
+###
+
+GET http://localhost:3000/users/count/admin
+
+###
+
+GET http://localhost:3000/users/count/all
+
+###
+

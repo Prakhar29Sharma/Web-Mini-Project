@@ -38,8 +38,8 @@ mongoose.connect(process.env.ATLAS_URI, {
 .then(async () => {
     app.listen(PORT, () => console.log(`Server: ${PORT}`));
     // const user = User({
-    //     username: "prakhar29",
-    //     email: "prakhar29sharma@gmail.com",
+    //     username: "testuser",
+    //     email: "test@gmail.com",
     //     password: "helloworld123"
     // })
     // await user.save()
