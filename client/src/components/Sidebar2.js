@@ -69,25 +69,53 @@ const Drawer = styled(MuiDrawer, { shouldForwardProp: (prop) => prop !== 'open' 
   }),
 );
 
+
+
 export default function Sidebar2() {
   const theme = useTheme();
   //const [open, setOpen] = useState(false);
   const navigate=useNavigate();
   const open = useAppStore((state) => state.dopen);
-
+ 
   
 
   return (
     <Box sx={{ display: 'flex' }}>
       <CssBaseline />
       {/* <Box height={80}/> */}
-      <Drawer variant="permanent" open={open}>
+      <Drawer variant="permanent" open={open}
+      sx={ {
+        display: { xs: 'none', sm: 'block' },
+        '& .MuiDrawer-paper': {
+            boxSizing: 'border-box',
+            
+            backgroundImage: 'url("https://images.unsplash.com/photo-1518531933037-91b2f5f229cc?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8OHx8cGF0dGVybnxlbnwwfHwwfHx8MA%3D%3D&auto=format&fit=crop&w=1000&q=60")',
+            position: 'absolute',
+            backgroundSize: 'cover',
+            backgroundPosition: 'center center',
+            '&:before': {
+                position: 'absolute',
+                width: '100%',
+                height: '100%',
+                content: '""',
+                display: 'block',
+                background: '#ffff',
+                opacity: '0.6'
+            }
+        }
+    } }
+      >
         <DrawerHeader>
           <IconButton>
             {theme.direction === 'rtl' ? <ChevronRightIcon /> : <ChevronLeftIcon />}
           </IconButton>
         </DrawerHeader>
         <Divider />
+
+
+{/* sx={{ backgroundImage: 'url("https://plus.unsplash.com/premium_photo-1666963323736-5ee1c16ef19d?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8N3x8bmF0dXJlfGVufDB8fDB8fHww&auto=format&fit=crop&w=1000&q=60")'}} */}
+
+
         <List>
             <ListItem disablePadding sx={{ display: 'block' }} onClick={()=>(navigate("/Profile"))}>
               <ListItemButton
