@@ -4,7 +4,8 @@ const {
     getUser, 
     getUsers, 
     getUserWithRole,
-    getNumOfUsers
+    getNumOfUsers,
+    createUser
 } = require('../controllers/users');
 
 const router = express.Router();
@@ -14,5 +15,8 @@ router.get('/', getUsers);
 router.get('/:id', getUser);
 router.get('/role/:role', getUserWithRole);
 router.get('/count/:role', getNumOfUsers);
+
+/* CREATE */
+router.post('/', createUser);
 
 module.exports = router;

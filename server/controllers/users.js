@@ -51,5 +51,28 @@ const getNumOfUsers = async (req, res) => {
     }
 }
 
+/* CREATE */
 
-module.exports = {getUser, getUsers, getUserWithRole, getNumOfUsers}
+const createUser = async (req, res) => {
+    try {
+        const { username } = req.body;
+        const user = await User.exists({ username: username });
+        if (user === null) {
+            const newUser = User(req.body);
+            await newUser.save();
+            res.status(201).json({
+                message: "new user created!",
+                user: newUser
+            });
+        } else {
+            res.json({
+                message: "username already used",
+            })
+        }
+    } catch (err) {
+        res.status(404).json({ error: err });
+    }
+}
+
+
+module.exports = {getUser, getUsers, getUserWithRole, getNumOfUsers, createUser}
