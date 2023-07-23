@@ -22,10 +22,10 @@ POST http://localhost:3000/users HTTP/1.1
 content-type: application/json
 
 {
-    "username": "test126",
-    "email": "test1@gmail.com",
-    "password": "test789",
-    "role": "EVALUATOR"
+    "username": "test123",
+    "email": "test23@yahoo.com",
+    "password": "happyhappyhappy",
+    "role": "ADMIN"
 }
 
 
