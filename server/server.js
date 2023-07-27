@@ -27,7 +27,7 @@ const upload = multer({ storage });
 
 /* ROUTES */
 app.get('/', (req, res) => res.sendStatus(200));
-app.use('/users', userRoute);
+app.use('/api/users', userRoute);
 
 /* MONGOOSE SETUP */
 const PORT = process.env.PORT || 3000;

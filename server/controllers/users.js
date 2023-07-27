@@ -6,18 +6,26 @@ const getUser = async (req, res) => {
     try {
         const {id} = req.params;
         const user = await User.findById(id);
-        res.status(200).json(user);
+        // res.status(200).json(user);
+        res.json({
+            status: 'ok',
+            user: user,
+        });
     } catch (err) {
-        res.status(404).json({ error: err });
+        res.json({ status: 'error', error: err });
     }
 }
 
 const getUsers = async (req, res) => {
     try {
-        const user = await User.find({});
-        res.status(200).json(user);
+        const users = await User.find({});
+        // res.status(200).json(user);
+        res.json({
+            status: 'ok',
+            users: users,
+        });
     } catch (err) {
-        res.status(404).json({ error: err });
+        res.json({ status: 'error', error: err });
     }
 }
 
@@ -25,9 +33,13 @@ const getUserWithRole = async (req, res) => {
     try {
         const {role} = req.params;
         const users = await User.find({role: role.toUpperCase()});
-        res.status(200).json(users);
+        // res.status(200).json(users);
+        res.json({
+            status: 'ok',
+            users: users,
+        });
     } catch (err) {
-        res.status(404).json({ error: err });
+        res.json({ status: 'error', error: err });
     }
 }
 
@@ -37,17 +49,19 @@ const getNumOfUsers = async (req, res) => {
         if (role.toUpperCase() === 'ALL') {
             const users = await User.find({});
             res.status(200).json({
+                status: 'ok',
                 user_count: users.length,
             })
         } else {
             const users = await User.find({role: role.toUpperCase()});
-            res.status(200).json({
+            res.json({
+                status: 'ok',
                 user_count: users.length,
             })
         }
 
     } catch (err) {
-        res.status(404).json({ error: err });
+        res.json({ status: 'error', error: err });
     }
 }
 
@@ -60,17 +74,18 @@ const createUser = async (req, res) => {
         if (user === null) {
             const newUser = User(req.body);
             await newUser.save();
-            res.status(201).json({
-                message: "new user created!",
-                user: newUser
+            res.json({
+                status: 'ok',
+                message: 'new user created'
             });
         } else {
             res.json({
-                message: "username already used",
+                status: 'error',
+                message: 'username already used',
             })
         }
     } catch (err) {
-        res.status(404).json({ error: err });
+        res.json({ status: 'error', error: err });
     }
 }
 
