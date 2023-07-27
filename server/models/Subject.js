@@ -6,6 +6,7 @@ const subjectSchema = new mongoose.Schema({
     subjectCode: {
         type: String,
         required: true,
+        unique: true,
     },
     subjectName: {
         type: String,
@@ -16,6 +17,9 @@ const subjectSchema = new mongoose.Schema({
         required: true,
         min: 1,
         max: 8,
+    },
+    year: {
+        type: String
     },
     department: {
         type: String,
