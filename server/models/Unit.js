@@ -9,6 +9,10 @@ const unitSchema = new mongoose.Schema({
         type: String,
         required: true,
     },
+    subjectCode: {
+        type: String,
+        required: true,
+    },
     subjectName: {
         type: String,
         required: true,
