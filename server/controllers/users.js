@@ -79,13 +79,13 @@ const createUser = async (req, res) => {
                 message: 'new user created'
             });
         } else {
-            res.json({
-                status: 'error',
-                message: 'username already used',
-            })
+            throw Error
         }
     } catch (err) {
-        res.json({ status: 'error', error: err });
+        res.json({
+            status: 'error',
+            message: 'username already used',
+        })
     }
 }
 
