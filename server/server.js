@@ -5,6 +5,7 @@ const mongoose = require('mongoose')
 const User = require("./models/User");
 const userRoute = require("./routes/users");
 const subjectRoute = require("./routes/subject");
+const unitRoute = require("./routes/unit");
 
 /* CONFIG */
 const app = express()
@@ -30,6 +31,7 @@ const upload = multer({ storage });
 app.get('/', (req, res) => res.sendStatus(200));
 app.use('/api/users', userRoute);
 app.use('/api/subjects', subjectRoute);
+app.use('/api/units', unitRoute);
 
 /* MONGOOSE SETUP */
 const PORT = process.env.PORT || 3000;
