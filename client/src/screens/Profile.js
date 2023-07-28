@@ -3,6 +3,7 @@ import Sidebar2 from '../components/Sidebar2'
 import Box from '@mui/material/Box';
 import Navbars from '../components/Navbars';
 
+
 export default function Dashboard() {
   return (
     <div>
@@ -17,7 +18,7 @@ export default function Dashboard() {
       </Box>
       
     </Box>
-  
+   
   </div>
   )
 }

@@ -83,11 +83,11 @@ export default function Sidebar2() {
     <Box sx={{ display: 'flex' }}>
       <CssBaseline />
       {/* <Box height={80}/> */}
-      <Drawer variant="permanent" open={open}
+      <Drawer variant="permanent" open={open} 
       sx={ {
         display: { xs: 'none', sm: 'block' },
         '& .MuiDrawer-paper': {
-            boxSizing: 'border-box',
+             boxSizing: 'border-box',
             
             backgroundImage: 'url("https://images.unsplash.com/photo-1518531933037-91b2f5f229cc?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8OHx8cGF0dGVybnxlbnwwfHwwfHx8MA%3D%3D&auto=format&fit=crop&w=1000&q=60")',
             position: 'absolute',
@@ -106,9 +106,7 @@ export default function Sidebar2() {
     } }
       >
         <DrawerHeader>
-          <IconButton>
-            {theme.direction === 'rtl' ? <ChevronRightIcon /> : <ChevronLeftIcon />}
-          </IconButton>
+         
         </DrawerHeader>
         <Divider />
 
