@@ -27,6 +27,11 @@ const subjectSchema = new mongoose.Schema({
         default: 'IT',
         enum: deptEnum,
     },
+    subjectType: {
+        type: String,
+        enum: ['Theory', 'Practical'],
+        default: 'Theory',
+    },
 }, { timestamps: true });
 
 const Subject = mongoose.model('Subject', subjectSchema);
