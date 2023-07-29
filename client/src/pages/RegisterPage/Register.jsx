@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import './Register.css';
+import axios from "axios";
 
 function Register() {
 
@@ -7,6 +8,7 @@ function Register() {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [selectedRole, setSelectedRole] = useState('');
+    const [message, setMessage] = useState('');
 
     const handleSubmit = (e) => {
 
@@ -16,12 +18,26 @@ function Register() {
 
         console.log(data);
 
-        // fetch('/api/register', {
-        //     method: 'POST',
-        //     headers: { 'Content-Type': 'application/json' },
-        //     body: JSON.stringify(data),
-        // });
-        
+        axios({
+            method: 'post',
+            url: 'http://localhost:5000/api/auth/register',
+            data: data,
+            headers: {'Content-Type': 'application/json' },
+        })
+        .then(function (response) {
+            if (response.data.status === 'ok') {
+                console.log(response.data);
+                localStorage.setItem('token', response.data.token);
+                localStorage.setItem('user', JSON.stringify(response.data.user));
+                window.location.href = '/';
+            } else {
+                console.log(response.data);
+                setMessage(response.data.message);
+            }
+        })
+        .catch(function (error) {
+            console.log(error);
+        });
     }
 
     return (

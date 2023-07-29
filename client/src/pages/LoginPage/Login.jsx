@@ -1,23 +1,38 @@
 import React, { useState } from "react";
 import './Login.css';
+import axios from 'axios';
 
 function Login() {
 
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
+    const [message, setMessage] = useState('');
 
     const handleSubmit = (e) => {
         e.preventDefault();
 
         const data = { username, password };
 
-        console.log(data);
-
-        // fetch('/api/login', {
-        //     method: 'POST',
-        //     headers: { 'Content-Type': 'application/json' },
-        //     body: JSON.stringify(data),
-        // });
+        axios({
+            method: 'post',
+            url: 'http://localhost:5000/api/auth/login',
+            data: data,
+            headers: {'Content-Type': 'application/json' }
+        })
+        .then(function (response) {
+            if (response.data.status === 'ok') {
+                console.log(response.data);
+                localStorage.setItem('token', response.data.token);
+                localStorage.setItem('user', JSON.stringify(response.data.user));
+                window.location.href = '/';
+            } else {
+                console.log(response.data);
+                setMessage(response.data.message);
+            }  
+        })
+        .catch(function (error) {
+            console.log(error);
+        });
     }
 
     return (
@@ -33,6 +48,7 @@ function Login() {
                 <label>Password</label>
                 </div>
                 <button type="submit" className="btn btn-primary">Login</button>
+                <p className="message">{message}</p>
             </form>
         </div>
     );

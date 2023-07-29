@@ -1,24 +1,24 @@
-GET http://localhost:3000/api/users
+GET http://localhost:5000/api/users
 
 ###
 
-GET http://localhost:3000/api/users/64b8302a7900557e8c64a64a
+GET http://localhost:5000/api/users/64b8302a7900557e8c64a64a
 
 ###
 
-GET http://localhost:3000/api/users/role/admin
+GET http://localhost:5000/api/users/role/admin
 
 ###
 
-GET http://localhost:3000/api/users/count/admin
+GET http://localhost:5000/api/users/count/admin
 
 ###
 
-GET http://localhost:3000/api/users/count/all
+GET http://localhost:5000/api/users/count/all
 
 ###
 
-POST http://localhost:3000/api/users HTTP/1.1
+POST http://localhost:5000/api/users HTTP/1.1
 content-type: application/json
 
 {
