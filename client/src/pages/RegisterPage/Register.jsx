@@ -7,14 +7,14 @@ function Register() {
     const [username, setUsername] = useState('');
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
-    const [selectedRole, setSelectedRole] = useState('');
+    const [role, setRole] = useState('');
     const [message, setMessage] = useState('');
 
     const handleSubmit = (e) => {
 
         e.preventDefault();
 
-        const data = { username, email, password, selectedRole };
+        const data = { username, email, password, role: role.toUpperCase() };
 
         console.log(data);
 
@@ -57,7 +57,7 @@ function Register() {
                 <label>Password</label>
                 </div>
                 <div className="user-box">
-                    <select style={{backgroundColor: '#141e30', color: 'white', fontSize: 16, border: '0'}} className="form-select" aria-label="Default select example" onChange={(e) => { setSelectedRole(e.target.value) }}>
+                    <select name="role" style={{backgroundColor: '#141e30', color: 'white', fontSize: 16, border: '0'}} className="form-select" aria-label="Default select example" onChange={(e) => { setRole(e.target.value) }}>
                         <option defaultValue>Select Role</option>
                         <option value="Student">Student</option>
                         <option value="Contributor">Contributor</option>

@@ -68,6 +68,7 @@ router.post('/register', async (req, res) => {
         res.status(400).json({
             status: 'error',
             message: "Something went wrong",
+            error: err.message,
         });
     }
 });
