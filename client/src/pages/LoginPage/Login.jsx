@@ -24,7 +24,17 @@ function Login() {
                 console.log(response.data);
                 localStorage.setItem('token', response.data.token);
                 localStorage.setItem('user', JSON.stringify(response.data.user));
-                window.location.href = '/';
+                if (response.data.user.role === 'ADMIN') {
+                    window.location.href = '/admin';
+                } else if (response.data.user.role === 'CONTRIBUTOR') {
+                    window.location.href = '/contributor';
+                } else if (response.data.user.role === 'EVALUATOR') {
+                    window.location.href = '/evaluator';
+                } else if (response.data.user.role === 'STUDENT') {
+                    window.location.href = '/student';
+                } else {
+                    window.location.href = '/';
+                }
             } else {
                 console.log(response.data);
                 setMessage(response.data.message);

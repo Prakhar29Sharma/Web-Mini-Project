@@ -66,6 +66,7 @@ function Register() {
                 </div>
                 <br />
                 <button type="submit" className="btn btn-primary">Register</button>
+                <p className="message">{message}</p>
             </form>
         </div>
     );

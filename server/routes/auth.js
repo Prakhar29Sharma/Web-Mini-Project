@@ -1,5 +1,6 @@
 const express = require('express');
 const User = require('../models/User');
+const jwt = require('jsonwebtoken');
 
 const router = express.Router();
 
@@ -7,6 +8,13 @@ router.post('/login', async (req, res) => {
     const { username, password } = req.body;
     const user = await User.findOne({ username: username });
     if (user) {
+
+        const token = jwt.sign({
+            username: user.username,
+            email: user.email,
+            role: user.role,
+        }, process.env.JWT_SECRET, { expiresIn: '1h'});
+
         if (user.password === password) {
             res.status(200).json({
                 status: 'ok',
@@ -16,7 +24,7 @@ router.post('/login', async (req, res) => {
                     email: user.email,
                     role: user.role,
                 },
-                token: "token",
+                token: token,
             });
         } else {
             res.status(400).json({
