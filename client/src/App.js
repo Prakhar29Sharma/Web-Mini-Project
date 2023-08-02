@@ -1,7 +1,7 @@
 import {
-  BrowserRouter as Router,
+  BrowserRouter,
   Routes,
-   Route,
+  Route,
   } from "react-router-dom";
 
 import Dashboard from './screens/Dashboard';
@@ -20,13 +20,13 @@ function App() {
           <Sidebar isSidebar={isSidebar} />
           <main className="content">
             <Topbar setIsSidebar={setIsSidebar} className="elevate:[4]"/>
-            <Router>
+            <BrowserRouter>
             <Routes>
              <Route path="/" element={<Dashboard/>} />
              <Route path="/Profile" element={<Form/>} />
              {/* <Route path="/Course" element={<Course/>} /> */}
            </Routes>
-           </Router>
+           </BrowserRouter>
           </main>
         </div>
       </ThemeProvider>
