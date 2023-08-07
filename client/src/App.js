@@ -1,6 +1,6 @@
 import {
   BrowserRouter,
-  BrowserRouter,
+ 
   Routes,
   Route,
 } from "react-router-dom";
@@ -19,7 +19,7 @@ function App() {
   //const [isSidebar, setIsSidebar] = useState(true);
 
   return (
-
+   
 
     <ColorModeContext.Provider value={colorMode}>
       <ThemeProvider theme={theme}>
@@ -46,8 +46,7 @@ function App() {
         </div>
       </ThemeProvider>
     </ColorModeContext.Provider>
-      </ThemeProvider>
-    </ColorModeContext.Provider>
+     
   );
 }
 
