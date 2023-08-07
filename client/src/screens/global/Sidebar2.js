@@ -1,13 +1,11 @@
-import {useState}from 'react';
+
 import { styled, useTheme } from '@mui/material/styles';
 import Box from '@mui/material/Box';
 import MuiDrawer from '@mui/material/Drawer';
 import List from '@mui/material/List';
 import CssBaseline from '@mui/material/CssBaseline';
 import Divider from '@mui/material/Divider';
-import IconButton from '@mui/material/IconButton';
-import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
-import ChevronRightIcon from '@mui/icons-material/ChevronRight';
+
 import ListItem from '@mui/material/ListItem';
 import ListItemButton from '@mui/material/ListItemButton';
 import ListItemIcon from '@mui/material/ListItemIcon';
@@ -16,7 +14,7 @@ import {BiLogoDiscourse} from 'react-icons/bi';
 import { AiOutlineDashboard } from 'react-icons/ai';
 import {CgProfile} from 'react-icons/cg';
 import { useNavigate } from 'react-router-dom';
-import { useAppStore } from '../appStore';
+import { useAppStore } from '../../appStore';
 
 const drawerWidth = 240;
 
@@ -89,19 +87,19 @@ export default function Sidebar2() {
         '& .MuiDrawer-paper': {
              boxSizing: 'border-box',
             
-            backgroundImage: 'url("https://images.unsplash.com/photo-1518531933037-91b2f5f229cc?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8OHx8cGF0dGVybnxlbnwwfHwwfHx8MA%3D%3D&auto=format&fit=crop&w=1000&q=60")',
-            position: 'absolute',
-            backgroundSize: 'cover',
-            backgroundPosition: 'center center',
-            '&:before': {
-                position: 'absolute',
-                width: '100%',
-                height: '100%',
-                content: '""',
-                display: 'block',
-                background: '#ffff',
-                opacity: '0.6'
-            }
+            // backgroundImage: 'url("https://images.unsplash.com/photo-1518531933037-91b2f5f229cc?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8OHx8cGF0dGVybnxlbnwwfHwwfHx8MA%3D%3D&auto=format&fit=crop&w=1000&q=60")',
+            // position: 'absolute',
+            // backgroundSize: 'cover',
+            // backgroundPosition: 'center center',
+            // '&:before': {
+            //     position: 'absolute',
+            //     width: '100%',
+            //     height: '100%',
+            //     content: '""',
+            //     display: 'block',
+            //     background: '#ffff',
+            //     opacity: '0.6'
+            // }
         }
     } }
       >

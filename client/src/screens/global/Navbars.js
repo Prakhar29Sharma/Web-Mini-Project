@@ -1,6 +1,7 @@
-import * as React from 'react';
 import { styled, alpha } from '@mui/material/styles';
-
+import React, { useContext } from 'react';
+import { ColorModeContext, tokens } from "../../theme";
+import useTheme from '@mui/material/styles/useTheme';
 import Box from '@mui/material/Box';
 import Toolbar from '@mui/material/Toolbar';
 import IconButton from '@mui/material/IconButton';
@@ -14,10 +15,15 @@ import SearchIcon from '@mui/icons-material/Search';
 import AccountCircle from '@mui/icons-material/AccountCircle';
 import MailIcon from '@mui/icons-material/Mail';
 import NotificationsIcon from '@mui/icons-material/Notifications';
+
+import FlashlightOnOutlinedIcon from '@mui/icons-material/FlashlightOnOutlined';
+import LightModeOutlinedIcon from '@mui/icons-material/LightModeOutlined';
+import DarkModeOutlinedIcon from "@mui/icons-material/DarkModeOutlined";
+
 import MoreIcon from '@mui/icons-material/MoreVert';
 import MuiAppBar from '@mui/material/AppBar';
 
-import { useAppStore } from '../appStore';
+import { useAppStore } from '../../appStore';
 
 const AppBar = styled(MuiAppBar, {
 })(({ theme }) => ({
@@ -66,6 +72,15 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
 }));
 
 export default function Navbars() {
+
+  // darkmode toggle
+    
+  // const ColorModeContext = React.createContext({ toggleColorMode: () => {} });
+  const theme = useTheme();
+  const colors = tokens(theme.palette.mode);
+  const colorMode = useContext(ColorModeContext);
+
+  
   const [anchorEl, setAnchorEl] = React.useState(null);
   const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = React.useState(null);
   const updateOpen = useAppStore((state)=> state.updateOpen);
@@ -90,6 +105,7 @@ export default function Navbars() {
   const handleMobileMenuOpen = (event) => {
     setMobileMoreAnchorEl(event.currentTarget);
   };
+ 
 
   const menuId = 'primary-search-account-menu';
   const renderMenu = (
@@ -165,9 +181,10 @@ export default function Navbars() {
     </Menu>
   );
 
+ 
   return (
     <Box sx={{ flexGrow: 1 }}>
-      <AppBar position="fixed" sx={{backgroundColor:'green'}}>
+      <AppBar position="fixed" >
         <Toolbar>
           <IconButton
             size="large"
@@ -187,7 +204,12 @@ export default function Navbars() {
           >
             OER 
           </Typography>
-          <Search>
+
+          {/* Search bar */}
+
+          <Search  display="flex"
+        backgroundColor={colors.primary[400]}
+        borderRadius="3px">
             <SearchIconWrapper>
               <SearchIcon />
             </SearchIconWrapper>
@@ -195,8 +217,26 @@ export default function Navbars() {
               placeholder="Search…"
               inputProps={{ 'aria-label': 'search' }}
             />
+
+         
+
+            
           </Search>
+          
           <Box sx={{ flexGrow: 1 }} />
+
+          <Box sx={{ display: { xs: 'none', md: 'flex' } }} backgroundColor={colors.primary[100]}>
+          {/* Darkmode toggle */}
+           
+           <IconButton onClick={colorMode.toggleColorMode}>
+          {theme.palette.mode === "dark" ? (
+            <DarkModeOutlinedIcon />
+          ) : (
+           <LightModeOutlinedIcon />
+          )}
+        </IconButton>
+        </Box>
+
           <Box sx={{ display: { xs: 'none', md: 'flex' } }}>
             <IconButton size="large" aria-label="show 4 new mails" color="inherit">
               <Badge badgeContent={4} color="error">

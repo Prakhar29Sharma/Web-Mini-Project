@@ -1,22 +1,20 @@
 import React from 'react'
-import Sidebar2 from '../components/Sidebar2'
-import Navbars from '../components/Navbars'
+
 import Box from '@mui/material/Box';
 import Grid from '@mui/material/Grid'; // Grid version 1
 import CardContent from '@mui/material/CardContent';
 import Card from '@mui/material/Card';
 import { Typography } from '@mui/material';
 import Stack from '@mui/material/Stack';
-import Footer from '../components/Footer';
+import Footer from '../global/Footer';
 
 export default function Dashboard() {
   return (
     <div>
-      <Navbars />
-      <Box height={50} />
+      
+     
       <Box sx={{ display: 'flex' }}>
-        <Sidebar2 />
-
+       
 
         <Box component='main' sx={{ flexGrow: 1, p: 5 }}>
           <h3>Dashboard</h3>
