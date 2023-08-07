@@ -73,7 +73,7 @@ export default function Dashboard() {
         </Box>
 
       </Box>
-      <Footer/>
+      
 
     </div>
   )
