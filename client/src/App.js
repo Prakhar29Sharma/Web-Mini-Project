@@ -1,6 +1,5 @@
 import {
   BrowserRouter,
- 
   Routes,
   Route,
 } from "react-router-dom";
@@ -12,6 +11,8 @@ import Sidebar2 from "./screens/global/Sidebar2";
 import Dashboard from './screens/dashboard/Dashboard';
 import Profile from './screens/profileform/Profile';
 import Course from './screens/table/Course';
+import LandingPage from './screens/landingpage/Landingpage';
+import Landingpage from "./screens/landingpage/Landingpage";
 
 function App() {
   // theme setup
@@ -19,7 +20,7 @@ function App() {
   //const [isSidebar, setIsSidebar] = useState(true);
 
   return (
-   
+
 
     <ColorModeContext.Provider value={colorMode}>
       <ThemeProvider theme={theme}>
@@ -27,58 +28,40 @@ function App() {
         <div className="app">
           <BrowserRouter>
 
-            <Navbars />
-            <Box height={50} />
-            <Box sx={{ display: 'flex' }}>
-              <Sidebar2 />
+            {/* Conditionally render Navbar and Sidebar based on the route */}
+            <Routes>
+              {/* Landing Page Route */}
+              <Route path="/landing" element={<Landingpage/>} />
 
-              
-                <Routes>
-                  <Route path="/" element={<Dashboard />} />
-                  <Route path="/Profile" element={<Profile />} />
-                  <Route path="/Course" element={<Course />} />
-                </Routes>
-             
-            </Box>
-
+              {/* Other Routes */}
+              <Route path="/*" element={<AuthenticatedRoutes />} />
+            </Routes>
           </BrowserRouter>
 
         </div>
       </ThemeProvider>
     </ColorModeContext.Provider>
-     
+
+  );
+}
+
+function AuthenticatedRoutes() {
+  return (
+    <>
+      <Navbars />
+      <Box height={50} />
+      <Box sx={{ display: 'flex' }}>
+        <Sidebar2 />
+        <Routes>
+          <Route path="/" element={<Dashboard />} />
+          <Route path="/Profile" element={<Profile />} />
+          <Route path="/Course" element={<Course />} />
+        </Routes>
+      </Box>
+    </>
   );
 }
 
 
-
-// function App() {
-//   const [theme, colorMode] = useMode();
-//   const [isSidebar, setIsSidebar] = useState(true);
-
-//   return (
-//     <ColorModeContext.Provider value={colorMode}>
-
-//     <ThemeProvider theme={theme}>
-//     <CssBaseline />
-//     <div className="app">
-//       <Sidebar/>
-//       <main className="content">
-//             <Topbar setIsSidebar={setIsSidebar} />
-//       <Router> 
-//         <div>
-//           <Routes>
-//             <Route path="/" element={<Dashboard/>} />
-//             <Route path="/Profile" element={<Form/>} />
-//             {/* <Route path="/Course" element={<Course/>} /> */}
-//           </Routes>
-//         </div>
-//       </Router>
-//       </main>
-//     </div>
-//     </ThemeProvider>
-//     </ColorModeContext.Provider>
-//   );
-// }
 
 export default App;
