@@ -28,7 +28,7 @@ import { useAppStore } from '../../appStore';
 const AppBar = styled(MuiAppBar, {
 })(({ theme }) => ({
   zIndex: theme.zIndex.drawer + 1,
-  
+
 }));
 
 const Search = styled('div')(({ theme }) => ({
@@ -74,16 +74,16 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
 export default function Navbars() {
 
   // darkmode toggle
-    
+
   // const ColorModeContext = React.createContext({ toggleColorMode: () => {} });
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
   const colorMode = useContext(ColorModeContext);
 
-  
+
   const [anchorEl, setAnchorEl] = React.useState(null);
   const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = React.useState(null);
-  const updateOpen = useAppStore((state)=> state.updateOpen);
+  const updateOpen = useAppStore((state) => state.updateOpen);
   const dopen = useAppStore((state) => state.dopen);
 
   const isMenuOpen = Boolean(anchorEl);
@@ -105,7 +105,7 @@ export default function Navbars() {
   const handleMobileMenuOpen = (event) => {
     setMobileMoreAnchorEl(event.currentTarget);
   };
- 
+
 
   const menuId = 'primary-search-account-menu';
   const renderMenu = (
@@ -125,7 +125,7 @@ export default function Navbars() {
       onClose={handleMenuClose}
     >
       <MenuItem onClick={handleMenuClose}>Profile</MenuItem>
-     
+
     </Menu>
   );
 
@@ -181,7 +181,7 @@ export default function Navbars() {
     </Menu>
   );
 
- 
+
   return (
     <Box sx={{ flexGrow: 1 }}>
       <AppBar position="fixed" >
@@ -192,9 +192,9 @@ export default function Navbars() {
             color="inherit"
             aria-label="open drawer"
             sx={{ mr: 2 }}
-            onClick={()=>updateOpen(!dopen)}
+            onClick={() => updateOpen(!dopen)}
           >
-            <MenuIcon/>
+            <MenuIcon />
           </IconButton>
           <Typography
             variant="h6"
@@ -202,14 +202,14 @@ export default function Navbars() {
             component="div"
             sx={{ display: { xs: 'none', sm: 'block' } }}
           >
-            OER 
+            OER
           </Typography>
 
           {/* Search bar */}
 
-          <Search  display="flex"
-        backgroundColor={colors.primary[400]}
-        borderRadius="3px">
+          <Search display="flex"
+            backgroundColor={colors.primary[400]}
+            borderRadius="3px">
             <SearchIconWrapper>
               <SearchIcon />
             </SearchIconWrapper>
@@ -218,24 +218,23 @@ export default function Navbars() {
               inputProps={{ 'aria-label': 'search' }}
             />
 
-         
 
-            
+
+
           </Search>
-          
+
           <Box sx={{ flexGrow: 1 }} />
 
           <Box sx={{ display: { xs: 'none', md: 'flex' } }} backgroundColor={colors.primary[100]}>
-          {/* Darkmode toggle */}
-           
-           <IconButton onClick={colorMode.toggleColorMode}>
-          {theme.palette.mode === "dark" ? (
-            <DarkModeOutlinedIcon />
-          ) : (
-           <LightModeOutlinedIcon />
-          )}
-        </IconButton>
-        </Box>
+            {/* Darkmode toggle */}
+            <IconButton onClick={colorMode.toggleColorMode}>
+              {theme.palette.mode === 'dark' ? (
+                <DarkModeOutlinedIcon sx={{ color: 'white' }} />
+              ) : (
+                <LightModeOutlinedIcon sx={{ color: 'white' }} />
+              )}
+            </IconButton>
+          </Box>
 
           <Box sx={{ display: { xs: 'none', md: 'flex' } }}>
             <IconButton size="large" aria-label="show 4 new mails" color="inherit">
