@@ -45,6 +45,10 @@ const getUserWithRole = async (req, res) => {
 
 const getNumOfUsers = async (req, res) => {
     try {
+        const user = req.user;
+        if (user.role !== 'ADMIN') {
+            return res.json({ status: 'error', error: 'You are not authorized to perform this action'});
+        }
         const {role} = req.params;
         if (role.toUpperCase() === 'ALL') {
             const users = await User.find({});

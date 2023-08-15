@@ -1,30 +1,8 @@
 import React from "react";
-import { useEffect } from "react";
 import jwtDecode from "jwt-decode";
-import {useNavigate} from 'react-router-dom';
+import { getToken } from "../../utils/auth";
 
 function Student() {
-
-    const navigate = useNavigate();
-
-    useEffect(() => {
-        const token = localStorage.getItem("token");
-        if (token) {
-            const user = jwtDecode(token);
-            console.log(user);
-            if (!user) {
-                localStorage.removeItem("token");
-                navigate('/login');
-            } else {
-                if (user.role !== 'STUDENT') {
-                    localStorage.removeItem("token");
-                    navigate('/login');
-                }
-            }
-        }
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-    });
-
     return (
         <div>
             <h1>Student Page</h1>
@@ -33,3 +11,19 @@ function Student() {
 }
 
 export default Student;
+
+export async function loader({ request }) {
+    const token = await getToken();
+    // console.log('token:', token);
+    if (token !== null && token !== undefined) {
+        const user = jwtDecode(token);
+        // console.log('user:', user);
+        if (user) {
+            if (user.role === 'STUDENT') {
+                return { isAuthenticated: true };
+            }
+        }
+    }
+    window.location.href = '/login';
+    return { isAuthenticated: false };
+}

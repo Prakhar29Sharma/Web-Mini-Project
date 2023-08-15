@@ -1,6 +1,6 @@
 import React, { useState } from "react";
-import './Login.css';
 import axios from 'axios';
+import { setToken } from "../../utils/auth";
 
 function Login() {
 
@@ -14,7 +14,7 @@ function Login() {
         const data = { username, password };
 
         axios({
-            method: 'post',
+            method: 'post', 
             url: 'http://localhost:5000/api/auth/login',
             data: data,
             headers: {'Content-Type': 'application/json' }
@@ -22,19 +22,36 @@ function Login() {
         .then(function (response) {
             if (response.data.status === 'ok') {
                 console.log(response.data);
-                localStorage.setItem('token', response.data.token);
+                setToken(response.data.token);
                 localStorage.setItem('user', JSON.stringify(response.data.user));
-                if (response.data.user.role === 'ADMIN') {
-                    window.location.href = '/admin';
-                } else if (response.data.user.role === 'CONTRIBUTOR') {
-                    window.location.href = '/contributor';
-                } else if (response.data.user.role === 'EVALUATOR') {
-                    window.location.href = '/evaluator';
-                } else if (response.data.user.role === 'STUDENT') {
-                    window.location.href = '/student';
-                } else {
-                    window.location.href = '/';
+                const role = response.data.user.role;
+                switch (role) {
+                    case 'ADMIN':
+                        window.location.href = '/admin';
+                        break;
+                    case 'CONTRIBUTOR':
+                        window.location.href = '/contributor';
+                        break;
+                    case 'EVALUATOR':
+                        window.location.href = '/evaluator';
+                        break;
+                    case 'STUDENT':
+                        window.location.href = '/student';
+                        break;
+                    default:
+                        window.location.href = '/';
                 }
+                // if (response.data.user.role === 'ADMIN') {
+                //     window.location.href = '/admin';
+                // } else if (response.data.user.role === 'CONTRIBUTOR') {
+                //     window.location.href = '/contributor';
+                // } else if (response.data.user.role === 'EVALUATOR') {
+                //     window.location.href = '/evaluator';
+                // } else if (response.data.user.role === 'STUDENT') {
+                //     window.location.href = '/student';
+                // } else {
+                //     window.location.href = '/';
+                // }
             } else {
                 console.log(response.data);
                 setMessage(response.data.message);
@@ -54,7 +71,7 @@ function Login() {
                 <label>Username</label>
                 </div>
                 <div className="user-box">
-                <input type="password" name="password" onChange={(e) => {setPassword(e.target.value)}} required autoComplete="false" />
+                <input type="password" name="password" onChange={(e) => {setPassword(e.target.value)}} required autoComplete="off" />
                 <label>Password</label>
                 </div>
                 <button type="submit" className="btn btn-primary">Login</button>
