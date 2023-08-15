@@ -14,6 +14,7 @@ import { loader as adminLoader } from './pages/Admin/Admin';
 import { loader as evaluatorLoader } from './pages/Evaluator/Evaluator';
 import { loader as contributorLoader } from './pages/Contributor/Contributor';
 import { loader as studentLoader } from './pages/Student/Student';
+import logoutAction from "./pages/Logout";
 
 function App() {
 
@@ -60,6 +61,11 @@ function App() {
       children: [
         { path: '', element: <Student /> },
       ]
+    }, 
+    { 
+      path: '/logout',
+      action: logoutAction,
+      children: [],
     }
   ]);
 

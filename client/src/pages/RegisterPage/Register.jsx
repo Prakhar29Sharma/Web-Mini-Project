@@ -56,7 +56,7 @@ function Register() {
                 <label>Password</label>
                 </div>
                 <div className="user-box">
-                    <select name="role" style={{backgroundColor: '#141e30', color: 'white', fontSize: 16, border: '0'}} className="form-select" aria-label="Default select example" onChange={(e) => { setRole(e.target.value) }}>
+                    <select name="role" className="form-select" aria-label="Default select example" onChange={(e) => { setRole(e.target.value) }}>
                         <option defaultValue>Select Role</option>
                         <option value="Student">Student</option>
                         <option value="Contributor">Contributor</option>

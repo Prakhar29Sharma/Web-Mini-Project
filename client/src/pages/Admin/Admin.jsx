@@ -4,6 +4,7 @@ import jwtDecode from "jwt-decode";
 import {Link, useRouteLoaderData} from 'react-router-dom';
 import axios from "axios";
 import { getToken } from "../../utils/auth";
+import Navbar from "./Navbar";
 
 function Admin() {
 
@@ -37,12 +38,15 @@ function Admin() {
     }
 
     return (
-        <div>
+        <>
+        <Navbar />
+        <div className="container">
             <h2>Admin Page</h2>
             <Link to='subjects'>Go to Subjects</Link>
             <p>{ message }</p>
             <p> User Count : { userCount } </p>
         </div>
+        </>
     );
 }
 
