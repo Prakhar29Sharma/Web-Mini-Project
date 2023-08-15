@@ -1,5 +1,6 @@
 import axios from "axios";
 import React, { useState, useEffect } from "react";
+import { useRouteLoaderData } from "react-router-dom";
 
 function SubjectList() {
 
@@ -15,6 +16,12 @@ function SubjectList() {
             console.log(error);
         })
     }, []);
+
+    const { isAuthenticated } = useRouteLoaderData('admin');
+
+    if (!isAuthenticated) {
+        return (<div></div>);
+    }
 
     return (
         <>

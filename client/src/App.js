@@ -9,7 +9,7 @@ import Evaluator from './pages/Evaluator/Evaluator';
 import Contributor from './pages/Contributor/Contributor';
 import Student from './pages/Student/Student';
 import Navbar from './components/Navbar';
-import SubjectList from './pages/SubjectList';
+import SubjectList from './pages/Admin/SubjectList';
 import { loader as adminLoader } from './pages/Admin/Admin';
 import { loader as evaluatorLoader } from './pages/Evaluator/Evaluator';
 import { loader as contributorLoader } from './pages/Contributor/Contributor';
@@ -31,13 +31,15 @@ function App() {
     {
       path: '/admin',
       loader: adminLoader,
+      id: 'admin',
       children: [
-        { path: '', element: <Admin /> },
+        { path: '', element: <Admin />, index: true},
         { path: 'subjects', element: <SubjectList /> }
       ]
     },
     {
       path: '/evaluator',
+      id: 'evaluator',
       loader: evaluatorLoader,
       children: [
         { path: '', element: <Evaluator /> },
@@ -45,6 +47,7 @@ function App() {
     },
     {
       path: '/contributor',
+      id: 'contributor',
       loader: contributorLoader,
       children: [
         { path: '', element: <Contributor /> },
@@ -52,6 +55,7 @@ function App() {
     },
     {
       path: '/student',
+      id: 'student',
       loader: studentLoader,
       children: [
         { path: '', element: <Student /> },

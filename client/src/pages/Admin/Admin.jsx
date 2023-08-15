@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { useEffect } from "react";
 import jwtDecode from "jwt-decode";
-import {Link} from 'react-router-dom';
+import {Link, useRouteLoaderData} from 'react-router-dom';
 import axios from "axios";
 import { getToken } from "../../utils/auth";
 
@@ -29,6 +29,12 @@ function Admin() {
             console.log(err);
         })
     }, []);
+
+    const { isAuthenticated } = useRouteLoaderData('admin');
+
+    if (!isAuthenticated) {
+        return (<div></div>);
+    }
 
     return (
         <div>

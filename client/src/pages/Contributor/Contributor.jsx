@@ -1,8 +1,16 @@
 import React from "react";
 import jwtDecode from "jwt-decode";
 import { getToken } from "../../utils/auth";
+import { useRouteLoaderData } from "react-router-dom";
 
 function Contributor() {
+
+    const { isAuthenticated } = useRouteLoaderData('contributor');
+
+    if (!isAuthenticated) {
+        return (<div></div>);
+    }
+
     return (
         <div>
             <h1>Contributor Page</h1>
