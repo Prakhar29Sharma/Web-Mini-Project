@@ -56,6 +56,13 @@ export async function loader({ request }) {
     const token = await getToken();
     // console.log('token:', token);
     if (token !== null && token !== undefined) {
+
+        if (token === 'EXPIRED') {
+            localStorage.clear();
+            window.location.href = '/login';
+            return { isAuthenticated: false };
+        }
+
         const user = jwtDecode(token);
         // console.log('user:', user);
         if (user) {

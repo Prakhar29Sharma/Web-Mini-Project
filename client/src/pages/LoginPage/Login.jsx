@@ -21,14 +21,18 @@ function Login() {
         })
         .then(function (response) {
             if (response.data.status === 'ok') {
-                
+
                 console.log(response.data);
                 
                 setToken(response.data.token);
 
                 localStorage.setItem('user', JSON.stringify(response.data.user));
 
-                localStorage.setItem('time_created', Date.now());
+                const expiration = new Date();
+                
+                expiration.setHours(expiration.getHours() + 1);
+
+                localStorage.setItem('expiration', expiration.toISOString());
 
                 const role = response.data.user.role;
                 

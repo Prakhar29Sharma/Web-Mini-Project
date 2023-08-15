@@ -23,6 +23,15 @@ export default Contributor;
 export async function loader({ request }) {
     const token = await getToken();
     // console.log('token:', token);
+
+    if (token === 'EXPIRED') {
+        localStorage.removeItem('token');
+        localStorage.removeItem('user');
+        localStorage.removeItem('expiration');
+        window.location.href = '/login';
+        return { isAuthenticated: false };
+    }
+
     if (token !== null && token !== undefined) {
         const user = jwtDecode(token);
         // console.log('user:', user);

@@ -22,6 +22,15 @@ export default Student;
 
 export async function loader({ request }) {
     const token = await getToken();
+
+    if (token === 'EXPIRED') {
+        localStorage.removeItem('token');
+        localStorage.removeItem('user');
+        localStorage.removeItem('expiration');
+        window.location.href = '/login';
+        return { isAuthenticated: false };
+    }
+
     // console.log('token:', token);
     if (token !== null && token !== undefined) {
         const user = jwtDecode(token);
