@@ -4,7 +4,7 @@ function Home() {
     return (
         <div>
             <div className="container">
-                <h1 style={{color: "white"}}>Welcome to Home Page!</h1>
+                <h1>Welcome to Home Page!</h1>
             </div>            
         </div>
     );
