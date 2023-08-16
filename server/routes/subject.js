@@ -1,8 +1,10 @@
 const express = require("express");
-
 const { getSubject, getSubjects, createSubject, deleteSubject, getSubjectBySem, getSubjectByYear, getSubjectByDept } = require("../controllers/subject");
+const authMiddleware = require("../middleware/auth");
 
 const router = express.Router();
+
+router.use(authMiddleware);
 
 /* READ */
 

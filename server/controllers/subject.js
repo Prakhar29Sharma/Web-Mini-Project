@@ -69,6 +69,10 @@ const getSubjectByDept = async (req, res) => {
 /* CREATE */
 
 const createSubject = async (req, res) => {
+    const user = req.user;
+    if (user.role !== 'ADMIN') {
+        return res.json({ status: 'error', error: 'You are not authorized to perform this action'});
+    }
     try {
         const newSubject = Subject(req.body);
         await newSubject.save();
@@ -84,6 +88,10 @@ const createSubject = async (req, res) => {
 /* DELETE */
 
 const deleteSubject = async (req, res) => {
+    const user = req.user;
+    if (user.role !== 'ADMIN') {
+        return res.json({ status: 'error', error: 'You are not authorized to perform this action'});
+    }
     try {
         const id = req.params.id;
         const subject = await Subject.findOne({ _id: id });
