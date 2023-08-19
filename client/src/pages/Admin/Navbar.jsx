@@ -118,7 +118,7 @@ export default function Navbar() {
             </li>
 
             <li>
-              <Link className="dropdown-item d-flex align-items-center" to="users-profile.html">
+              <Link className="dropdown-item d-flex align-items-center" to="profile">
                 <i className="bi bi-person"></i>
                 <span>My Profile</span>
               </Link>
@@ -128,7 +128,7 @@ export default function Navbar() {
             </li>
 
             <li>
-              <Link className="dropdown-item d-flex align-items-center" to="users-profile.html">
+              <Link className="dropdown-item d-flex align-items-center" to="">
                 <i className="bi bi-gear"></i>
                 <span>Account Settings</span>
               </Link>
@@ -138,7 +138,7 @@ export default function Navbar() {
             </li>
 
             <li>
-              <Link className="dropdown-item d-flex align-items-center" to="pages-faq.html">
+              <Link className="dropdown-item d-flex align-items-center" to="">
                 <i className="bi bi-question-circle"></i>
                 <span>Need Help?</span>
               </Link>
