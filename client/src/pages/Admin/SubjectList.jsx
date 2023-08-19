@@ -25,14 +25,16 @@ function SubjectList() {
 
     return (
         <>
-         <h2 style={{color: 'white'}}>Subject List</h2>
-         <ul>
-            {
-                subjects.map((subject) => {
-                    return <li key={subject.subjectCode}> {subject.subjectName} </li>
-                })
-            }
-         </ul>
+         <main id="main" className="main">
+            <h2>Subject List</h2>
+            <ul>
+                {
+                    subjects.map((subject) => {
+                        return <li key={subject.subjectCode}> {subject.subjectName} </li>
+                    })
+                }
+            </ul>
+         </main>
         </>
     );
 }

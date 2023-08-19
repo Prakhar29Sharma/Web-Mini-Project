@@ -4,7 +4,14 @@ import jwtDecode from "jwt-decode";
 import {Link, useRouteLoaderData} from 'react-router-dom';
 import axios from "axios";
 import { getToken } from "../../utils/auth";
-import Navbar from "./Navbar";
+import "../../assets/vendor/bootstrap/css/bootstrap.min.css";
+import "../../assets/vendor/bootstrap-icons/bootstrap-icons.css";
+import "../../assets/vendor/boxicons/css/boxicons.min.css";
+import "../../assets/vendor/quill/quill.snow.css";
+import "../../assets/vendor/quill/quill.bubble.css";
+import "../../assets/vendor/remixicon/remixicon.css";
+import "../../assets/vendor/simple-datatables/style.css";
+import "../../assets/css/style.css";
 
 function Admin() {
 
@@ -39,13 +46,12 @@ function Admin() {
 
     return (
         <>
-        <Navbar />
-        <div className="container">
-            <h2>Admin Page</h2>
+        <main id="main" className="main">
+            <h2>Admin Dashboard</h2>
             <Link to='subjects'>Go to Subjects</Link>
             <p>{ message }</p>
             <p> User Count : { userCount } </p>
-        </div>
+        </main>
         </>
     );
 }
