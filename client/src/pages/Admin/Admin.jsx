@@ -12,6 +12,9 @@ import "../../assets/vendor/quill/quill.bubble.css";
 import "../../assets/vendor/remixicon/remixicon.css";
 import "../../assets/vendor/simple-datatables/style.css";
 import "../../assets/css/style.css";
+import "./Admin.modules.css";
+
+import PageTitle from "../../components/PageTitle";
 
 function Admin() {
 
@@ -46,8 +49,8 @@ function Admin() {
 
     return (
         <>
-        <main id="main" className="main">
-            <h2>Admin Dashboard</h2>
+        <main id="main" className="main" style={{ overflowY: 'scroll' }}>
+            <PageTitle title="Dashboard" />
             <Link to='subjects'>Go to Subjects</Link>
             <p>{ message }</p>
             <p> User Count : { userCount } </p>

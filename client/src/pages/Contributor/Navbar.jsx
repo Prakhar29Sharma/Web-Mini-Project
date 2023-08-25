@@ -4,8 +4,8 @@ import Notifications from "../../components/Notifications";
 
 export default function Navbar() {
 
-    const user = localStorage.getItem('user');  
-    const userRole = JSON.parse(user).role;
+    const user = localStorage.getItem('user');
+    const userRole = JSON.parse(user).role;  
     const username = JSON.parse(user).username;
 
     return (
@@ -78,7 +78,7 @@ export default function Navbar() {
 
             <li>
                 <Form className="dropdown-item d-flex align-items-center" action="/logout" method="post">
-                <button type="submit" className="sign-out-button">Sign Out</button>
+                <span>Sign Out</span>
                 </Form>
             </li>
 

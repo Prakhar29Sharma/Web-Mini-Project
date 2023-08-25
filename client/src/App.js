@@ -15,6 +15,7 @@ import { loader as evaluatorLoader } from './pages/Evaluator/Evaluator';
 import { loader as contributorLoader } from './pages/Contributor/Contributor';
 import { loader as studentLoader } from './pages/Student/Student';
 import { RootLayout as AdminRootLayout } from './pages/Admin/RootLayout';
+import { RootLayout as ContributorRootLayout } from './pages/Contributor/RootLayout';
 import logoutAction from "./pages/Logout";
 
 function App() {
@@ -52,6 +53,7 @@ function App() {
       path: '/contributor',
       id: 'contributor',
       loader: contributorLoader,
+      element: <ContributorRootLayout />,
       children: [
         { path: '', element: <Contributor /> },
       ]
