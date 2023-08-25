@@ -2,6 +2,8 @@ import React from "react";
 import jwtDecode from "jwt-decode";
 import { getToken } from "../../utils/auth";
 import { useRouteLoaderData } from "react-router-dom";
+import PageTitle from "../../components/PageTitle";
+import Alert from "../../components/Alert";
 
 function Contributor() {
 
@@ -12,9 +14,12 @@ function Contributor() {
     }
 
     return (
-        <div>
-            <h1>Contributor Page</h1>
-        </div>
+        <>
+        <main id="main" className="main">
+            <PageTitle title="Dashboard" />
+            <Alert message="complete your profile!" link="create_profile" link_text="click here to create profile" />
+        </main>
+        </>
     );
 }
 

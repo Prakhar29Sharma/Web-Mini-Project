@@ -16,7 +16,9 @@ import { loader as contributorLoader } from './pages/Contributor/Contributor';
 import { loader as studentLoader } from './pages/Student/Student';
 import { RootLayout as AdminRootLayout } from './pages/Admin/RootLayout';
 import { RootLayout as ContributorRootLayout } from './pages/Contributor/RootLayout';
+import { action as CreateProfileAction } from './pages/Contributor/CreateProfile';
 import logoutAction from "./pages/Logout";
+import CreateProfile from './pages/Contributor/CreateProfile';
 
 function App() {
 
@@ -56,6 +58,7 @@ function App() {
       element: <ContributorRootLayout />,
       children: [
         { path: '', element: <Contributor /> },
+        { path: 'create_profile', element: <CreateProfile />, action: CreateProfileAction },
       ]
     },
     {

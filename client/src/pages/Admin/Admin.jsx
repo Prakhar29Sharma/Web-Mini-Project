@@ -49,7 +49,7 @@ function Admin() {
 
     return (
         <>
-        <main id="main" className="main" style={{ overflowY: 'scroll' }}>
+        <main id="main" className="main">
             <PageTitle title="Dashboard" />
             <Link to='subjects'>Go to Subjects</Link>
             <p>{ message }</p>
