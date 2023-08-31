@@ -8,6 +8,8 @@ const userRoute = require("./routes/users");
 const subjectRoute = require("./routes/subject");
 const unitRoute = require("./routes/unit");
 const AuthRoute = require("./routes/auth");
+const ContributorRoute = require("./routes/contributor");
+
 /* CONFIG */
 const app = express()
 app.use(express.json())
@@ -28,7 +30,25 @@ const storage = multer.diskStorage({
 const upload = multer({ storage });
 
 /* ROUTES WITH FILE */
-app.post('/api/upload', upload.single('file'), (req, res) => {});
+app.post('/api/contributor', upload.single('profileImage'), async (req, res) => {
+    try {
+        const user = req.user;
+        if (user.role !== 'CONTRIBUTOR') {
+            throw 'Unauthorized access';
+        }
+        const contributor = new Contributor(req.body);
+        // Access the uploaded image path
+        const imagePath = req.file.path;
+        contributor.profileImagePath = imagePath;
+        await contributor.save();
+        res.json({
+            status: 'ok',
+            message: 'Contributor profile created successfully',
+        });
+    } catch (err) {
+        res.json({ status: 'error', error: err });
+    }
+});
 
 /* ROUTES */
 app.get('/', (req, res) => res.sendStatus(200));
@@ -36,6 +56,7 @@ app.use('/api/users', userRoute);
 app.use('/api/subjects', subjectRoute);
 app.use('/api/units', unitRoute);
 app.use('/api/auth', AuthRoute);
+app.use('/api/contributor', ContributorRoute);
 
 /* MONGOOSE SETUP */
 const PORT = process.env.PORT || 5000;

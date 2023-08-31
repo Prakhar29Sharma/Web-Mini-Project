@@ -17,6 +17,6 @@ router.get('/', getContributors);
 router.get('/:username', getContributor);
 
 /* CREATE */
-router.post('/', createContributor);
+// router.post('/', createContributor);
 
 module.exports = router;
