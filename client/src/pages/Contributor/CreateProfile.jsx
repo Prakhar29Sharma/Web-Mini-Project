@@ -239,6 +239,28 @@ export default function CreateProfile() {
     )
 }
 
+export async function loader() {
+    const user = localStorage.getItem('user');
+    const username = JSON.parse(user).username;
+    axios.get(`http://localhost:5000/api/contributor/${username}`, {
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': 'Bearer ' + getToken(),
+        }
+    })
+    .then((response) => {
+        // console.log(response.data);
+        const data = response.data;
+        if (data.status !== 'error') {
+          window.location.href = '/contributor';   
+        }
+    })
+    .catch((error) => {
+        console.log(error);
+    });
+    return null;
+}
+
 export async function action({request}) {
     
     const user = localStorage.getItem('user');  
