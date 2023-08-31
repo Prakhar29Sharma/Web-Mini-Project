@@ -1,4 +1,4 @@
-const Contributor = require('../models/contributor');
+const Contributor = require("../models/Contributor");
 
 /* READ */
 
@@ -52,4 +52,10 @@ const createContributor = async (req, res) => {
     } catch (err) {
         res.json({ status: 'error', error: err });
     }
+};
+
+module.exports = {
+    getContributor,
+    getContributors,
+    createContributor
 };

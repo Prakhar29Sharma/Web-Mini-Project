@@ -8,7 +8,6 @@ const userRoute = require("./routes/users");
 const subjectRoute = require("./routes/subject");
 const unitRoute = require("./routes/unit");
 const AuthRoute = require("./routes/auth");
-
 /* CONFIG */
 const app = express()
 app.use(express.json())
@@ -29,6 +28,7 @@ const storage = multer.diskStorage({
 const upload = multer({ storage });
 
 /* ROUTES WITH FILE */
+app.post('/api/upload', upload.single('file'), (req, res) => {});
 
 /* ROUTES */
 app.get('/', (req, res) => res.sendStatus(200));
