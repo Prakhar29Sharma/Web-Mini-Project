@@ -10,10 +10,17 @@ const getContributor = async (req, res) => {
         // }
         const { username } = req.params;
         const contributor = await Contributor.findOne({ username: username });
-        res.json({
-            status: 'ok',
-            data: contributor
-        })
+        if (contributor === null) {
+            res.json({
+                status: 'error',
+                message: 'Contributor not found'
+            });
+        } else {
+            res.json({
+                status: 'ok',
+                data: contributor
+            })
+        }
     } catch (err) {
         res.json({ status: 'error', error: err });
     }

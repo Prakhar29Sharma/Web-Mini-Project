@@ -1,11 +1,39 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import jwtDecode from "jwt-decode";
 import { getToken } from "../../utils/auth";
 import { useRouteLoaderData } from "react-router-dom";
 import PageTitle from "../../components/PageTitle";
 import Alert from "../../components/Alert";
+import axios from "axios";
 
 function Contributor() {
+
+    const [displayAlert, setDisplayAlert] = useState(false);
+
+    useEffect(() => {
+
+        const user = localStorage.getItem('user');
+        const username = JSON.parse(user).username;
+        
+        axios.get(`http://localhost:5000/api/contributor/${username}`, {
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': 'Bearer ' + getToken(),
+            }
+        })
+        .then((response) => {
+            // console.log(response.data);
+            const data = response.data;
+            if (data.status === 'error' && data.message === 'Contributor not found') {
+                setDisplayAlert(true);
+            } else if (data.status === 'success') {
+                setDisplayAlert(false);
+            }
+        })
+        .catch((error) => {
+            console.log(error);
+        });
+    }, [])
 
     const { isAuthenticated } = useRouteLoaderData('contributor');
 
@@ -17,7 +45,7 @@ function Contributor() {
         <>
         <main id="main" className="main">
             <PageTitle title="Dashboard" />
-            <Alert message="complete your profile!" link="create_profile" link_text="click here to create profile" />
+            { displayAlert && <Alert message="complete your profile!" link="create_profile" link_text="click here to create profile" /> }
         </main>
         </>
     );
