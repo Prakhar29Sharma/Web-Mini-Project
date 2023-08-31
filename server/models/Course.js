@@ -2,11 +2,11 @@ const { json } = require('express');
 const mongoose = require('mongoose');
 
 const courseSchema = new mongoose.Schema({
-    author: {
+    author_id: {
         type: String,
         required: true,
     },
-    username: {
+    author_name: {
         type: String,
         required: true
     },
@@ -32,10 +32,10 @@ const courseSchema = new mongoose.Schema({
         type: [String],
     },
     course_video_path: {
-        type: [String],
+        type: String,
     },
     content: {
-        type: json
+        type: json,
     },
     isPublic: {
         type: Boolean,
@@ -43,8 +43,8 @@ const courseSchema = new mongoose.Schema({
     },
     status: {
         type: String,
-        default: 'Not Submitted',
-        enum: ['Not Submitted', 'Under Review', 'Approved']
+        default: 'Draft',
+        enum: ['Draft', 'UnderReview', 'Approved']
     }
 });
 
