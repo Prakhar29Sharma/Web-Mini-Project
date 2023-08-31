@@ -5,9 +5,9 @@ const Contributor = require("../models/Contributor");
 const getContributor = async (req, res) => {
     try {
         const user = req.user;
-        if (user.role !== 'ADMIN' || user.role !== 'CONTRIBUTOR') {
-            throw 'Unauthorized access';
-        }
+        // if (user.role !== 'ADMIN' || user.role !== 'CONTRIBUTOR') {
+        //     throw 'Unauthorized access';
+        // }
         const { username } = req.params;
         const contributor = await Contributor.findOne({ username: username });
         res.json({
