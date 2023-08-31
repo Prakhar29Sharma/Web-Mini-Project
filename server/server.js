@@ -9,6 +9,9 @@ const subjectRoute = require("./routes/subject");
 const unitRoute = require("./routes/unit");
 const AuthRoute = require("./routes/auth");
 const ContributorRoute = require("./routes/contributor");
+const CourseRoute = require("./routes/course");
+const authMiddleware = require('./middleware/auth');
+const Contributor = require('./models/Contributor');
 
 /* CONFIG */
 const app = express()
@@ -30,22 +33,27 @@ const storage = multer.diskStorage({
 const upload = multer({ storage });
 
 /* ROUTES WITH FILE */
-app.post('/api/contributor', upload.single('profileImage'), async (req, res) => {
+app.post('/api/contributor/',authMiddleware, upload.single('profileImage'), async (req, res) => {
     try {
+        console.log('hi');
         const user = req.user;
         if (user.role !== 'CONTRIBUTOR') {
             throw 'Unauthorized access';
         }
         const contributor = new Contributor(req.body);
+        console.log('hi');
         // Access the uploaded image path
+        console.log(req.file);
         const imagePath = req.file.path;
         contributor.profileImagePath = imagePath;
         await contributor.save();
+        console.log('hi');
         res.json({
             status: 'ok',
             message: 'Contributor profile created successfully',
         });
     } catch (err) {
+        console.log('error hi', err);
         res.json({ status: 'error', error: err });
     }
 });

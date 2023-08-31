@@ -1,4 +1,3 @@
-const { json } = require('express');
 const mongoose = require('mongoose');
 
 const courseSchema = new mongoose.Schema({
@@ -35,7 +34,7 @@ const courseSchema = new mongoose.Schema({
         type: String,
     },
     content: {
-        type: json,
+        type: String,
     },
     isPublic: {
         type: Boolean,
