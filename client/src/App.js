@@ -20,6 +20,7 @@ import { RootLayout as ContributorRootLayout } from './pages/Contributor/RootLay
 import { action as CreateProfileAction } from './pages/Contributor/CreateProfile';
 import logoutAction from "./pages/Logout";
 import CreateProfile from './pages/Contributor/CreateProfile';
+import Profile from './pages/Contributor/Profile';
 
 function App() {
 
@@ -60,6 +61,7 @@ function App() {
       children: [
         { path: '', element: <Contributor /> },
         { path: 'create_profile', element: <CreateProfile />, action: CreateProfileAction, loader: CreateProfileLoader},
+        { path: 'profile', element: <Profile /> },
       ]
     },
     {

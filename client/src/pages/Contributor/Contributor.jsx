@@ -26,8 +26,10 @@ function Contributor() {
             const data = response.data;
             if (data.status === 'error' && data.message === 'Contributor not found') {
                 setDisplayAlert(true);
-            } else if (data.status === 'success') {
+                localStorage.setItem('isProfileComplete', false);
+            } else if (data.status === 'ok') {
                 setDisplayAlert(false);
+                localStorage.setItem('isProfileComplete', true);
             }
         })
         .catch((error) => {
