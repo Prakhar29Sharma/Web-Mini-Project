@@ -27,7 +27,7 @@ export default function Navbar() {
         if (profileImagePath === null) {
           setImagePath('http://localhost:5000/assets/profile-image.jpg');
         } else {
-          setImagePath('http://localhost:5000/' + profileImagePath.replace('public/', ''));
+          setImagePath('http://localhost:5000/' + profileImagePath.replace('\\', '/').replace('public/', ''));;
           return;
         }
       }).catch((error) => {

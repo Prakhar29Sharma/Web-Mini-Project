@@ -65,7 +65,8 @@ export default function CreateProfile() {
             const subjects = response.data.subjects;
             const subjectList = []
             for (const subject of subjects) {
-                subjectList.push({ value: subject.subjectCode, label: subject.subjectName });
+                // subjectList.push({ value: subject.subjectCode, label: subject.subjectName });
+                subjectList.push({ value: subject.subjectName, label: subject.subjectName });
             }
             setSubjects(subjectList);
         })
@@ -284,6 +285,7 @@ export async function action({request}) {
     })
     .then((response) => {
       console.log(response);
+      window.location.href = '/contributor';
     })
     .catch((error) => {
       console.log(error);
