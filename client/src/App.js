@@ -19,6 +19,11 @@ import { RootLayout as ContributorRootLayout } from './pages/Contributor/RootLay
 import { action as CreateProfileAction } from './pages/Contributor/CreateProfile';
 import logoutAction from "./pages/Logout";
 import CreateProfile from './pages/Contributor/CreateProfile';
+import "../src/assets/vendor/bootstrap/css/bootstrap.min.css"
+
+import "./assets/css/style.css"
+import CreateCourse from './pages/Contributor/CreateCourse';
+import CourseContent from './pages/Contributor/CourseContent';
 
 function App() {
 
@@ -59,6 +64,8 @@ function App() {
       children: [
         { path: '', element: <Contributor /> },
         { path: 'create_profile', element: <CreateProfile />, action: CreateProfileAction },
+        { path: 'createcourse', element:<CreateCourse/>},
+        { path : 'createcontent', element:<CourseContent/>}
       ]
     },
     {

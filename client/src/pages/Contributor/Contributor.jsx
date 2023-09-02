@@ -5,6 +5,7 @@ import { useRouteLoaderData } from "react-router-dom";
 import PageTitle from "../../components/PageTitle";
 import Alert from "../../components/Alert";
 
+
 function Contributor() {
 
     const { isAuthenticated } = useRouteLoaderData('contributor');

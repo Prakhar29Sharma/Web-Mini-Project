@@ -28,4 +28,12 @@ content-type: application/json
     "role": "ADMIN"
 }
 
+###
+
+GET http://localhost:5000/api/subjects
+Content-Type: 'application/json',
+Authorization: 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InBpbnR5YSIsImVtYWlsIjoiY2hvY2hpQGdtYWlsLmNvbSIsInJvbGUiOiJDT05UUklCVVRPUiIsImlhdCI6MTY5MzY1MzIxMSwiZXhwIjoxNjkzNjU2ODExfQ.qVGqW5QPZrkUQGW_s2vzrUbpCztP4aK5qf431zjVcSc'
+
+
+
 
