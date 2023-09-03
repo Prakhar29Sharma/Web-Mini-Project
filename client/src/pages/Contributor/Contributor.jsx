@@ -30,6 +30,7 @@ function Contributor() {
             } else if (data.status === 'ok') {
                 setDisplayAlert(false);
                 localStorage.setItem('isProfileComplete', true);
+                localStorage.setItem('profileData', JSON.stringify(data.data));
             }
         })
         .catch((error) => {

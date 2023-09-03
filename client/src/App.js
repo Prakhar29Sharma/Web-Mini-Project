@@ -21,6 +21,7 @@ import { action as CreateProfileAction } from './pages/Contributor/CreateProfile
 import logoutAction from "./pages/Logout";
 import CreateProfile from './pages/Contributor/CreateProfile';
 import Profile from './pages/Contributor/Profile';
+import CreateCourse from './pages/Contributor/CreateCourse';
 
 function App() {
 
@@ -62,6 +63,7 @@ function App() {
         { path: '', element: <Contributor /> },
         { path: 'create_profile', element: <CreateProfile />, action: CreateProfileAction, loader: CreateProfileLoader},
         { path: 'profile', element: <Profile /> },
+        { path: 'create_course', element: <CreateCourse /> },
       ]
     },
     {
