@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from "react";
 import { getToken } from "../../utils/auth";
 import axios from "axios";
+import { Form } from "react-router-dom";
+import PageTitle from "../../components/PageTitle";
 
 export default function CreateCourse() {
 
@@ -38,13 +40,14 @@ export default function CreateCourse() {
 
     return (
         <main className="main" id="main">
+            <PageTitle title="Create Course" />
              <section className="section">
             <div className="row">
                 <div className="col-lg-6">
                     <div className="card">
                         <div className="card-body">
                             <h5 className="card-title">Create Course</h5>
-                            <form method="post">
+                            <Form method="post" action="">
                                 <div className="row mb-3">
                                   <label className="col-sm-2 col-form-label">Subject</label>
                                   <div className="col-sm-10">
@@ -75,7 +78,7 @@ export default function CreateCourse() {
                                     <button type="submit" className="btn btn-primary">Continue</button>
                                   </div>
                                 </div>
-                            </form>
+                            </Form>
                         </div>
                     </div>
                 </div>
@@ -83,5 +86,18 @@ export default function CreateCourse() {
         </section>
         </main>
     )
+}
+
+export async function action({request}) {
+
+    const form = await request.formData();
+    const formToJSON = {};
+    for (const [key, value] of [...form.entries()]) {
+        formToJSON[key] = value;
+    }
+    const subject = formToJSON.subject;
+    const unit = formToJSON.unit;
+    window.location.href = `/contributor/create_content/${subject}/${unit}`;
+    return null;
 }
 

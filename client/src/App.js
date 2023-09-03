@@ -18,10 +18,12 @@ import { loader as CreateProfileLoader } from './pages/Contributor/CreateProfile
 import { RootLayout as AdminRootLayout } from './pages/Admin/RootLayout';
 import { RootLayout as ContributorRootLayout } from './pages/Contributor/RootLayout';
 import { action as CreateProfileAction } from './pages/Contributor/CreateProfile';
+import { action as CreateCourseAction } from './pages/Contributor/CreateCourse';
 import logoutAction from "./pages/Logout";
 import CreateProfile from './pages/Contributor/CreateProfile';
 import Profile from './pages/Contributor/Profile';
 import CreateCourse from './pages/Contributor/CreateCourse';
+import CreateContent from './pages/Contributor/CreateContent';
 
 function App() {
 
@@ -63,7 +65,8 @@ function App() {
         { path: '', element: <Contributor /> },
         { path: 'create_profile', element: <CreateProfile />, action: CreateProfileAction, loader: CreateProfileLoader},
         { path: 'profile', element: <Profile /> },
-        { path: 'create_course', element: <CreateCourse /> },
+        { path: 'create_course', element: <CreateCourse />, action: CreateCourseAction },
+        { path: 'create_content/:subject/:unit', element: <CreateContent /> },
       ]
     },
     {
