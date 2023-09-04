@@ -65,7 +65,8 @@ export default function CreateProfile() {
             const subjects = response.data.subjects;
             const subjectList = []
             for (const subject of subjects) {
-                subjectList.push({ value: subject.subjectCode, label: subject.subjectName });
+                // subjectList.push({ value: subject.subjectCode, label: subject.subjectName });
+                subjectList.push({ value: subject.subjectName, label: subject.subjectName });
             }
             setSubjects(subjectList);
         })
@@ -89,7 +90,7 @@ export default function CreateProfile() {
                     <div className="card">
                         <div className="card-body">
                             <h5 className="card-title">Create Profile</h5>
-                            <Form method="post" action="">
+                            <Form method="post" action="" encType="multipart/form-data">
                                 <div className="row mb-3">
                                   <label htmlFor="username" className="col-sm-2 col-form-label">Username</label>
                                   <div className="col-sm-10">
@@ -97,15 +98,15 @@ export default function CreateProfile() {
                                   </div>
                                 </div>
                                 <div className="row mb-3">
-                                  <label htmlFor="first_name" className="col-sm-2 col-form-label">First Name</label>
+                                  <label htmlFor="firstName" className="col-sm-2 col-form-label">First Name</label>
                                   <div className="col-sm-10">
-                                    <input name="first_name" id="first_name" type="text" className="form-control" required pattern="[a-zA-Z]{2,}" />
+                                    <input name="firstName" id="firstName" type="text" className="form-control" required pattern="[a-zA-Z]{2,}" />
                                   </div>
                                 </div>
                                 <div className="row mb-3">
-                                  <label htmlFor="last_name" className="col-sm-2 col-form-label">Last Name</label>
+                                  <label htmlFor="lastName" className="col-sm-2 col-form-label">Last Name</label>
                                   <div className="col-sm-10">
-                                    <input name="last_name" id="last_name" type="text" className="form-control" required pattern="[a-zA-Z]{2,}" />
+                                    <input name="lastName" id="lastName" type="text" className="form-control" required pattern="[a-zA-Z]{2,}" />
                                   </div>
                                 </div>
                                 <div className="row mb-3">
@@ -121,9 +122,9 @@ export default function CreateProfile() {
                                   </div>
                                 </div>
                                 <div className="row mb-3">
-                                  <label htmlFor="phone_number" className="col-sm-2 col-form-label">Phone Number</label>
+                                  <label htmlFor="phone" className="col-sm-2 col-form-label">Phone Number</label>
                                   <div className="col-sm-10">
-                                    <input name="phone_number" id="phone_number" type="text" className="form-control" pattern="^[+]?[0-9]{6,15}$" required />
+                                    <input name="phone" id="phone" type="text" className="form-control" pattern="^[+]?[0-9]{6,15}$" required />
                                   </div>
                                 </div>
                                 <div className="row mb-3">
@@ -165,9 +166,9 @@ export default function CreateProfile() {
                                   </div>
                                 </div>
                                 <div className="row mb-3">
-                                  <label htmlFor="year_of_exp" className="col-sm-2 col-form-label">Years of Experience</label>
+                                  <label htmlFor="yearsOfExperience" className="col-sm-2 col-form-label">Years of Experience</label>
                                   <div className="col-sm-10">
-                                    <input name="years_of_exp" id="year_of_exp" type="number" className="form-control" min="0" max="50" step="1" required />
+                                    <input name="yearsOfExperience" id="yearsOfExperience" type="number" className="form-control" min="0" max="50" step="1" required />
                                   </div>
                                 </div>
 
@@ -183,7 +184,7 @@ export default function CreateProfile() {
                                         }
                                     </select> */}
                                     <MultipleSelect list={subjects} type={true} />
-                                    <input type="hidden" name="subjects_to_contribute" value={JSON.stringify(selectedSubjectToContrib.map((subject) => subject.value))} />
+                                    <input type="hidden" name="subjectsToContribute" value={JSON.stringify(selectedSubjectToContrib.map((subject) => subject.value))} />
                                   </div>
                                 </div>
                                 <div className="row mb-3">
@@ -197,13 +198,13 @@ export default function CreateProfile() {
                                         }
                                     </select> */}
                                     <MultipleSelect list={subjects} type={false} />
-                                    <input type="hidden" name="subjects_of_interest" value={JSON.stringify(selectedSubjectOfInterest.map((subject) => subject.value))} />
+                                    <input type="hidden" name="subjectsOfInterest" value={JSON.stringify(selectedSubjectOfInterest.map((subject) => subject.value))} />
                                   </div>
                                 </div>
                                 <div className="row mb-3">
-                                  <label htmlFor="linked_in" className="col-sm-2 col-form-label">Linked Profile</label>
+                                  <label htmlFor="linkedIn" className="col-sm-2 col-form-label">Linked Profile</label>
                                   <div className="col-sm-10">
-                                    <input name="linkedin" id="linked_in" type="text" className="form-control" required />
+                                    <input name="linkedIn" id="linkedIn" type="text" className="form-control" required />
                                   </div>
                                 </div>
                                 <div className="row mb-3">
@@ -219,9 +220,9 @@ export default function CreateProfile() {
                                   </div>
                                 </div>
                                 <div className="row mb-3">
-                                    <label htmlFor="user_profile_pic" className="col-sm-2 col-form-label">Upload profile image</label>
+                                    <label htmlFor="profileImage" className="col-sm-2 col-form-label">Upload profile image</label>
                                     <div className="col-sm-10">
-                                        <input name="user_profile_pic" id="user_profile_pic" type="file" className="form-control" />
+                                        <input name="profileImage" id="profileImage" type="file" accept="image/*" className="form-control" />
                                     </div>
                                 </div>
                                 <div className="row mb-3">
@@ -239,12 +240,55 @@ export default function CreateProfile() {
     )
 }
 
+export async function loader() {
+    const user = localStorage.getItem('user');
+    const username = JSON.parse(user).username;
+    axios.get(`http://localhost:5000/api/contributor/${username}`, {
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': 'Bearer ' + getToken(),
+        }
+    })
+    .then((response) => {
+        // console.log(response.data);
+        const data = response.data;
+        if (data.status !== 'error') {
+          window.location.href = '/contributor';   
+        }
+    })
+    .catch((error) => {
+        console.log(error);
+    });
+    return null;
+}
+
 export async function action({request}) {
+    
+    const user = localStorage.getItem('user');  
+    const username = JSON.parse(user).username;
+    const userEmail = JSON.parse(user).email;
+
     const form = await request.formData();
     const formToJSON = {};
     for (const [key, value] of [...form.entries()]) {
         formToJSON[key] = value;
     }
+    formToJSON['username'] = username;
+    formToJSON['email'] = userEmail;
+
     console.log(formToJSON);
+    axios.post('http://localhost:5000/api/contributor/', formToJSON, {
+      headers: {
+        'Content-Type': 'multipart/form-data',
+        'Authorization': 'Bearer ' + getToken(),
+      }
+    })
+    .then((response) => {
+      console.log(response);
+      window.location.href = '/contributor';
+    })
+    .catch((error) => {
+      console.log(error);
+    })
     return null;
 }

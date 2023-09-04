@@ -1,12 +1,39 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Form, Link } from "react-router-dom";
 import Notifications from "../../components/Notifications";
+import axios from "axios";
+import { getToken } from "../../utils/auth";
 
 export default function Navbar() {
 
     const user = localStorage.getItem('user');
     const userRole = JSON.parse(user).role;  
     const username = JSON.parse(user).username;
+
+    const [ImagePath, setImagePath] = useState('');
+
+    useEffect(() => {
+      const user = localStorage.getItem('user');
+      const username = JSON.parse(user).username;
+      axios.get(`http://localhost:5000/api/contributor/${username}`,{
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': 'Bearer ' + getToken(),
+        }
+      })
+      .then((response) => {
+        // console.log(response.data.data);
+        const profileImagePath = response.data.data.profileImagePath;
+        if (profileImagePath === null) {
+          setImagePath('http://localhost:5000/assets/profile-image.jpg');
+        } else {
+          setImagePath('http://localhost:5000/' + profileImagePath.replace('\\', '/').replace('public/', ''));;
+          return;
+        }
+      }).catch((error) => {
+        console.log(error);
+      });
+    }, [ImagePath]);
 
     return (
   <header id="header" className="header fixed-top d-flex align-items-center">
@@ -33,7 +60,7 @@ export default function Navbar() {
         <li className="nav-item dropdown pe-3">
 
           <Link className="nav-link nav-profile d-flex align-items-center pe-0" to="" data-bs-toggle="dropdown">
-            <img src="http://localhost:5000/assets/profile-image.jpg" alt="Profile" className="rounded-circle" />
+            <img src={ImagePath} alt="Profile" className="rounded-circle" />
             <span className="d-none d-md-block dropdown-toggle ps-2">{username}</span>
           </Link>
 
@@ -78,7 +105,7 @@ export default function Navbar() {
 
             <li>
                 <Form className="dropdown-item d-flex align-items-center" action="/logout" method="post">
-                <span>Sign Out</span>
+                <button type="submit" className="sign-out-button">Sign Out</button>
                 </Form>
             </li>
 

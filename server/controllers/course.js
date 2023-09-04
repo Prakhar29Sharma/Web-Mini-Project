@@ -39,21 +39,6 @@ const getCoursesBySubject = async (req, res) => {
         res.json({ status: 'error', error: err });
     }
 };
-const getUnitBySubject = async (req, res) => {
-    try{
-        const {subject}=req.params;
-        const courses=await Course.find({subject:subject})
-        res.json({
-            status:'ok',
-            courses:courses
-        })
-    }
-    catch(err){
-        res.json({status:'error',error:err});
-    }
-};
-
-
 
 const getCoursesByUnit = async (req, res) => {
     try {
@@ -100,8 +85,6 @@ const createCourse = async (req, res) => {
     }
 };
 
-
-
 module.exports = {
     getCourse,
     getCourses,
@@ -109,5 +92,4 @@ module.exports = {
     getCoursesByUnit,
     getCoursesByAuthor,
     createCourse,
-    getUnitBySubject,
 };

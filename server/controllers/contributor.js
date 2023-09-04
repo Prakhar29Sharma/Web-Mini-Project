@@ -42,19 +42,6 @@ const getContributors = async (req, res) => {
     }
 };
 
-const getSubjectsToContribute= async (req,res)=>{
-    try {
-        const user=req.user;
-        const subjects=await Contribute.find({username:user.username})
-        res.json({
-            status:'ok',
-            subjects:subjects
-        })
-    } catch (error) {
-        res.json({status:"error",error:error})
-    }
-};
-
 /* CREATE */
 
 const createContributor = async (req, res) => {
@@ -77,6 +64,5 @@ const createContributor = async (req, res) => {
 module.exports = {
     getContributor,
     getContributors,
-    getSubjectsToContribute,
-    createContributor,
+    createContributor
 };

@@ -5,7 +5,6 @@ const {
     getCourses,
     getCoursesBySubject,
     getCoursesByUnit,
-    getUnitBySubject,
     getCoursesByAuthor,
     createCourse,
 } = require('../controllers/course');
@@ -27,8 +26,6 @@ router.get('/subject/:subject', getCoursesBySubject);
 router.get('/unit/:unit', getCoursesByUnit);
 
 router.get('/author/:author', getCoursesByAuthor);
-
-router.get('/unit/:subject', getUnitBySubject);
 
 /* CREATE */
 // router.post('/', createCourse);

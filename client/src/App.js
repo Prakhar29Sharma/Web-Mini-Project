@@ -14,16 +14,16 @@ import { loader as adminLoader } from './pages/Admin/Admin';
 import { loader as evaluatorLoader } from './pages/Evaluator/Evaluator';
 import { loader as contributorLoader } from './pages/Contributor/Contributor';
 import { loader as studentLoader } from './pages/Student/Student';
+import { loader as CreateProfileLoader } from './pages/Contributor/CreateProfile';
 import { RootLayout as AdminRootLayout } from './pages/Admin/RootLayout';
 import { RootLayout as ContributorRootLayout } from './pages/Contributor/RootLayout';
 import { action as CreateProfileAction } from './pages/Contributor/CreateProfile';
+import { action as CreateCourseAction } from './pages/Contributor/CreateCourse';
 import logoutAction from "./pages/Logout";
 import CreateProfile from './pages/Contributor/CreateProfile';
-import "../src/assets/vendor/bootstrap/css/bootstrap.min.css"
-
-import "./assets/css/style.css"
+import Profile from './pages/Contributor/Profile';
 import CreateCourse from './pages/Contributor/CreateCourse';
-import CourseContent from './pages/Contributor/CourseContent';
+import CreateContent from './pages/Contributor/CreateContent';
 
 function App() {
 
@@ -63,9 +63,10 @@ function App() {
       element: <ContributorRootLayout />,
       children: [
         { path: '', element: <Contributor /> },
-        { path: 'create_profile', element: <CreateProfile />, action: CreateProfileAction },
-        { path: 'createcourse', element:<CreateCourse/>},
-        { path : 'createcontent', element:<CourseContent/>}
+        { path: 'create_profile', element: <CreateProfile />, action: CreateProfileAction, loader: CreateProfileLoader},
+        { path: 'profile', element: <Profile /> },
+        { path: 'create_course', element: <CreateCourse />, action: CreateCourseAction },
+        { path: 'create_content/:subject/:unit', element: <CreateContent /> },
       ]
     },
     {
