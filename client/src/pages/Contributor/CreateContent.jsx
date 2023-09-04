@@ -1,5 +1,7 @@
+import { Editor } from '@tinymce/tinymce-react';
 import React, { useState } from 'react';
 import { Form, useParams } from 'react-router-dom';
+import TinyEditor from '../../components/TinyEditor';
 
 export default function CreateContent() {
     
@@ -183,9 +185,7 @@ export default function CreateContent() {
 
                                 <div className="row mb-3">
                                   <div className="col-sm-10">
-                                    {
-                                     // rich text editor 
-                                    }
+                                   <TinyEditor />
                                   </div>
                                 </div>
 
