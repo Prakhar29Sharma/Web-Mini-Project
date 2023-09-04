@@ -1,4 +1,4 @@
-import { Editor } from '@tinymce/tinymce-react';
+// import { Editor } from '@tinymce/tinymce-react';
 import React, { useState } from 'react';
 import { Form, useParams } from 'react-router-dom';
 import TinyEditor from '../../components/TinyEditor';
@@ -37,7 +37,7 @@ export default function CreateContent() {
         <main className='main' id='main'>
             <section className="section">
             <div className="row">
-                <div className="col-lg-8">
+                <div className="col-lg-10">
                     <div className="card">
                         <div className="card-body">
                             <h5 className="card-title">Create Course</h5>
@@ -91,7 +91,9 @@ export default function CreateContent() {
                                             title="Remove field"
                                             onClick={() => removeObjectiveField(index)}
                                             >
-                                            <span className="bi bi-x-lg"></span>
+                                            <span className="bi bi-x-lg">
+                                            x
+                                            </span>
                                             </div>
                                             <input
                                             id={`course_objectives_${index}`}
@@ -115,7 +117,9 @@ export default function CreateContent() {
                                         title="Add field"
                                         onClick={addObjectiveField}
                                         >
-                                        <span className="bi bi-plus-lg"></span>
+                                        <span className="bi bi-plus-lg">
+                                          +
+                                        </span>
                                         </div>
                                     </div>
                                 </div>
@@ -140,7 +144,9 @@ export default function CreateContent() {
                                             title="Remove field"
                                             onClick={() => removePrerequisiteField(index)}
                                             >
-                                            <span className="bi bi-x-lg"></span>
+                                            <span className="bi bi-x-lg">
+                                              x
+                                            </span>
                                             </div>
                                             <input
                                             id={`course_prerequisite_${index}`}
@@ -164,7 +170,9 @@ export default function CreateContent() {
                                         title="Add field"
                                         onClick={addPrerequisiteField}
                                         >
-                                        <span className="bi bi-plus-lg"></span>
+                                        <span className="bi bi-plus-lg">
+                                          +
+                                        </span>
                                         </div>
                                     </div>
                                 </div>

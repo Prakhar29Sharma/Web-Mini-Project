@@ -1,7 +1,7 @@
 import { Editor } from '@tinymce/tinymce-react';
-import { Button } from 'bootstrap';
+// import { Button } from 'bootstrap';
 //import "@tinymce/tinymce-react/dist/skins/content/default/content.min.css";
-import { useState, useRef } from "react";
+import { useRef } from "react";
 // import dotenv from "dotenv";
 // dotenv.config()
 
@@ -21,7 +21,7 @@ export default function TinyEditor() {
             onInit={(evt, editor) => editorRef.current = editor}
             initialValue='<p>This is the initial content of the editor.</p>'
             init={{
-              height: 500,
+              height: 600,
               menubar: true,
               plugins: [
                 'advlist', 'autolink', 'lists', 'link', 'image', 'charmap',
