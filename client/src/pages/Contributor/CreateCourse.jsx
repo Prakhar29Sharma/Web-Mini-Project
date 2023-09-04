@@ -3,6 +3,7 @@ import { getToken } from "../../utils/auth";
 import axios from "axios";
 import { Form } from "react-router-dom";
 import PageTitle from "../../components/PageTitle";
+import Alert from "../../components/Alert";
 
 export default function CreateCourse() {
 
@@ -13,11 +14,14 @@ export default function CreateCourse() {
       try {
         const profileData = localStorage.getItem("profileData");
         const profile = JSON.parse(profileData);
-        // console.log(profile);
-        const subjectToContrib = JSON.parse(profile.subjectsToContribute);
-        // console.log(subjectToContrib);
-        setSubjects(subjectToContrib);
-        
+        if (profile && profile.subjectsToContribute) {
+          const subjectToContrib = JSON.parse(profile.subjectsToContribute);
+          setSubjects(subjectToContrib);
+        } else {
+          // Handle the case where profile or subjectsToContribute is not found
+          Alert("Profile data or subjectsToContribute not found.");
+          console.log("Profile data or subjectsToContribute not found.")
+        }
       } catch (error) {
         console.log(error);
       }
