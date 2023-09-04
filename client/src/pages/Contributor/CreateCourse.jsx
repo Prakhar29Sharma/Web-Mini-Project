@@ -10,14 +10,19 @@ export default function CreateCourse() {
     const [units, setUnits] = useState([]);
 
     useEffect(() => {
+      try {
         const profileData = localStorage.getItem("profileData");
         const profile = JSON.parse(profileData);
         // console.log(profile);
         const subjectToContrib = JSON.parse(profile.subjectsToContribute);
         // console.log(subjectToContrib);
         setSubjects(subjectToContrib);
-    }, []); 
-
+        
+      } catch (error) {
+        console.log(error);
+      }
+    }, []);
+       
     const fetchUnits = (e) => {
         const subject = e.target.value;
         // console.log(subject);

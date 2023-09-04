@@ -5,6 +5,7 @@ import { useRouteLoaderData } from "react-router-dom";
 import PageTitle from "../../components/PageTitle";
 import Alert from "../../components/Alert";
 import axios from "axios";
+import "../../assets/css/style.css"
 
 
 function Contributor() {
