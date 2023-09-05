@@ -19,6 +19,7 @@ import { RootLayout as AdminRootLayout } from './pages/Admin/RootLayout';
 import { RootLayout as ContributorRootLayout } from './pages/Contributor/RootLayout';
 import { action as CreateProfileAction } from './pages/Contributor/CreateProfile';
 import { action as CreateCourseAction } from './pages/Contributor/CreateCourse';
+import { action as CreateContentAction } from './pages/Contributor/CreateContent';
 import logoutAction from "./pages/Logout";
 import CreateProfile from './pages/Contributor/CreateProfile';
 import Profile from './pages/Contributor/Profile';
@@ -66,7 +67,7 @@ function App() {
         { path: 'create_profile', element: <CreateProfile />, action: CreateProfileAction, loader: CreateProfileLoader},
         { path: 'profile', element: <Profile /> },
         { path: 'create_course', element: <CreateCourse />, action: CreateCourseAction },
-        { path: 'create_content/:subject/:unit', element: <CreateContent /> },
+        { path: 'create_content/:subject/:unit', element: <CreateContent />, action: CreateContentAction },
       ]
     },
     {
