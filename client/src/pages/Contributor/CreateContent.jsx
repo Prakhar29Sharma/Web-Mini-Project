@@ -33,6 +33,8 @@ export default function CreateContent() {
         setObjectives(updatedObjectives);
     };
 
+    const [content, setContent] = useState('');
+
     return (
         <main className='main' id='main'>
             <section className="section">
@@ -41,7 +43,7 @@ export default function CreateContent() {
                     <div className="card">
                         <div className="card-body">
                             <h5 className="card-title">Create Course</h5>
-                            <Form method="post" encType="multipart/form-data">
+                            <Form method="post" encType="multipart/form-data" action="">
                                 <div className="row mb-3">
                                   <label htmlFor="course_title" className="col-sm-2 col-form-label">Course Title</label>
                                   <div className="col-sm-10">
@@ -193,15 +195,16 @@ export default function CreateContent() {
 
                                 <div className="row mb-3">
                                   <div className="col-sm-10">
-                                   <TinyEditor />
+                                   <TinyEditor fetchContent={(content) => {setContent(content)}} />
+                                   <input type="hidden" name="course_content" value={content} />
                                   </div>
                                 </div>
 
-                                <div className="row mb-3">
+                                {/* <div className="row mb-3">
                                   <div className="col-sm-10">
                                     <button type="submit" className="btn btn-primary">Save as a draft</button>
                                   </div>
-                                </div>
+                                </div> */}
                             </Form>
                         </div>
                     </div>
@@ -210,4 +213,15 @@ export default function CreateContent() {
         </section>
         </main>
     );
+}
+
+export async function action({request}) {
+  
+      const form = await request.formData();
+      const formToJSON = {};
+      for (const [key, value] of [...form.entries()]) {
+          formToJSON[key] = value;
+      }
+      console.log(formToJSON);
+      return null;
 }
