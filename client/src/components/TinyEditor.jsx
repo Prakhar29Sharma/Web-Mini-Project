@@ -1,15 +1,12 @@
 import { Editor } from '@tinymce/tinymce-react';
-// import { Button } from 'bootstrap';
-//import "@tinymce/tinymce-react/dist/skins/content/default/content.min.css";
 import { useRef } from "react";
-// import dotenv from "dotenv";
-// dotenv.config()
 
-export default function TinyEditor() {
+export default function TinyEditor(props) {
     const editorRef = useRef(null);
     const log = () => {
       if (editorRef.current) {
-        console.log(editorRef.current.getContent());
+        // console.log(editorRef.current.getContent());
+        props.fetchContent(editorRef.current.getContent());
       }
     };
     
@@ -35,9 +32,13 @@ export default function TinyEditor() {
               content_style: 'body { font-family:Helvetica,Arial,sans-serif; font-size:14px }'
             }}
           />
-          <button onClick={log}>Save</button>
+          {/* <button onClick={log}>Save</button> */}
+          <div className="row mb-3">
+            <div className="col-sm-10">
+              <br />
+              <button type="submit" onClick={log} className="btn btn-primary">Save as a draft</button>
+            </div>
+          </div>
         </>
       );
     }
-
-
