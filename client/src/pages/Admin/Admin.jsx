@@ -4,7 +4,7 @@ import jwtDecode from "jwt-decode";
 import {Link, useRouteLoaderData} from 'react-router-dom';
 import axios from "axios";
 import { getToken } from "../../utils/auth";
-import "bootstrap"
+// import "bootstrap"
 
 import "./Admin.modules.css";
 

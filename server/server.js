@@ -68,7 +68,7 @@ app.use('/api/contributor', ContributorRoute);
 
 /* MONGOOSE SETUP */
 const PORT = process.env.PORT || 5000;
-mongoose.connect(process.env.ATLAS_URI, {
+mongoose.connect(process.env.mongodb, {
     useNewUrlParser: true,
     useUnifiedTopology: true,
 })
