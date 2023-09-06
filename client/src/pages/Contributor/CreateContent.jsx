@@ -8,30 +8,28 @@ export default function CreateContent() {
     
     const { subject, unit } = params;
 
-    const [prerequisites, setPrerequisites] = useState(['']); // Initialize with one empty prerequisite field
-
-    const addPrerequisiteField = () => {
-        setPrerequisites([...prerequisites, '']); // Add a new empty prerequisite field
-    };
-
-    const removePrerequisiteField = (index) => {
-        const updatedPrerequisites = [...prerequisites];
-        updatedPrerequisites.splice(index, 1);
-        setPrerequisites(updatedPrerequisites);
-    };
-
-    const [objectives, setObjectives] = useState(['']); // Initialize with one empty objective field
+    const [objectives, setObjectives] = useState(['']);
+    const [prerequisites, setPrerequisites] = useState(['']);
 
     const addObjectiveField = () => {
-        setObjectives([...objectives, '']); // Add a new empty objective field
+      setObjectives([...objectives, '']);
     };
 
     const removeObjectiveField = (index) => {
-        const updatedObjectives = [...objectives];
-        updatedObjectives.splice(index, 1);
-        setObjectives(updatedObjectives);
+      const updatedObjectives = [...objectives];
+      updatedObjectives.splice(index, 1);
+      setObjectives(updatedObjectives);
     };
 
+    const addPrerequisiteField = () => {
+      setPrerequisites([...prerequisites, '']);
+    };
+
+    const removePrerequisiteField = (index) => {
+      const updatedPrerequisites = [...prerequisites];
+      updatedPrerequisites.splice(index, 1);
+      setPrerequisites(updatedPrerequisites);
+    };
     const [content, setContent] = useState('');
 
     return (
@@ -83,43 +81,42 @@ export default function CreateContent() {
                                  </div> */}
 
                                 <div className="row mb-3">
-                                    <label htmlFor="course_objectives" className="col-sm-2 col-form-label">Course Objectives</label>
-                                    <div className="field_wrapper">
-                                        {objectives.map((objective, index) => (
-                                        <div className="input-group mb-3" key={index}>
-                                            <div
-                                            className="remove_button btn btn-outline-danger"
-                                            title="Remove field"
-                                            onClick={() => removeObjectiveField(index)}
-                                            >
-                                            <span className="bi bi-x-lg"></span>
+                                        <label htmlFor="course_objectives" className="col-sm-2 col-form-label">Course Objectives</label>
+                                        <div className="field_wrapper">
+                                          {objectives.map((objective, index) => (
+                                            <div className="input-group mb-3" key={index}>
+                                              <a
+                                                className="remove_button btn btn-outline-danger"
+                                                title="Remove field"
+                                                onClick={() => removeObjectiveField(index)}
+                                              >
+                                                <span className="bi bi-x-lg"></span>
+                                              </a>
+                                              <input
+                                                type="text"
+                                                value={objective}
+                                                className="form-control"
+                                                placeholder=""
+                                                aria-label="Example text with button addon"
+                                                aria-describedby="button-addon1"
+                                                onChange={(e) => {
+                                                  const updatedObjectives = [...objectives];
+                                                  updatedObjectives[index] = e.target.value;
+                                                  setObjectives(updatedObjectives);
+                                                }}
+                                              />
                                             </div>
-                                            <input
-                                            id={`course_objectives_${index}`}
-                                            type="text"
-                                            name={`objectives[${index}]`}
-                                            value={objective}
-                                            className="form-control"
-                                            placeholder=""
-                                            aria-label="Example text with button addon"
-                                            aria-describedby="button-addon1"
-                                            onChange={(e) => {
-                                                const updatedObjectives = [...objectives];
-                                                updatedObjectives[index] = e.target.value;
-                                                setObjectives(updatedObjectives);
-                                            }}
-                                            />
+                                          ))}
+                                          <a
+                                            className="add_button btn btn-outline-success"
+                                            title="Add field"
+                                            onClick={addObjectiveField}
+                                          >
+                                            <span className="bi bi-plus-lg"></span>
+                                          </a>
                                         </div>
-                                        ))}
-                                        <div
-                                        className="add_button btn btn-outline-success"
-                                        title="Add field"
-                                        onClick={addObjectiveField}
-                                        >
-                                        <span className="bi bi-plus-lg"></span>
-                                        </div>
-                                    </div>
-                                </div>
+                                      </div>
+                                      <input type="hidden" name="objectives" value={objectives} />
 
                                 {/* <div className="row mb-3">
                                   <label htmlFor="course_prerequisite" className="col-sm-2 col-form-label">Course Prerequisite</label>
@@ -132,43 +129,42 @@ export default function CreateContent() {
                                   </div>
                                 </div> */}
                                 <div className="row mb-3">
-                                    <label htmlFor="course_prerequisite" className="col-sm-2 col-form-label">Course Prerequisite</label>
-                                    <div className="field_wrapper2">
-                                        {prerequisites.map((prerequisite, index) => (
-                                        <div className="input-group mb-3" key={index}>
-                                            <div
-                                            className="remove_button btn btn-outline-danger"
-                                            title="Remove field"
-                                            onClick={() => removePrerequisiteField(index)}
-                                            >
-                                            <span className="bi bi-x-lg"></span>
-                                            </div>
-                                            <input
-                                            id={`course_prerequisite_${index}`}
-                                            type="text"
-                                            name={`prerequisites[${index}]`}
-                                            value={prerequisite}
-                                            className="form-control"
-                                            placeholder=""
-                                            aria-label="Example text with button addon"
-                                            aria-describedby="button-addon1"
-                                            onChange={(e) => {
-                                                const updatedPrerequisites = [...prerequisites];
-                                                updatedPrerequisites[index] = e.target.value;
-                                                setPrerequisites(updatedPrerequisites);
-                                            }}
-                                            />
-                                        </div>
-                                        ))}
-                                        <div
-                                        className="add_button btn btn-outline-success"
-                                        title="Add field"
-                                        onClick={addPrerequisiteField}
+                                  <label htmlFor="course_prerequisites" className="col-sm-2 col-form-label">Course Prerequisites</label>
+                                  <div className="field_wrapper">
+                                    {prerequisites.map((prerequisite, index) => (
+                                      <div className="input-group mb-3" key={index}>
+                                        <a
+                                          className="remove_button btn btn-outline-danger"
+                                          title="Remove field"
+                                          onClick={() => removePrerequisiteField(index)}
                                         >
-                                        <span className="bi bi-plus-lg"></span>
-                                        </div>
-                                    </div>
+                                          <span className="bi bi-x-lg"></span>
+                                        </a>
+                                        <input
+                                          type="text"
+                                          value={prerequisite}
+                                          className="form-control"
+                                          placeholder=""
+                                          aria-label="Example text with button addon"
+                                          aria-describedby="button-addon1"
+                                          onChange={(e) => {
+                                            const updatedPrerequisites = [...prerequisites];
+                                            updatedPrerequisites[index] = e.target.value;
+                                            setPrerequisites(updatedPrerequisites);
+                                          }}
+                                        />
+                                      </div>
+                                    ))}
+                                    <a
+                                      className="add_button btn btn-outline-success"
+                                      title="Add field"
+                                      onClick={addPrerequisiteField}
+                                    >
+                                      <span className="bi bi-plus-lg"></span>
+                                    </a>
+                                  </div>
                                 </div>
+                                <input type="hidden" name="prerequisites" value={prerequisites} />
 
                                 <div className="row mb-3">
                                   <label htmlFor="course_image" className="col-sm-2 col-form-label">Course Image</label>
