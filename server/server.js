@@ -33,6 +33,28 @@ const storage = multer.diskStorage({
 const upload = multer({ storage });
 
 /* ROUTES WITH FILE */
+
+app.post('/api/unit/', authMiddleware, upload.single('courseImage'), async (req, res) => {
+    try {
+        const user = req.user;
+        if (user.role !== 'ADMIN') {
+            throw 'Unauthorized access';
+        }
+        const unit = new Unit(req.body);
+        // Access the uploaded image path
+        console.log(req.file);
+        const imagePath = req.file.path;
+        unit.courseImage = imagePath;
+        await unit.save();
+        res.json({
+            status: 'ok',
+            message: 'Unit created successfully',
+        });
+    } catch (err) {
+        res.json({ status: 'error', error: err });
+    }
+});
+
 app.post('/api/contributor/',authMiddleware, upload.single('profileImage'), async (req, res) => {
     try {
         console.log('hi');
