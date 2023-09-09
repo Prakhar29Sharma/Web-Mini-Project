@@ -23,6 +23,12 @@ function Sidebar() {
             <span>View Courses</span>
           </Link>
         </li>
+        <li className="nav-item">
+          <Link to="syllabus" className="nav-link">
+            <i className="bi bi-grid"></i>
+            <span>Syllabus</span>
+          </Link>
+        </li>
       </ul>
     </aside>
   );

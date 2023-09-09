@@ -2,6 +2,49 @@ const Subject = require('../models/Subject');
 
 /* READ */
 
+const getSemList=(req,res)=>{
+    try{
+        const minSem=1;
+        const maxSem=8;
+    //    const maxSem = Subject.schema.path('semester').validators[0].max; // Get the max value validator
+
+    const semList=Array.from({length: maxSem-minSem+1},(_,i)=>i+minSem);
+    res.json({
+        status: 'ok',
+        semList: semList,
+    })
+    }
+    catch(err){
+        res.status(500).json({ status: 'error', error: err.message });
+    }
+}
+
+const getDeptList = (req, res) => {
+    try {
+        const deptEnum = Subject.schema.path('department').enumValues;
+      res.json({
+        status: 'ok',
+        deptEnum: deptEnum,
+      });
+    } catch (err) {
+      res.status(500).json({ status: 'error', error: err.message });
+    }
+  };
+
+const getYearByDept =(req,res)=>{
+    try{
+        const yearEnum  = Subject.schema.path('year').enumValues;
+        res.json({
+            status: 'ok',
+            yearEnum: yearEnum
+        })
+    }
+    catch(err){ 
+        res.status(501).json({ status: 'error', error: err.message });
+    }
+}
+  
+
 const getSubject = async (req, res) => {
     try {
         const { subjectCode } = req.params;
@@ -110,4 +153,4 @@ const deleteSubject = async (req, res) => {
     }
 };
 
-module.exports = { getSubject, getSubjects, createSubject, deleteSubject, getSubjectBySem, getSubjectByYear, getSubjectByDept }
+module.exports = {getSemList,getYearByDept, getDeptList, getSubject, getSubjects, createSubject, deleteSubject, getSubjectBySem, getSubjectByYear, getSubjectByDept }

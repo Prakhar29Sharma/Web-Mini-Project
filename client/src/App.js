@@ -25,6 +25,7 @@ import CreateProfile from './pages/Contributor/CreateProfile';
 import Profile from './pages/Contributor/Profile';
 import CreateCourse from './pages/Contributor/CreateCourse';
 import CreateContent from './pages/Contributor/CreateContent';
+import SyllabusForm from './pages/Admin/SyllabusDept';
 
 
 
@@ -48,7 +49,8 @@ function App() {
       element: <AdminRootLayout />,
       children: [
         { path: '', element: <Admin />, index: true},
-        { path: 'subjects', element: <SubjectList /> }
+        { path: 'subjects', element: <SubjectList /> },
+        { path:'syllabus', element:<SyllabusForm/>},
       ]
     },
     {

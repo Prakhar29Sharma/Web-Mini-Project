@@ -1,6 +1,7 @@
 const mongoose = require('mongoose');
 
 const deptEnum = ['IT', 'EXTC', 'MECH', 'COMP'];
+const yearEnum= ['FE','SE','TE','BE'];
 
 const subjectSchema = new mongoose.Schema({
     subjectCode: {
@@ -19,7 +20,10 @@ const subjectSchema = new mongoose.Schema({
         max: 8,
     },
     year: {
-        type: String
+        type: String,
+        required: true,
+        default: 'FE',
+        enum: yearEnum,
     },
     department: {
         type: String,
