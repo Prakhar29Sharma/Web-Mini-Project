@@ -17,6 +17,22 @@ const unitSchema = new mongoose.Schema({
         type: String,
         required: true,
     },
+    description: {
+        type: String,
+        required: true,
+    },
+    prerequisite: {
+        type: String,
+        required: true,
+    },
+    learningOutcome: {
+        type: String,
+        required: true,
+    },
+    courseImage: {
+        type: String,
+        required: true,
+    }
 });
 
 const Unit = mongoose.model('Unit', unitSchema);
