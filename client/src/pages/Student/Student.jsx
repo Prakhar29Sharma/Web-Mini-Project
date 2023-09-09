@@ -2,6 +2,7 @@ import React from "react";
 import jwtDecode from "jwt-decode";
 import { getToken } from "../../utils/auth";
 import { useRouteLoaderData } from "react-router-dom";
+import Presentation from "../../components/Presentation";
 
 function Student() {
 
@@ -14,6 +15,7 @@ function Student() {
     return (
         <div>
             <h1>Student Page</h1>
+            <Presentation/>
         </div>
     );
 }

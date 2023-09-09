@@ -9,7 +9,6 @@ export default function TinyEditor(props) {
         props.fetchContent(editorRef.current.getContent());
       }
     };
-    
 
     return (
         <>

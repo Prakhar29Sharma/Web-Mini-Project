@@ -22,6 +22,15 @@ export default function CreateContent() {
       setObjectives(updatedObjectives);
     };
 
+  const removePrerequisiteField= (index)=>{
+    const updatedObjectives = [...objectives];
+    updatedObjectives.splice(index, 1);
+    setObjectives(updatedObjectives); 
+  }
+  const addPrerequisiteField = () => {
+    setPrerequisites([...prerequisites, '']);
+  };
+
     const [content, setContent] = useState('');
 
     return (

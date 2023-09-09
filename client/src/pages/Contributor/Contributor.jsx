@@ -6,6 +6,7 @@ import PageTitle from "../../components/PageTitle";
 import Alert from "../../components/Alert";
 import axios from "axios";
 import "../../assets/css/style.css"
+import Presentation from "../../components/Presentation";
 
 
 function Contributor() {
@@ -51,7 +52,11 @@ function Contributor() {
         <main id="main" className="main">
             <PageTitle title="Dashboard" />
             { displayAlert && <Alert message="complete your profile!" link="create_profile" link_text="click here to create profile" /> }
+            <div>
+            <Presentation/>
+        </div>
         </main>
+        
         </>
     );
 }
