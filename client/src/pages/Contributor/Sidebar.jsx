@@ -14,19 +14,19 @@ function Sidebar() {
         <li className="nav-item">
           <Link to="create_course" className="nav-link">
             <i className="bi bi-grid"></i>
-            <span>Create Course</span>
+            <span>Contribute</span>
           </Link>
         </li>
         <li className="nav-item">
           <Link to="" className="nav-link">
             <i className="bi bi-grid"></i>
-            <span>View Courses</span>
+            <span>View your contributions</span>
           </Link>
         </li>
         <li className="nav-item">
           <Link to="" className="nav-link">
             <i className="bi bi-grid"></i>
-            <span>Rate and review other courses</span>
+            <span>Rate and review other contributions</span>
           </Link>
         </li>
       </ul>
