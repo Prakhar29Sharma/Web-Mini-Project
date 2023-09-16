@@ -4,17 +4,20 @@ import { Form } from "react-router-dom";
 import axios from 'axios';
 import { getToken } from '../../utils/auth';
 
-
-
 function SyllabusDept() {
 
   const [department, setDepartmentsList] = useState([])
   const [yearList, setYearsList] = useState([])
-  const [semester, setSemester] = useState([])
-  const [availableSemesters, setAvailableSemesters] = useState([])
-  const [subjectCode, setSubjectCode] = useState([])
-  const [unit, setUnit] = useState([])
 
+  const [selectedYear, setSelectedYear] = useState("");
+  const [semester, setSemester] = useState("");
+
+  const [semesterSelected, setSemesterSelected] = useState(false); // Track if a semester has been selected
+
+
+
+  const [isLoading, setIsLoading] = useState(true)
+  // fetches departments
   useEffect(() => {
     try {
       const department = axios.get('http://localhost:5000/api/subjects/deptEnum', {
@@ -41,70 +44,55 @@ function SyllabusDept() {
   }, []);
   // fetch years
   useEffect(() => {
-    const year = axios
-      .get(`http://localhost:5000/api/subjects/yearEnum`, {
-        headers: {
-          "Content-Type": "application/json",
-          "Authorization": "Bearer " + getToken(),
-        },
-      })
-      .then((response) => {
+    const fetchYears = async () => {
+      setIsLoading(true); // Start loading
+      try {
+        const response = await axios.get(`http://localhost:5000/api/subjects/yearEnum`, {
+          headers: {
+            "Content-Type": "application/json",
+            "Authorization": "Bearer " + getToken(),
+          },
+        });
         const years = response.data.yearEnum;
-        const yearList = years.map((years) => ({
+        const yearList = years.map((year) => ({
           value: year,
           label: year,
         }));
         setYearsList(yearList);
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-  }, []);
-  // fetch all semesters
-  useEffect(() => {
-    const semester = axios.get("http://localhost:5000/api/subjects/semList", {
-      headers: {
-        "Content-Type": "application/json",
-        "Authorization": "Bearer " + getToken(),
+      } catch (err) {
+        console.log("Error fetching years:", err);
       }
-    })
-      .then(response => {
-        const semesters = response.data.semList;
-        setSemester(semesters);
-      })
-      .catch(err => {
-        console.log("error fetching semesters:", err);
-      });
+      setIsLoading(false); // Stop loading when done
+    };
+    fetchYears();
   }, []);
+  // selects sem based on year
+  const semSelector = (selectedYear) => {
+    const yearToSemesters = {
+      "FE": [1, 2],
+      "SE": [3, 4],
+      "TE": [5, 6],
+      "BE": [7, 8]
+    };
+    return yearToSemesters[selectedYear] || [];
+  }
 
-  const yearToSemesters = {
-    "1st Year": ["1st", "2nd"],
-    "2nd Year": ["3rd", "4th"],
-    "3rd Year": ["5th", "6th"],
-    "4th Year": ["7th", "8th"],
-  };
-
-
-
-  // Fetch available semesters whenever the selected year changes
-  useEffect(() => {
-    const updatedAvailableSemesters = yearToSemesters[yearList] || [];
-    setAvailableSemesters(updatedAvailableSemesters);
-
-    // Reset the selected semester when the year changes
-    setSemester("");
-  }, [yearList]);
   // Handle year selection change
   const handleYearChange = (e) => {
     const selectedYear = e.target.value;
-    setYearsList(selectedYear);
+    setSelectedYear(selectedYear);
+    // Reset the selected semester when the year changes
+    setSemester("");
   };
 
   // Handle semester selection change
   const handleSemesterChange = (e) => {
     const selectedSemester = e.target.value;
     setSemester(selectedSemester);
+    setSemesterSelected(true);
   };
+
+
 
   return (
     <div>
@@ -117,7 +105,7 @@ function SyllabusDept() {
             <div className="col-lg-10 col-md-10 col-sm-12">
               <div className="card">
                 <div className="card-body">
-                  <h5 className="card-title">Set Course</h5>
+                  <h5 className="card-title">Set Syllabus</h5>
                   <Form method="post" action="" encType="multipart/form-data">
 
                     <div className="row mb-3">
@@ -139,7 +127,7 @@ function SyllabusDept() {
                       <label htmlFor="year" className="col-sm-2 col-form-label">Year</label>
                       <div className="col-sm-10">
                         <select name="year" id="year" type="text" className="form-select"
-                          onChange={handleYearChange} required pattern="[a-zA-Z]{2,}" >
+                          required pattern="[a-zA-Z]{2,}" onChange={handleYearChange} >
                           <option default={true}>Select year</option>
                           {
                             yearList.map((year, index) => {
@@ -150,54 +138,18 @@ function SyllabusDept() {
                         </select>
                       </div>
                     </div>
+                    {/* semester selection */}
                     <div className="row mb-3">
                       <label htmlFor="semester" className="col-sm-2 col-form-label">Semester</label>
                       <div className="col-sm-10">
-                        <select name="semester" id="semester" value={semester}
-                          onChange={handleSemesterChange} type="semester" className="form-select"  >
-
-                          <option default={true}>Semester</option>
-                          {availableSemesters.map((semester, index) => {
-                            <option key={index} value={semester.value}>
-                              {semester.label}</option>
-
-                          })
+                        <select name="semester" id="semester"
+                          type="semester" className="form-select" onChange={handleSemesterChange} required>
+                          <option value="">select semester</option>
+                          {
+                            semSelector(selectedYear).map((semester, index) => {
+                              return <option key={index} value={semester}>{semester}</option>
+                            })
                           }
-
-
-                        </select>
-                      </div>
-                    </div>
-                    <div className="row mb-3">
-                      <label htmlFor="subjectCode" className="col-sm-2 col-form-label">subject</label>
-                      <div className="col-sm-10">
-                        <select name="subjectCode" id="subjectCode" type="date" max="2005-04-23" className="form-select" required >
-                          <option default={true}>Open this select menu</option>
-                        </select>
-                      </div>
-                    </div>
-                    <div className="row mb-3">
-                      <label htmlFor="unit" className="col-sm-2 col-form-label">Unit</label>
-                      <div className="col-sm-10">
-                        <select name="unit" id="unit" type="text" className="form-select" pattern="^[+]?[0-9]{6,15}$" required >
-                          <option default={true}>Open this select menu</option>
-                        </select>
-                      </div>
-                    </div>
-                    <div className="row mb-3">
-                      <label htmlFor="city" className="col-sm-2 col-form-label">City</label>
-                      <div className="col-sm-10">
-                        <select name="city" id="city" type="text" className="form-select" pattern="[A-Za-z ]{1,50}" required >
-                          <option default={true}>Open this select menu</option>
-                        </select>
-                      </div>
-                    </div>
-                    <div className="row mb-3">
-                      <label className="col-sm-2 col-form-label">College</label>
-                      <div className="col-sm-10">
-                        <select name="college" className="form-select" aria-label="Default select example" required>
-                          <option default={true}>Open this select menu</option>
-
                         </select>
                       </div>
                     </div>
@@ -218,4 +170,20 @@ function SyllabusDept() {
   )
 }
 
-export default SyllabusDept
+export default SyllabusDept;
+
+export async function action({ request }) {
+  const form = await request.formData();
+  const formToJSON = {};
+
+  for (const [key, value] of [...form.entries()]) {
+    formToJSON[key] = value;
+  }
+  const department = formToJSON.department;
+  const year = formToJSON.year;
+  const semester = formToJSON.semester;
+  // redirect 
+  window.location.href=`/admin/syllabus/${department}/${year}/${semester}`;
+  console.log(formToJSON)
+  return null;
+}

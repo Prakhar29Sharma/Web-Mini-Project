@@ -3,6 +3,7 @@ const express = require("express");
 const { getSubject, getSubjects, createSubject, deleteSubject, getSubjectBySem, getSubjectByYear, getSubjectByDept } = require("../controllers/subject");
 
 const { getSemList, getYearByDept, getDeptList } = require('../controllers/subject');
+const authMiddleware = require("../middleware/auth");
 const router = express.Router();
 
 /* READ */
@@ -19,7 +20,7 @@ router.get('/dept/:dept', getSubjectByDept);
 
 
 /* CREATE */
-router.post('/', createSubject);
+router.post('/createSubject', authMiddleware, createSubject);
 
 /* DELETE */
 router.delete('/:id', deleteSubject);
