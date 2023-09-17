@@ -11,9 +11,9 @@ router.use(authMiddleware);
 router.get('/', getUnits);
 router.get('/:subjectCode/:unitNum', getUnit);
 
-/* CREATE */
+// /* CREATE */
 
-router.post('/', createUnit);
+// router.post('/', createUnit);
 
 /* DELETE */
 

@@ -12,6 +12,7 @@ const ContributorRoute = require("./routes/contributor");
 const CourseRoute = require("./routes/course");
 const authMiddleware = require('./middleware/auth');
 const Contributor = require('./models/Contributor');
+const Unit = require('./models/Unit');
 
 /* CONFIG */
 const app = express()
@@ -35,7 +36,6 @@ const upload = multer({ storage });
 /* ROUTES WITH FILE */
 app.post('/api/contributor/',authMiddleware, upload.single('profileImage'), async (req, res) => {
     try {
-        console.log('hi');
         const user = req.user;
         if (user.role !== 'CONTRIBUTOR') {
             throw 'Unauthorized access';
@@ -52,6 +52,33 @@ app.post('/api/contributor/',authMiddleware, upload.single('profileImage'), asyn
             status: 'ok',
             message: 'Contributor profile created successfully',
         });
+    } catch (err) {
+        console.log('error hi', err);
+        res.json({ status: 'error', error: err });
+    }
+});
+
+app.post('/api/units/', authMiddleware, upload.single('unitImage'), async (req, res) => {
+    try {
+        // const user = req.user;
+        // if (user.role !== 'ADMIN' || user.role !== 'admin') {
+        //     throw 'Unauthorized access';
+        // }
+        console.log(req.body);
+        let { unitNumber, unitName, subjectCode, subjectName, unitDescription, unitPrerequisites, unitObjectives } = req.body;
+        unitPrerequisites = unitPrerequisites.split(',');
+        unitObjectives = unitObjectives.split(',');
+        const unit = new Unit({ unitNumber, unitName, subjectCode, subjectName, unitDescription, unitPrerequisites, unitObjectives });
+        // Access the uploaded image path
+        console.log(req.file);
+        const imagePath = req.file.path;
+        unit.unitImagePath = imagePath;
+        await unit.save();
+        res.json({
+            status: 'ok',
+            message: 'Unit added successfully',
+        });
+
     } catch (err) {
         console.log('error hi', err);
         res.json({ status: 'error', error: err });
