@@ -20,11 +20,13 @@ import { RootLayout as ContributorRootLayout } from './pages/Contributor/RootLay
 import { action as CreateProfileAction } from './pages/Contributor/CreateProfile';
 import { action as CreateCourseAction } from './pages/Contributor/CreateCourse';
 import { action as CreateContentAction } from './pages/Contributor/CreateContent';
+import { action as AddUnitAction } from './pages/Admin/AddUnit';
 import logoutAction from "./pages/Logout";
 import CreateProfile from './pages/Contributor/CreateProfile';
 import Profile from './pages/Contributor/Profile';
 import CreateCourse from './pages/Contributor/CreateCourse';
 import CreateContent from './pages/Contributor/CreateContent';
+import AddUnit from './pages/Admin/AddUnit';
 
 function App() {
 
@@ -46,7 +48,8 @@ function App() {
       element: <AdminRootLayout />,
       children: [
         { path: '', element: <Admin />, index: true},
-        { path: 'subjects', element: <SubjectList /> }
+        { path: 'subjects', element: <SubjectList /> },
+        { path: 'add_unit', element: <AddUnit />, action: AddUnitAction },
       ]
     },
     {

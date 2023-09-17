@@ -1,6 +1,8 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Form, useParams } from 'react-router-dom';
 import TinyEditor from '../../components/TinyEditor';
+import axios from 'axios';
+import { getToken } from '../../utils/auth';
 
 export default function CreateContent() {
     
@@ -8,30 +10,29 @@ export default function CreateContent() {
     
     const { subject, unit } = params;
 
-    const [objectives, setObjectives] = useState(['']);
-    const [prerequisites, setPrerequisites] = useState(['']);
-
-    const addObjectiveField = () => {
-      setObjectives([...objectives, '']);
-    };
-
-    const removeObjectiveField = (index) => {
-      const updatedObjectives = [...objectives];
-      updatedObjectives.splice(index, 1);
-      setObjectives(updatedObjectives);
-    };
-
-    const addPrerequisiteField = () => {
-      setPrerequisites([...prerequisites, '']);
-    };
-
-    const removePrerequisiteField = (index) => {
-      const updatedPrerequisites = [...prerequisites];
-      updatedPrerequisites.splice(index, 1);
-      setPrerequisites(updatedPrerequisites);
-    };
     const [content, setContent] = useState('');
 
+    // useEffect(() => {
+    //   axios.get('http://localhost:5000/api/units/', {
+    //     headers: {
+    //       'Content-Type': 'application/json',
+    //       'Authorization': 'Bearer ' + getToken(),
+    //     } 
+    //   })
+    //   .then((response) => {
+    //     const units = response.data.units;
+    //     const unit = units.find((unit) => unit.unitName === params.unit);
+    //     // console.log(unit);
+    //     if (unitData == "") {
+    //       setUnitData(unit);
+    //       console.log(unitData);
+    //     }
+    //   })
+    //   .catch((err) => {
+    //     console.log(err);
+    //   })
+    // }, []);
+    
     return (
         <main className='main' id='main'>
             <section className="section">
@@ -40,14 +41,8 @@ export default function CreateContent() {
                     <div className="card">
                         <div className="card-body">
                             <h5 className="card-title">Create Course</h5>
-                            <Form method="post" encType="multipart/form-data" action=''>
-                                <div className="row mb-3">
-                                  <label htmlFor="course_title" className="col-sm-2 col-form-label">Course Title</label>
-                                  <div className="col-sm-10">
-                                    <input name="course_title" id="course_title" type="text" className="form-control" placeholder="Course Title, Ex: Python OOPs Concepts" required />
-                                  </div>
-                                </div>
 
+                            <Form method="post" encType="multipart/form-data" action=''>
                                 <div className="row mb-3">
                                   <label htmlFor="subject" className="col-sm-2 col-form-label">Subject</label>
                                   <div className="col-sm-10">
@@ -65,111 +60,41 @@ export default function CreateContent() {
                                 <div className="row mb-3">
                                   <label htmlFor="course_desc" className="col-sm-2 col-form-label">Course Description</label>
                                   <div className="col-sm-10">
-                                    <textarea name="course_description" id="course_desc" className="form-control" style={{height: "100px"}} placeholder="Course Description, Ex: This course will help you build foundation in DSA"></textarea>
+                                    <textarea className="form-control" style={{height: "100px"}} disabled>{"hi this is description section"}</textarea>
                                   </div>
                                 </div>
 
-                                {/* <div className="row mb-3">
-                                  <label htmlFor="course_objectives" className="col-sm-2 col-form-label">Course Objectives</label>
-                                    <div className="field_wrapper ">
-                                      <div className="input-group mb-3">
-                                          <a className="add_button btn btn-outline-success" title="Add field">
-                                          <span className="bi bi-plus-lg"></span></a>
-                                          <input id="course_objectives" type="text" name="objectives" value="" className="form-control " placeholder="" aria-label="Example text with button addon" aria-describedby="button-addon1" />
-                                    </div>
-                                  </div>
-                                 </div> */}
-
                                 <div className="row mb-3">
-                                        <label htmlFor="course_objectives" className="col-sm-2 col-form-label">Course Objectives</label>
-                                        <div className="field_wrapper">
-                                          {objectives.map((objective, index) => (
-                                            <div className="input-group mb-3" key={index}>
-                                              <a
-                                                className="remove_button btn btn-outline-danger"
-                                                title="Remove field"
-                                                onClick={() => removeObjectiveField(index)}
-                                              >
-                                                <span className="bi bi-x-lg"></span>
-                                              </a>
-                                              <input
-                                                type="text"
-                                                value={objective}
-                                                className="form-control"
-                                                placeholder=""
-                                                aria-label="Example text with button addon"
-                                                aria-describedby="button-addon1"
-                                                onChange={(e) => {
-                                                  const updatedObjectives = [...objectives];
-                                                  updatedObjectives[index] = e.target.value;
-                                                  setObjectives(updatedObjectives);
-                                                }}
-                                              />
-                                            </div>
-                                          ))}
-                                          <a
-                                            className="add_button btn btn-outline-success"
-                                            title="Add field"
-                                            onClick={addObjectiveField}
-                                          >
-                                            <span className="bi bi-plus-lg"></span>
-                                          </a>
-                                        </div>
-                                      </div>
-                                      <input type="hidden" name="objectives" value={objectives} />
-
-                                {/* <div className="row mb-3">
-                                  <label htmlFor="course_prerequisite" className="col-sm-2 col-form-label">Course Prerequisite</label>
-                                    <div className="field_wrapper2">
-                                      <div className="input-group mb-3">
-                                          <a className="add_button btn btn-outline-success" title="Add field">
-                                          <span className="bi bi-plus-lg"></span></a>
-                                          <input id="course_prerequisite" type="text" name="prerequisites" value="" className="form-control" placeholder="" aria-label="Example text with button addon" aria-describedby="button-addon1" />
-                                    </div>
+                                  <label htmlFor="course_objectives" className="col-sm-2 col-form-label">Course Objectives</label>
+                                  <div className="col-sm-10">
+                                    <ul>
+                                      {
+                                        // unitData.unitObjectives.map((objective, index) => {
+                                        //   return (
+                                        //     <li key={index}>
+                                        //       {objective}
+                                        //     </li>
+                                        //   );
+                                        // })
+                                      }
+                                    </ul>
                                   </div>
-                                </div> */}
+                                </div>
+
                                 <div className="row mb-3">
                                   <label htmlFor="course_prerequisites" className="col-sm-2 col-form-label">Course Prerequisites</label>
-                                  <div className="field_wrapper">
-                                    {prerequisites.map((prerequisite, index) => (
-                                      <div className="input-group mb-3" key={index}>
-                                        <a
-                                          className="remove_button btn btn-outline-danger"
-                                          title="Remove field"
-                                          onClick={() => removePrerequisiteField(index)}
-                                        >
-                                          <span className="bi bi-x-lg"></span>
-                                        </a>
-                                        <input
-                                          type="text"
-                                          value={prerequisite}
-                                          className="form-control"
-                                          placeholder=""
-                                          aria-label="Example text with button addon"
-                                          aria-describedby="button-addon1"
-                                          onChange={(e) => {
-                                            const updatedPrerequisites = [...prerequisites];
-                                            updatedPrerequisites[index] = e.target.value;
-                                            setPrerequisites(updatedPrerequisites);
-                                          }}
-                                        />
-                                      </div>
-                                    ))}
-                                    <a
-                                      className="add_button btn btn-outline-success"
-                                      title="Add field"
-                                      onClick={addPrerequisiteField}
-                                    >
-                                      <span className="bi bi-plus-lg"></span>
-                                    </a>
-                                  </div>
-                                </div>
-                                <input type="hidden" name="prerequisites" value={prerequisites} />
-
-                                <div className="row mb-3">
-                                  <label htmlFor="course_image" className="col-sm-2 col-form-label">Course Image</label>
                                   <div className="col-sm-10">
-                                    <input name="course_image" id="course_image" type="file" accept=".jpg,.jpeg,.png" className="form-control" required />
+                                    <ul>
+                                      {
+                                        // unitData.unitPrerequisites.map((objective, index) => {
+                                        //   return (
+                                        //     <li key={index}>
+                                        //       {objective}
+                                        //     </li>
+                                        //   );
+                                        // })
+                                      }
+                                    </ul>
                                   </div>
                                 </div>
 
@@ -177,6 +102,13 @@ export default function CreateContent() {
                                   <label htmlFor="course_video" className="col-sm-2 col-form-label">Course Video</label>
                                   <div className="col-sm-10">
                                     <input name="course_video" id="course_video" type="file" accept="video/*" className="form-control" />
+                                  </div>
+                                </div>
+
+                                <div className="row mb-3">
+                                  <label htmlFor="course_pdf" className="col-sm-2 col-form-label">Course PDF</label>
+                                  <div className="col-sm-10">
+                                    <input name="course_pdf" id="course_pdf" type="file" accept="pdf/*" className="form-control" />
                                   </div>
                                 </div>
 
