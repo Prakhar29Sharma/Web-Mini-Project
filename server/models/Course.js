@@ -1,39 +1,29 @@
 const mongoose = require('mongoose');
 
 const courseSchema = new mongoose.Schema({
-    author_id: {
+    authorId: {
         type: String,
         required: true,
     },
-    author_name: {
+    authorName: {
         type: String,
         required: true
     },
-    subject: {
-        type: String,
+    subjectData: {
+        type: JSON,
         required: true,
     },
-    unit: {
-        type: String, 
+    unitData: {
+        type: JSON, 
         required: true,
     },
-    title: {
-        type: String,
-        required: true,
-    },
-    description: {
+    courseVideoPath: {
         type: String,
     },
-    objectives: {
-        type: [String],
-    },
-    prerequisites: {
-        type: [String],
-    },
-    course_video_path: {
+    coursePdfPath: {
         type: String,
     },
-    content: {
+    courseContent: {
         type: String,
     },
     isPublic: {
