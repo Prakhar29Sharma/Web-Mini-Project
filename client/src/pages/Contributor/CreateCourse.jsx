@@ -31,7 +31,8 @@ export default function CreateCourse() {
             const data = response.data.units;
             const units = data.filter((unit) => unit.subjectName === subject);
             // console.log(units);
-            setUnits(units.map((unit) => unit.unitName));
+            // setUnits(units.map((unit) => unit.unitName));
+            setUnits(units.map((unit) => { return {"unitName":unit.unitName, "unitNumber": unit.unitNumber} }));
         })
         .catch((error) => {
             console.log(error);
@@ -67,7 +68,7 @@ export default function CreateCourse() {
                                     <select name="unit" id="unit" className="form-select" aria-label="Default select example" disabled={ units.length === 0 ? true : false } required>
                                         {
                                             units.map((unit, index) => {
-                                                return <option key={index} value={unit}>{unit}</option>
+                                                return <option key={index} value={unit.unitNumber}>{unit.unitName}</option>
                                             })
                                         }
                                     </select>
@@ -97,6 +98,7 @@ export async function action({request}) {
     }
     const subject = formToJSON.subject;
     const unit = formToJSON.unit;
+    // console.log(subject, unit);
     window.location.href = `/contributor/create_content/${subject}/${unit}`;
     return null;
 }

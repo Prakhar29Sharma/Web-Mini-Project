@@ -15,6 +15,20 @@ const getSubject = async (req, res) => {
     }
 };
 
+const getSubjectByName = async (req, res) => {
+    try {
+        const { subjectName } = req.params;
+        subjectName.replace('%20', ' ');
+        const subject = await Subject.findOne({ subjectName: subjectName });
+        res.json({
+            status: 'ok',
+            subject: subject
+        });
+    } catch (err) {
+        res.json({ status: 'error', error: err })
+    }
+}
+
 const getSubjects = async (req, res) => {
     try {
         const subjects = await Subject.find({});
@@ -110,4 +124,4 @@ const deleteSubject = async (req, res) => {
     }
 };
 
-module.exports = { getSubject, getSubjects, createSubject, deleteSubject, getSubjectBySem, getSubjectByYear, getSubjectByDept }
+module.exports = { getSubject, getSubjects, createSubject, deleteSubject, getSubjectBySem, getSubjectByYear, getSubjectByDept, getSubjectByName }

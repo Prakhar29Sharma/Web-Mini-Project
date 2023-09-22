@@ -8,30 +8,47 @@ export default function CreateContent() {
     
     const params = useParams();
     
+    //eslint-disable-next-line
     const { subject, unit } = params;
 
     const [content, setContent] = useState('');
 
-    // useEffect(() => {
-    //   axios.get('http://localhost:5000/api/units/', {
-    //     headers: {
-    //       'Content-Type': 'application/json',
-    //       'Authorization': 'Bearer ' + getToken(),
-    //     } 
-    //   })
-    //   .then((response) => {
-    //     const units = response.data.units;
-    //     const unit = units.find((unit) => unit.unitName === params.unit);
-    //     // console.log(unit);
-    //     if (unitData == "") {
-    //       setUnitData(unit);
-    //       console.log(unitData);
-    //     }
-    //   })
-    //   .catch((err) => {
-    //     console.log(err);
-    //   })
-    // }, []);
+    const [unitData, setUnitData] = useState({});
+
+    const [subjectCode, setSubjectCode] = useState('');
+
+    useEffect(() => {
+      const fetchData = async () => {
+        try {
+          const subjectName = params.subject.replace(' ', '%20');
+          const subjectResponse = await axios.get(`http://localhost:5000/api/subjects/name/${subjectName}`, {
+            headers: {
+              'Content-Type': 'application/json',
+              'Authorization': 'Bearer ' + getToken(),
+            }
+          });
+
+          const subjectData = subjectResponse.data.subject;
+
+          setSubjectCode(subjectData.subjectCode);
+
+          if (subjectData.subjectCode) {
+            const unitResponse = await axios.get(`http://localhost:5000/api/units/${subjectData.subjectCode}/${params.unit}`, {
+              headers: {
+                'Content-Type': 'application/json',
+                'Authorization': 'Bearer ' + getToken(),
+              }
+            });
+
+            setUnitData(unitResponse.data.unit);
+          }
+        } catch (error) {
+          console.error(error);
+        }
+      };
+
+      fetchData();
+    }, [params.subject, params.unit]);
     
     return (
         <main className='main' id='main'>
@@ -46,21 +63,23 @@ export default function CreateContent() {
                                 <div className="row mb-3">
                                   <label htmlFor="subject" className="col-sm-2 col-form-label">Subject</label>
                                   <div className="col-sm-10">
-                                    <input name="subject" id="subject" type="text" className="form-control" value={subject} disabled />
+                                    {subject}
                                   </div>
+                                  <input type='hidden' name='subjectCode' value={subjectCode}/>
                                 </div>
 
                                 <div className="row mb-3">
                                   <label htmlFor="unit" className="col-sm-2 col-form-label">Unit</label>
                                   <div className="col-sm-10">
-                                    <input name="unit" id="unit" type="text" className="form-control" value={unit} disabled />
+                                    {unitData.unitName}
                                   </div>
+                                  <input type='hidden' name='unitNumber' value={unitData.unitNumber}/>
                                 </div>
 
                                 <div className="row mb-3">
                                   <label htmlFor="course_desc" className="col-sm-2 col-form-label">Course Description</label>
                                   <div className="col-sm-10">
-                                    <textarea className="form-control" style={{height: "100px"}} disabled>{"hi this is description section"}</textarea>
+                                    {unitData.unitDescription}
                                   </div>
                                 </div>
 
@@ -69,13 +88,13 @@ export default function CreateContent() {
                                   <div className="col-sm-10">
                                     <ul>
                                       {
-                                        // unitData.unitObjectives.map((objective, index) => {
-                                        //   return (
-                                        //     <li key={index}>
-                                        //       {objective}
-                                        //     </li>
-                                        //   );
-                                        // })
+                                        unitData.unitObjectives !== undefined ? unitData.unitObjectives.map((objective, index) => {
+                                          return (
+                                            <li key={index}>
+                                              {objective}
+                                            </li>
+                                          );
+                                        }) : ""
                                       }
                                     </ul>
                                   </div>
@@ -86,13 +105,13 @@ export default function CreateContent() {
                                   <div className="col-sm-10">
                                     <ul>
                                       {
-                                        // unitData.unitPrerequisites.map((objective, index) => {
-                                        //   return (
-                                        //     <li key={index}>
-                                        //       {objective}
-                                        //     </li>
-                                        //   );
-                                        // })
+                                        unitData.unitPrerequisites !== undefined ? unitData.unitPrerequisites.map((prereq, index) => {
+                                          return (
+                                            <li key={index}>
+                                              {prereq}
+                                            </li>
+                                          );
+                                        }) : ""
                                       }
                                     </ul>
                                   </div>
@@ -128,6 +147,10 @@ export default function CreateContent() {
     );
 }
 
+export async function loader() {
+  return null;
+}
+
 export async function action({request}) {
   const form = await request.formData();
   const formToJSON = {};
@@ -135,6 +158,5 @@ export async function action({request}) {
       formToJSON[key] = value;
   }
   console.log(formToJSON);
-  console.log(formToJSON['objectives[0]']);
   return null;
 }

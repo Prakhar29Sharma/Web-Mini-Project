@@ -15,6 +15,7 @@ import { loader as evaluatorLoader } from './pages/Evaluator/Evaluator';
 import { loader as contributorLoader } from './pages/Contributor/Contributor';
 import { loader as studentLoader } from './pages/Student/Student';
 import { loader as CreateProfileLoader } from './pages/Contributor/CreateProfile';
+import { loader as CreateContentLoader } from './pages/Contributor/CreateContent';
 import { RootLayout as AdminRootLayout } from './pages/Admin/RootLayout';
 import { RootLayout as ContributorRootLayout } from './pages/Contributor/RootLayout';
 import { action as CreateProfileAction } from './pages/Contributor/CreateProfile';
@@ -70,7 +71,7 @@ function App() {
         { path: 'create_profile', element: <CreateProfile />, action: CreateProfileAction, loader: CreateProfileLoader},
         { path: 'profile', element: <Profile /> },
         { path: 'create_course', element: <CreateCourse />, action: CreateCourseAction },
-        { path: 'create_content/:subject/:unit', element: <CreateContent />, action: CreateContentAction },
+        { path: 'create_content/:subject/:unit', element: <CreateContent />, action: CreateContentAction, loader: CreateContentLoader },
       ]
     },
     {
