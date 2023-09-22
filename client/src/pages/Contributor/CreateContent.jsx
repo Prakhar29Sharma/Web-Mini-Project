@@ -15,7 +15,11 @@ export default function CreateContent() {
 
     const [unitData, setUnitData] = useState({});
 
+    // eslint-disable-next-line
     const [subjectCode, setSubjectCode] = useState('');
+
+    const [subjectCodeHiddenField, setSubjectCodeHiddenField] = useState('');
+    const [unitNumberHiddenField, setUnitNumberHiddenField] = useState('');
 
     useEffect(() => {
       const fetchData = async () => {
@@ -31,6 +35,7 @@ export default function CreateContent() {
           const subjectData = subjectResponse.data.subject;
 
           setSubjectCode(subjectData.subjectCode);
+          setSubjectCodeHiddenField(subjectData.subjectCode);
 
           if (subjectData.subjectCode) {
             const unitResponse = await axios.get(`http://localhost:5000/api/units/${subjectData.subjectCode}/${params.unit}`, {
@@ -41,6 +46,7 @@ export default function CreateContent() {
             });
 
             setUnitData(unitResponse.data.unit);
+            setUnitNumberHiddenField(unitResponse.data.unit.unitNumber);
           }
         } catch (error) {
           console.error(error);
@@ -65,7 +71,7 @@ export default function CreateContent() {
                                   <div className="col-sm-10">
                                     {subject}
                                   </div>
-                                  <input type='hidden' name='subjectCode' value={subjectCode}/>
+                                  <input type='hidden' name='subjectCode' value={subjectCodeHiddenField} onChange={(e) => {setSubjectCodeHiddenField(e.target.value)}}/>
                                 </div>
 
                                 <div className="row mb-3">
@@ -73,7 +79,7 @@ export default function CreateContent() {
                                   <div className="col-sm-10">
                                     {unitData.unitName}
                                   </div>
-                                  <input type='hidden' name='unitNumber' value={unitData.unitNumber}/>
+                                  <input type='hidden' name='unitNumber' value={unitNumberHiddenField} onChange={(e) => {setUnitNumberHiddenField(e.target.value)}}/>
                                 </div>
 
                                 <div className="row mb-3">
