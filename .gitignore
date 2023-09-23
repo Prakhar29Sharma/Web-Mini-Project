@@ -132,6 +132,4 @@ dist
 # rest api's
 *.rest
 
-client/src/assets
-
 server/public/assets
