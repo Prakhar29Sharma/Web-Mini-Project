@@ -65,7 +65,7 @@ export default function CreateContent() {
                         <div className="card-body">
                             <h5 className="card-title">Create Course</h5>
 
-                            <Form method="post" encType="multipart/form-data" action=''>
+                            <Form method="post" action="" encType="multipart/form-data">
                                 <div className="row mb-3">
                                   <label htmlFor="subject" className="col-sm-2 col-form-label">Subject</label>
                                   <div className="col-sm-10">
@@ -124,23 +124,23 @@ export default function CreateContent() {
                                 </div>
 
                                 <div className="row mb-3">
-                                  <label htmlFor="course_video" className="col-sm-2 col-form-label">Course Video</label>
+                                  <label htmlFor="courseVideo" className="col-sm-2 col-form-label">Upload course video</label>
                                   <div className="col-sm-10">
-                                    <input name="course_video" id="course_video" type="file" accept="video/*" className="form-control" />
+                                    <input name="courseVideo" id="courseVideo" type="file" accept="video/*" className="form-control" />
                                   </div>
                                 </div>
 
                                 <div className="row mb-3">
-                                  <label htmlFor="course_pdf" className="col-sm-2 col-form-label">Course PDF</label>
+                                  <label htmlFor="coursePDFs" className="col-sm-2 col-form-label">Upload course PDFs</label>
                                   <div className="col-sm-10">
-                                    <input name="course_pdf" id="course_pdf" type="file" accept="pdf/*" className="form-control" />
+                                    <input name="coursePDFs" id="coursePDFs" type="file" accept=".pdf" multiple className="form-control" />
                                   </div>
                                 </div>
 
                                 <div className="row mb-3">
                                   <div className="col-sm-10">
                                   <TinyEditor fetchContent={(content) => {setContent(content)}} />
-                                  <input type="hidden" name="course_content" value={content} />
+                                  <input type="hidden" name="courseContent" value={content} />
                                   </div>
                                 </div>
                             </Form>
@@ -158,11 +158,26 @@ export async function loader() {
 }
 
 export async function action({request}) {
+  const user = localStorage.getItem('user');
+  const username = JSON.parse(user).username;
   const form = await request.formData();
   const formToJSON = {};
   for (const [key, value] of [...form.entries()]) {
       formToJSON[key] = value;
   }
+  formToJSON['authorName'] = username;
   console.log(formToJSON);
+  axios.post('http://localhost:5000/api/courses/', formToJSON, {
+    headers: {
+      "Content-Type": "multipart/form-data",
+      "Authorization": 'Bearer ' + getToken(),
+    }
+  })
+  .then((response) => {
+    console.log(response);
+  })
+  .catch((error) => {
+    console.log(error);
+  })
   return null;
 }

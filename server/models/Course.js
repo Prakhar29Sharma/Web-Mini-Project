@@ -21,7 +21,7 @@ const courseSchema = new mongoose.Schema({
         type: String,
     },
     coursePdfPath: {
-        type: String,
+        type: [String],
     },
     courseContent: {
         type: String,
@@ -35,7 +35,7 @@ const courseSchema = new mongoose.Schema({
         default: 'Draft',
         enum: ['Draft', 'UnderReview', 'Approved']
     }
-});
+}, { timestamps: true });
 
 const Course = mongoose.model('Course', courseSchema);
 

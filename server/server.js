@@ -13,6 +13,8 @@ const CourseRoute = require("./routes/course");
 const authMiddleware = require('./middleware/auth');
 const Contributor = require('./models/Contributor');
 const Unit = require('./models/Unit');
+const Subject = require('./models/Subject');
+const Course = require('./models/Course');
 
 /* CONFIG */
 const app = express()
@@ -34,6 +36,66 @@ const storage = multer.diskStorage({
 const upload = multer({ storage });
 
 /* ROUTES WITH FILE */
+
+const fileUploadMiddleware = upload.fields([{ name: 'courseVideo', maxCount: 1 }, { name: 'coursePDFs', maxCount: 8 }]);
+
+app.post('/api/courses/', authMiddleware, fileUploadMiddleware, async (req, res) => {
+    try {
+        const user = req.user;
+        if (user.role !== 'CONTRIBUTOR') {
+            throw 'Unauthorized access';
+        }
+        const { authorName, subjectCode, unitNumber, courseContent } = req.body;
+        const userData = await User.findOne({ username: authorName });
+        if (!userData) {
+            throw 'User not found';
+        } else {
+            authorId = userData._id;
+        }
+        const unit = await Unit.findOne({ subjectCode: subjectCode, unitNumber: unitNumber });
+        if (!unit) {
+            throw 'Unit not found';
+        } else {
+            unitData = unit;
+        }
+        const subject = await Subject.findOne({ subjectCode: subjectCode });
+        if (!subject) {
+            throw 'Subject not found';
+        } else {
+            subjectData = subject;
+        }
+        const course = new Course({
+            authorId: authorId,
+            authorName: authorName,
+            subjectData: subjectData,
+            unitData: unitData,
+            courseContent: courseContent,
+            courseVideoPath: '',
+            coursePdfPath: [],
+            isPublic: false,
+            status: 'Draft',
+        });
+        // Access the uploaded video's filename and path
+        // console.log("files", req.files);
+        const videoFile = req.files.courseVideo[0];
+        // console.log(videoFile.path);
+        course.courseVideoPath = videoFile.path;
+        // Access the uploaded PDFs' filenames and paths
+        const pdfFiles = req.files.coursePDFs; // Make sure to use req.files, which should be an array
+        const pdfPaths = pdfFiles.map((file) => file.path);
+        // console.log(pdfPaths);
+        course.coursePdfPath = pdfPaths;
+        await course.save();
+        res.json({
+            status: 'ok',
+            message: 'Course created successfully',
+        });
+    } catch (err) {
+        console.log('error course uploading', err);
+        res.json({ status: 'error', error: err });
+    }
+});
+
 app.post('/api/contributor/',authMiddleware, upload.single('profileImage'), async (req, res) => {
     try {
         const user = req.user;
