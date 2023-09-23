@@ -175,6 +175,9 @@ export async function action({request}) {
   })
   .then((response) => {
     console.log(response);
+    if (response.status === 'ok') {
+      window.location.href = '/contributor';
+    }
   })
   .catch((error) => {
     console.log(error);
