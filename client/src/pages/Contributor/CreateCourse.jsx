@@ -76,7 +76,7 @@ export default function CreateCourse() {
                                 </div>
                                 <div className="row mb-3">
                                   <div className="col-sm-10">
-                                    <button type="submit" className="btn btn-primary">Continue</button>
+                                    <button type="submit" className="btn btn-primary" disabled={units.length === 0 ? true: false}>Continue</button>
                                   </div>
                                 </div>
                             </Form>
