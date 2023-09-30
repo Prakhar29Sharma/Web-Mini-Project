@@ -15,6 +15,20 @@ const getSubject = async (req, res) => {
     }
 };
 
+const getSubjectByName = async (req, res) => {
+    try {
+        const { subjectName } = req.params;
+        subjectName.replace('%20', ' ');
+        const subject = await Subject.findOne({ subjectName: subjectName });
+        res.json({
+            status: 'ok',
+            subject: subject
+        });
+    } catch (err) {
+        res.json({ status: 'error', error: err })
+    }
+}
+
 const getSubjects = async (req, res) => {
     try {
         const subjects = await Subject.find({});
@@ -69,6 +83,10 @@ const getSubjectByDept = async (req, res) => {
 /* CREATE */
 
 const createSubject = async (req, res) => {
+    const user = req.user;
+    if (user.role !== 'ADMIN') {
+        return res.json({ status: 'error', error: 'You are not authorized to perform this action'});
+    }
     try {
         const newSubject = Subject(req.body);
         await newSubject.save();
@@ -84,6 +102,10 @@ const createSubject = async (req, res) => {
 /* DELETE */
 
 const deleteSubject = async (req, res) => {
+    const user = req.user;
+    if (user.role !== 'ADMIN') {
+        return res.json({ status: 'error', error: 'You are not authorized to perform this action'});
+    }
     try {
         const id = req.params.id;
         const subject = await Subject.findOne({ _id: id });
@@ -102,4 +124,4 @@ const deleteSubject = async (req, res) => {
     }
 };
 
-module.exports = { getSubject, getSubjects, createSubject, deleteSubject, getSubjectBySem, getSubjectByYear, getSubjectByDept }
+module.exports = { getSubject, getSubjects, createSubject, deleteSubject, getSubjectBySem, getSubjectByYear, getSubjectByDept, getSubjectByName }

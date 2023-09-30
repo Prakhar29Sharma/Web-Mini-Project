@@ -1,16 +1,26 @@
-require('dotenv').config()
-const express = require('express')
-const multer = require('multer')
-const mongoose = require('mongoose')
+require('dotenv').config();
+const express = require('express');
+const multer = require('multer');
+const cors = require('cors');
+const mongoose = require('mongoose');
 const User = require("./models/User");
 const userRoute = require("./routes/users");
 const subjectRoute = require("./routes/subject");
 const unitRoute = require("./routes/unit");
+const AuthRoute = require("./routes/auth");
+const ContributorRoute = require("./routes/contributor");
+const CourseRoute = require("./routes/course");
+const authMiddleware = require('./middleware/auth');
+const Contributor = require('./models/Contributor');
+const Unit = require('./models/Unit');
+const Subject = require('./models/Subject');
+const Course = require('./models/Course');
 
 /* CONFIG */
 const app = express()
 app.use(express.json())
-app.use(express.urlencoded())
+app.use(express.urlencoded({ extended: true }))
+app.use(cors());
 app.use('/assets', express.static('public/assets'))
 
 /* FILE STORAGE */
@@ -27,14 +37,127 @@ const upload = multer({ storage });
 
 /* ROUTES WITH FILE */
 
+const fileUploadMiddleware = upload.fields([{ name: 'courseVideo', maxCount: 1 }, { name: 'coursePDFs', maxCount: 8 }]);
+
+app.post('/api/courses/', authMiddleware, fileUploadMiddleware, async (req, res) => {
+    try {
+        const user = req.user;
+        if (user.role !== 'CONTRIBUTOR') {
+            throw 'Unauthorized access';
+        }
+        const { authorName, subjectCode, unitNumber, courseContent } = req.body;
+        const userData = await User.findOne({ username: authorName });
+        if (!userData) {
+            throw 'User not found';
+        } else {
+            authorId = userData._id;
+        }
+        const unit = await Unit.findOne({ subjectCode: subjectCode, unitNumber: unitNumber });
+        if (!unit) {
+            throw 'Unit not found';
+        } else {
+            unitData = unit;
+        }
+        const subject = await Subject.findOne({ subjectCode: subjectCode });
+        if (!subject) {
+            throw 'Subject not found';
+        } else {
+            subjectData = subject;
+        }
+        const course = new Course({
+            authorId: authorId,
+            authorName: authorName,
+            subjectData: subjectData,
+            unitData: unitData,
+            courseContent: courseContent,
+            courseVideoPath: '',
+            coursePdfPath: [],
+            isPublic: false,
+            status: 'Draft',
+        });
+        // Access the uploaded video's filename and path
+        // console.log("files", req.files);
+        const videoFile = req.files.courseVideo[0];
+        // console.log(videoFile.path);
+        course.courseVideoPath = videoFile.path;
+        // Access the uploaded PDFs' filenames and paths
+        const pdfFiles = req.files.coursePDFs; // Make sure to use req.files, which should be an array
+        const pdfPaths = pdfFiles.map((file) => file.path);
+        // console.log(pdfPaths);
+        course.coursePdfPath = pdfPaths;
+        await course.save();
+        res.json({
+            status: 'ok',
+            message: 'Course created successfully',
+        });
+    } catch (err) {
+        console.log('error course uploading', err);
+        res.json({ status: 'error', error: err });
+    }
+});
+
+app.post('/api/contributor/',authMiddleware, upload.single('profileImage'), async (req, res) => {
+    try {
+        const user = req.user;
+        if (user.role !== 'CONTRIBUTOR') {
+            throw 'Unauthorized access';
+        }
+        const contributor = new Contributor(req.body);
+        console.log('hi');
+        // Access the uploaded image path
+        console.log(req.file);
+        const imagePath = req.file.path;
+        contributor.profileImagePath = imagePath;
+        await contributor.save();
+        console.log('hi');
+        res.json({
+            status: 'ok',
+            message: 'Contributor profile created successfully',
+        });
+    } catch (err) {
+        console.log('error hi', err);
+        res.json({ status: 'error', error: err });
+    }
+});
+
+app.post('/api/units/', authMiddleware, upload.single('unitImage'), async (req, res) => {
+    try {
+        // const user = req.user;
+        // if (user.role !== 'ADMIN' || user.role !== 'admin') {
+        //     throw 'Unauthorized access';
+        // }
+        console.log(req.body);
+        let { unitNumber, unitName, subjectCode, subjectName, unitDescription, unitPrerequisites, unitObjectives } = req.body;
+        unitPrerequisites = unitPrerequisites.split(',');
+        unitObjectives = unitObjectives.split(',');
+        const unit = new Unit({ unitNumber, unitName, subjectCode, subjectName, unitDescription, unitPrerequisites, unitObjectives });
+        // Access the uploaded image path
+        console.log(req.file);
+        const imagePath = req.file.path;
+        unit.unitImagePath = imagePath;
+        await unit.save();
+        res.json({
+            status: 'ok',
+            message: 'Unit added successfully',
+        });
+
+    } catch (err) {
+        console.log('error hi', err);
+        res.json({ status: 'error', error: err });
+    }
+});
+
 /* ROUTES */
 app.get('/', (req, res) => res.sendStatus(200));
 app.use('/api/users', userRoute);
 app.use('/api/subjects', subjectRoute);
 app.use('/api/units', unitRoute);
+app.use('/api/auth', AuthRoute);
+app.use('/api/contributor', ContributorRoute);
+app.use('/api/courses', CourseRoute);
 
 /* MONGOOSE SETUP */
-const PORT = process.env.PORT || 3000;
+const PORT = process.env.PORT || 5000;
 mongoose.connect(process.env.ATLAS_URI, {
     useNewUrlParser: true,
     useUnifiedTopology: true,

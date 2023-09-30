@@ -8,7 +8,11 @@ const {
     createUser
 } = require('../controllers/users');
 
+const authMiddleware = require('../middleware/auth');
+
 const router = express.Router();
+
+router.use(authMiddleware);
 
 /* READ */
 router.get('/', getUsers);
