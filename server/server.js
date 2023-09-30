@@ -19,7 +19,7 @@ const Course = require('./models/Course');
 /* CONFIG */
 const app = express()
 app.use(express.json())
-app.use(express.urlencoded())
+app.use(express.urlencoded({ extended: true }))
 app.use(cors());
 app.use('/assets', express.static('public/assets'))
 
@@ -154,6 +154,7 @@ app.use('/api/subjects', subjectRoute);
 app.use('/api/units', unitRoute);
 app.use('/api/auth', AuthRoute);
 app.use('/api/contributor', ContributorRoute);
+app.use('/api/courses', CourseRoute);
 
 /* MONGOOSE SETUP */
 const PORT = process.env.PORT || 5000;

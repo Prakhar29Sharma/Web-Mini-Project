@@ -52,25 +52,25 @@ function Contributor() {
             {
                 !displayAlert && (
                 <>
-                    <section class="section dashboard">
-                        <div class="row">
+                    <section className="section dashboard">
+                        <div className="row">
                             
-                        <div class="col-lg-8">
-                            <div class="row">
+                        <div className="col-lg-8">
+                            <div className="row">
 
-                            <div class="col-xxl-20 col-md-">
-                            <div class="card info-card sales-card">
+                            <div className="col-xxl-20 col-md-">
+                            <div className="card info-card sales-card">
 
-                                <div class="card-body"><Link to="">
-                                <h5 class="card-title">Get started with contributions</h5>
+                                <div className="card-body"><Link to="">
+                                <h5 className="card-title">Get started with contributions</h5>
 
-                                <div class="d-flex align-items-center">
-                                    <div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
-                                    <Link to="create_course"><i class='fas fa-plus' style={{fontSize:'36px'}}></i></Link>
+                                <div className="d-flex align-items-center">
+                                    <div className="card-icon rounded-circle d-flex align-items-center justify-content-center">
+                                    <Link to="create_course"><i className='fas fa-plus' style={{fontSize:'36px'}}></i></Link>
                                     </div>
-                                    <div class="ps-3">
+                                    <div className="ps-3">
                                     <h6>  </h6>
-                                    <span class="text-success small pt-1 fw-bold"></span> <span class="text-muted small pt-2 ps-1"></span>
+                                    <span className="text-success small pt-1 fw-bold"></span> <span className="text-muted small pt-2 ps-1"></span>
 
                                     </div>
                                 </div></Link>
@@ -80,23 +80,23 @@ function Contributor() {
                             </div>
 
 
-                        <div class="col-xxl-20 col-md-">
-                        <div class="card info-card sales-card">
+                        <div className="col-xxl-20 col-md-">
+                        <div className="card info-card sales-card">
 
-                            <div class="card-body"><Link to="">
-                            <h5 class="card-title">Review and rate others contribution </h5>
+                            <div className="card-body"><Link to="">
+                            <h5 className="card-title">Review and rate others contribution </h5>
 
-                            <div class="d-flex align-items-center">
-                                <div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
+                            <div className="d-flex align-items-center">
+                                <div className="card-icon rounded-circle d-flex align-items-center justify-content-center">
 
-                                <i class="fa fa-star checked"></i>
+                                <i className="fa fa-star checked"></i>
                                 <span ></span>
 
 
                                 </div>
-                                <div class="ps-3">
+                                <div className="ps-3">
                                 <h6>  </h6>
-                                <span class="text-success small pt-1 fw-bold"></span> <span class="text-muted small pt-2 ps-1"></span>
+                                <span className="text-success small pt-1 fw-bold"></span> <span className="text-muted small pt-2 ps-1"></span>
 
                                 </div>
                             </div></Link>
@@ -106,12 +106,12 @@ function Contributor() {
                         </div>
                         </div>
 
-                        <div class="col-lg-8">
-                            <div class="card">
-                                <div class="card-body">
-                                    <h5 class="card-title">My Contributions</h5>
-                                        <div class="card mb-3">
-                                            <div class="row g-0">
+                        <div className="col-lg-8">
+                            <div className="card">
+                                <div className="card-body">
+                                    <h5 className="card-title">My Contributions</h5>
+                                        <div className="card mb-3">
+                                            <div className="row g-0">
                                             </div>
                                         </div>
                                 </div>

@@ -17,7 +17,37 @@ const getCourse = async (req, res) => {
 
 const getCourses = async (req, res) => {
     try {
-        const courses = await Course.find({});
+        const { id, authorName, status, subject, unit } = req.query;
+        if (id) {
+            const course = await Course.findById(id);
+            res.json({
+                status: 'ok',
+                data: course
+            });
+            return;
+        } else if (authorName && status) {
+            const courses = await Course.find({ authorName: authorName, status: status });
+            res.json({
+                status: 'ok',
+                data: courses
+            });
+            return;
+        } else if (subject) {
+            const courses = await Course.find({ 'subjectData.subjectName': subject });
+            res.json({
+                status: 'ok',
+                data: courses
+            });
+            return;
+        } else if (unit) {
+            const courses = await Course.find({ 'unitData.unitName': unit });
+            res.json({
+                status: 'ok',
+                data: courses
+            });
+            return;
+        }
+        const courses = await Course.find();
         res.json({
             status: 'ok',
             data: courses
@@ -55,8 +85,8 @@ const getCoursesByUnit = async (req, res) => {
 
 const getCoursesByAuthor = async (req, res) => {
     try {
-        const { author } = req.params;
-        const courses = await Course.find({ author: author });
+        const { authorName, status } = req.query;
+        const courses = await Course.find({ authorName: authorName, status: status });
         res.json({
             status: 'ok',
             data: courses

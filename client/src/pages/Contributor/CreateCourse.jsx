@@ -8,14 +8,30 @@ export default function CreateCourse() {
 
     const [subjects, setSubjects] = useState([]);
     const [units, setUnits] = useState([]);
+    const [courseDrafts, setCourseDrafts] = useState([{}]);
 
     useEffect(() => {
         const profileData = localStorage.getItem("profileData");
         const profile = JSON.parse(profileData);
-        // console.log(profile);
         const subjectToContrib = JSON.parse(profile.subjectsToContribute);
         // console.log(subjectToContrib);
         setSubjects(subjectToContrib);
+        const authorName = profile.username;
+
+        const fetchCourses = async () => {
+            const response = await axios.get('http://localhost:5000/api/courses', {
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded',
+                    'Authorization': 'Bearer ' + getToken(),
+                },
+                params: {
+                    authorName: authorName,
+                    status: "Draft"
+                },
+            });
+            setCourseDrafts(response.data.data);
+        };
+        fetchCourses();
     }, []); 
 
     const fetchUnits = (e) => {
