@@ -3,6 +3,7 @@ import { getToken } from "../../utils/auth";
 import axios from "axios";
 import { Form } from "react-router-dom";
 import PageTitle from "../../components/PageTitle";
+import CourseCard from "../../components/CourseCard";
 
 export default function CreateCourse() {
 
@@ -21,7 +22,7 @@ export default function CreateCourse() {
         const fetchCourses = async () => {
             const response = await axios.get('http://localhost:5000/api/courses', {
                 headers: {
-                    'Content-Type': 'application/x-www-form-urlencoded',
+                    'Content-Type': 'application/json',
                     'Authorization': 'Bearer ' + getToken(),
                 },
                 params: {
@@ -58,7 +59,7 @@ export default function CreateCourse() {
     return (
         <main className="main" id="main">
             <PageTitle title="Create Course" />
-             <section className="section">
+            <section className="section">
             <div className="row">
                 <div className="col-lg-6">
                     <div className="card">
@@ -96,6 +97,21 @@ export default function CreateCourse() {
                                   </div>
                                 </div>
                             </Form>
+                        </div>
+                    </div>
+                </div>
+
+                <div className="col-lg-6">
+                    <div className="card">
+                        <div className="card-body">
+                            <h5 className="card-title">Drafts</h5>
+                            {
+                                courseDrafts.length > 0 ? courseDrafts.map((course, index) => {
+                                    if (course.unitData === undefined) return null; 
+                                    console.log(course)
+                                    return <CourseCard key={index} unitName={course.unitData.unitName} subjectName={course.subjectData.subjectName} unitDescription={course.unitData.unitDescription} imagePath={course.unitData.unitImagePath} />
+                                }) : <p>No drafts available</p>
+                            }
                         </div>
                     </div>
                 </div>
