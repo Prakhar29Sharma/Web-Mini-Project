@@ -38,7 +38,16 @@ export default function EditCourse() {
                 <div className="col-lg-12">
                     <div className="card">
                         <div className="card-body">
-                            <h5 className="card-title">Create Course</h5>
+                            <h5 className="card-title">Edit Course</h5>
+                            <br />
+                            <div className="row mb-3">
+                                { 
+                                course.unitData !== undefined ? (
+                                    <img src={ 'http://localhost:5000/' + course.unitData.unitImagePath.replace(/\\/g, '/').replace('public/', '').replace(/ /g, '%20') } style={{ width: '600px' }}/>
+                                ) : null 
+                                }
+                                
+                            </div>
 
                             <Form method="post" action="" encType="multipart/form-data">
                                 <div className="row mb-3">
@@ -98,6 +107,14 @@ export default function EditCourse() {
                                   </div>
                                 </div>
 
+                                
+                                <div className="row mb-3">
+                                  <div className="col-sm-10">
+                                  <TinyEditor initialContent={course.courseContent !== undefined ? course.courseContent : "" } fetchContent={(content) => {setContent(content)}} />
+                                  <input type="hidden" name="courseContent" value={content} />
+                                  </div>
+                                </div>
+
                                 {/* <div className="row mb-3">
                                   <label htmlFor="courseVideo" className="col-sm-2 col-form-label">Upload course video</label>
                                   <div className="col-sm-10">
@@ -105,19 +122,41 @@ export default function EditCourse() {
                                   </div>
                                 </div> */}
 
+                                <hr />
+
+                                {
+                                    course.courseVideoPath !== undefined ? (
+                                        <>
+                                        <video width="800px" height="500px" controls="controls">
+                                            <source src={'http://localhost:5000/' + course.courseVideoPath.replace(/\\/g, '/').replace('public/', '').replace(/ /g, '%20')} type="video/mp4" />
+                                        </video>
+                                        </>
+                                    ) : null
+                                }
+
+                                <hr />
+
+                                {
+                                    course.coursePdfPath !== undefined ? (
+                                        <>
+                                        <iframe src={'http://localhost:5000/' + course.coursePdfPath[0].replace(/\\/g, '/').replace('public/', '').replace(/ /g, '%20')} 
+                                        width="800"
+                                        height="500">
+                                        </iframe>
+                                        </>
+                                    ) : null
+                                }
+
+                                <hr />
+
+                                <br />
+
                                 {/* <div className="row mb-3">
                                   <label htmlFor="coursePDFs" className="col-sm-2 col-form-label">Upload course PDFs</label>
                                   <div className="col-sm-10">
                                     <input name="coursePDFs" id="coursePDFs" type="file" accept=".pdf" multiple className="form-control" />
                                   </div>
                                 </div> */}
-
-                                <div className="row mb-3">
-                                  <div className="col-sm-10">
-                                  <TinyEditor initialContent={course.courseContent !== undefined ? course.courseContent : "" } fetchContent={(content) => {setContent(content)}} />
-                                  <input type="hidden" name="courseContent" value={content} />
-                                  </div>
-                                </div>
                             </Form>
                         </div>
                     </div>
