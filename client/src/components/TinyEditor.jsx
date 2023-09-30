@@ -16,7 +16,7 @@ export default function TinyEditor(props) {
           <Editor
             tinymceScriptSrc={process.env.PUBLIC_URL + '/tinymce/tinymce.min.js'}
             onInit={(evt, editor) => editorRef.current = editor}
-            initialValue='<p>This is the initial content of the editor.</p>'
+            initialValue={props.initialContent}
             init={{
               height: 600,
               menubar: true,

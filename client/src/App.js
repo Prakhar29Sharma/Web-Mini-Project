@@ -28,6 +28,7 @@ import Profile from './pages/Contributor/Profile';
 import CreateCourse from './pages/Contributor/CreateCourse';
 import CreateContent from './pages/Contributor/CreateContent';
 import AddUnit from './pages/Admin/AddUnit';
+import EditCourse from './pages/Contributor/EditCourse';
 
 function App() {
 
@@ -72,6 +73,7 @@ function App() {
         { path: 'profile', element: <Profile /> },
         { path: 'create_course', element: <CreateCourse />, action: CreateCourseAction },
         { path: 'create_content/:subject/:unit', element: <CreateContent />, action: CreateContentAction, loader: CreateContentLoader },
+        { path: 'edit_course/:courseId', element: <EditCourse /> },
       ]
     },
     {

@@ -2,7 +2,12 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 
 export default function CourseCard(props) {
-    // console.log(props);
+    
+    const editCourse = () => {     
+        console.log(props.courseId);
+        window.location.href = `/contributor/edit_course/${props.courseId}`;
+    }
+
     return (
         <div className="card mb-3">
           <div className="row g-0">
@@ -15,7 +20,7 @@ export default function CourseCard(props) {
                 <hr />
                 <p style={{ fontSize: '15px', textAlign: 'left' }} className="card-text"><span>{props.subjectName}</span></p>
                 <p className="card-text" style={{ fontSize: "15px", textAlign: 'left' }}>{props.unitDescription}</p>
-                  <Link to="">Edit</Link>
+                  <Link to="" onClick={editCourse}>Edit</Link>
                   &nbsp;&nbsp;&nbsp;
                   <Link to="">Delete</Link>
                   &nbsp;&nbsp;

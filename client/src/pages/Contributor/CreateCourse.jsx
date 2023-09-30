@@ -107,9 +107,8 @@ export default function CreateCourse() {
                             <h5 className="card-title">Drafts</h5>
                             {
                                 courseDrafts.length > 0 ? courseDrafts.map((course, index) => {
-                                    if (course.unitData === undefined) return null; 
-                                    console.log(course)
-                                    return <CourseCard key={index} unitName={course.unitData.unitName} subjectName={course.subjectData.subjectName} unitDescription={course.unitData.unitDescription} imagePath={course.unitData.unitImagePath} />
+                                    if (course.unitData === undefined) return null;
+                                    return <CourseCard key={index} courseId={course._id} unitName={course.unitData.unitName} subjectName={course.subjectData.subjectName} unitDescription={course.unitData.unitDescription} imagePath={course.unitData.unitImagePath} />
                                 }) : <p>No drafts available</p>
                             }
                         </div>
