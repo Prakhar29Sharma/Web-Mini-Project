@@ -22,6 +22,7 @@ import { action as CreateProfileAction } from './pages/Contributor/CreateProfile
 import { action as CreateCourseAction } from './pages/Contributor/CreateCourse';
 import { action as CreateContentAction } from './pages/Contributor/CreateContent';
 import { action as AddUnitAction } from './pages/Admin/AddUnit';
+import { action as EditCourseAction } from './pages/Contributor/EditCourse';
 import logoutAction from "./pages/Logout";
 import CreateProfile from './pages/Contributor/CreateProfile';
 import Profile from './pages/Contributor/Profile';
@@ -73,7 +74,7 @@ function App() {
         { path: 'profile', element: <Profile /> },
         { path: 'create_course', element: <CreateCourse />, action: CreateCourseAction },
         { path: 'create_content/:subject/:unit', element: <CreateContent />, action: CreateContentAction, loader: CreateContentLoader },
-        { path: 'edit_course/:courseId', element: <EditCourse /> },
+        { path: 'edit_course/:courseId', element: <EditCourse />, action: EditCourseAction },
       ]
     },
     {

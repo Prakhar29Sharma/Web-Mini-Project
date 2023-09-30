@@ -36,7 +36,7 @@ export default function TinyEditor(props) {
           <div className="row mb-3">
             <div className="col-sm-10">
               <br />
-              <button type="submit" onClick={log} className="btn btn-primary">Save as a draft</button>
+              <button type="submit" onClick={log} className="btn btn-primary">{props.buttonText}</button>
             </div>
           </div>
         </>

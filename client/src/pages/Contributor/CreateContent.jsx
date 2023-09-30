@@ -139,7 +139,7 @@ export default function CreateContent() {
 
                                 <div className="row mb-3">
                                   <div className="col-sm-10">
-                                  <TinyEditor initialContent="<p>This is initial content</p>" fetchContent={(content) => {setContent(content)}} />
+                                  <TinyEditor initialContent="<p>This is initial content</p>" buttonText="Save as draft" fetchContent={(content) => {setContent(content)}} />
                                   <input type="hidden" name="courseContent" value={content} />
                                   </div>
                                 </div>

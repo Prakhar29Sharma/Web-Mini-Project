@@ -29,7 +29,7 @@ export default function EditCourse() {
             await setUnitData(response.data.data.unitData);
         };
         fetchCourses();
-    }, [])
+    }, [params])
 
     return (
         <main className='main' id='main'>
@@ -43,13 +43,14 @@ export default function EditCourse() {
                             <div className="row mb-3">
                                 { 
                                 course.unitData !== undefined ? (
-                                    <img src={ 'http://localhost:5000/' + course.unitData.unitImagePath.replace(/\\/g, '/').replace('public/', '').replace(/ /g, '%20') } style={{ width: '600px' }}/>
+                                    <img src={ 'http://localhost:5000/' + course.unitData.unitImagePath.replace(/\\/g, '/').replace('public/', '').replace(/ /g, '%20') } style={{ width: '600px' }} alt='course thumbnail'/>
                                 ) : null 
                                 }
                                 
                             </div>
 
                             <Form method="post" action="" encType="multipart/form-data">
+                                <input type='hidden' name='courseId' value={course._id}/>
                                 <div className="row mb-3">
                                   <label htmlFor="subject" className="col-sm-2 col-form-label">Subject</label>
                                   <div className="col-sm-10">
@@ -110,7 +111,7 @@ export default function EditCourse() {
                                 
                                 <div className="row mb-3">
                                   <div className="col-sm-10">
-                                  <TinyEditor initialContent={course.courseContent !== undefined ? course.courseContent : "" } fetchContent={(content) => {setContent(content)}} />
+                                  <TinyEditor initialContent={course.courseContent !== undefined ? course.courseContent : "" } buttonText="Update Content" fetchContent={(content) => {setContent(content)}} />
                                   <input type="hidden" name="courseContent" value={content} />
                                   </div>
                                 </div>
@@ -139,7 +140,7 @@ export default function EditCourse() {
                                 {
                                     course.coursePdfPath !== undefined ? (
                                         <>
-                                        <iframe src={'http://localhost:5000/' + course.coursePdfPath[0].replace(/\\/g, '/').replace('public/', '').replace(/ /g, '%20')} 
+                                        <iframe title='course_pdf' src={'http://localhost:5000/' + course.coursePdfPath[0].replace(/\\/g, '/').replace('public/', '').replace(/ /g, '%20')} 
                                         width="800"
                                         height="500">
                                         </iframe>
@@ -166,3 +167,29 @@ export default function EditCourse() {
         </main>
     );
 }
+
+export async function action({request}) {
+    const form = await request.formData();
+    const formToJSON = {};
+    for (const [key, value] of [...form.entries()]) {
+        formToJSON[key] = value;
+    }
+    console.log(formToJSON);
+    axios.patch(`http://localhost:5000/api/courses/${formToJSON.courseId}`, {}, {
+      headers: {
+        "Content-Type": "application/json",
+        "Authorization": 'Bearer ' + getToken(),
+      },
+      params: {
+        courseContent: formToJSON.courseContent,
+      }
+    })
+    .then((response) => {
+      console.log(response);
+      window.location.href = '/contributor/edit_course/' + formToJSON.courseId;
+    })
+    .catch((error) => {
+      console.log(error);
+    })
+    return null;
+  }

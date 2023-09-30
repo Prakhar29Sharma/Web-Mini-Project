@@ -115,6 +115,33 @@ const createCourse = async (req, res) => {
     }
 };
 
+/* UPDATE */
+
+const updateCourseContent = async (req, res) => {
+    const user = req.user;
+    if (user.role !== 'CONTRIBUTOR') {
+        throw 'Unauthorized access';
+    }
+    const courseId = req.params.courseId;
+    const { courseContent } = req.query;
+    try {
+        const course = await Course.findById(courseId);
+        if (!course) {
+            throw 'Course not found';
+        } else {
+            course.courseContent = courseContent;
+            await course.save();
+            console.log(course);
+            res.json({
+                status: 'ok',
+                message: 'Course content updated successfully',
+            });
+        }
+    } catch (error) {
+        res.json({ status: 'error', error: err });
+    }
+}
+
 module.exports = {
     getCourse,
     getCourses,
@@ -122,4 +149,5 @@ module.exports = {
     getCoursesByUnit,
     getCoursesByAuthor,
     createCourse,
+    updateCourseContent
 };
