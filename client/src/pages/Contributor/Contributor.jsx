@@ -5,15 +5,30 @@ import { Link, useRouteLoaderData } from "react-router-dom";
 import PageTitle from "../../components/PageTitle";
 import Alert from "../../components/Alert";
 import axios from "axios";
+import CourseCard from "../../components/CourseCard";
 
 function Contributor() {
 
     const [displayAlert, setDisplayAlert] = useState(false);
+    const [myCourses, setMyCourses] = useState([]);
 
     useEffect(() => {
 
         const user = localStorage.getItem('user');
         const username = JSON.parse(user).username;
+
+        const fetchCourses = async () => {
+            const response = await axios.get('http://localhost:5000/api/courses', {
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': 'Bearer ' + getToken(),
+                },
+                params: {
+                    authorName: username,
+                },
+            });
+            setMyCourses(response.data.data);
+        };
         
         axios.get(`http://localhost:5000/api/contributor/${username}`, {
             headers: {
@@ -31,11 +46,13 @@ function Contributor() {
                 setDisplayAlert(false);
                 localStorage.setItem('isProfileComplete', true);
                 localStorage.setItem('profileData', JSON.stringify(data.data));
+                fetchCourses();
             }
         })
         .catch((error) => {
             console.log(error);
         });
+
     }, [])
 
     const { isAuthenticated } = useRouteLoaderData('contributor');
@@ -110,10 +127,23 @@ function Contributor() {
                             <div className="card">
                                 <div className="card-body">
                                     <h5 className="card-title">My Contributions</h5>
-                                        <div className="card mb-3">
-                                            <div className="row g-0">
-                                            </div>
-                                        </div>
+                                    {
+                                        myCourses.length > 0 ? myCourses.map((course, index) => {
+                                            if (course.unitData === undefined) return null;
+                                            return <CourseCard 
+                                                key={index} 
+                                                courseId={course._id} 
+                                                unitName={course.unitData.unitName} 
+                                                subjectName={course.subjectData.subjectName} 
+                                                unitDescription={course.unitData.unitDescription} 
+                                                imagePath={course.unitData.unitImagePath}
+                                                handleCourseSubmit={() => null}
+                                                handleCourseDelete={() => null}
+                                                cardType="View"
+                                                status={course.status}
+                                            />
+                                        }) : <p>No drafts available</p>
+                                    }
                                 </div>
                             </div>
                         </div>

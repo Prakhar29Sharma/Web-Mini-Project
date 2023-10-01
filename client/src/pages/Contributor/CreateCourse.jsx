@@ -182,6 +182,8 @@ export default function CreateCourse() {
                                         imagePath={course.unitData.unitImagePath}
                                         handleCourseSubmit={handleSubmit}
                                         handleCourseDelete={handleDelete}
+                                        cardType="Draft"
+                                        status={course.status}
                                     />
                                 }) : <p>No drafts available</p>
                             }
