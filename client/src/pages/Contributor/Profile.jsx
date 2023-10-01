@@ -55,6 +55,7 @@ export default function Profile() {
                             <div className="social-links mt-2">
                                 <Link to={profileData.github} className="github"><i className="bi bi-github"></i></Link>
                                 <Link to={profileData.linkedIn} className="linkedin"><i className="bi bi-linkedin"></i></Link>
+                                <Link to={profileData.portfolio} className="portfolio"><i className="bi bi-link"></i></Link>
                             </div>
                             </div>
                         </div>
