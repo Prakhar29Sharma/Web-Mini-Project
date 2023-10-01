@@ -175,9 +175,10 @@ export async function action({request}) {
   })
   .then((response) => {
     console.log(response);
-    if (response.status === 'ok') {
-      window.location.href = '/contributor';
-    }
+    // if (response.status === 'ok') {
+    //   window.location.href = '/contributor';
+    // }
+    window.location.href = '/contributor/create_course';
   })
   .catch((error) => {
     console.log(error);

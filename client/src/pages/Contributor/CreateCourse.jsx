@@ -84,9 +84,11 @@ export default function CreateCourse() {
             console.log(error);
         });
         setShowDeleteAlertDialog(false);
-        window.location.reload();
         setSnackbarMessage("Course deleted successfully!");
         setShowSnackbar(true);
+        setTimeout(() => {
+            window.location.reload();
+        }, 3000);
     }
 
     const handleDeleteDialogClose = () => {
@@ -116,9 +118,11 @@ export default function CreateCourse() {
             console.log(error);
         })
         setShowSubmitAlertDialog(false);
-        window.location.reload();
         setSnackbarMessage("Course submitted successfully!");
         setShowSnackbar(true);
+        setTimeout(() => {
+            window.location.reload();
+        }, 3000);
     }
 
     const handleDialogClose = () => {
