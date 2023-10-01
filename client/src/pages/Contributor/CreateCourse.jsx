@@ -5,6 +5,7 @@ import { Form } from "react-router-dom";
 import PageTitle from "../../components/PageTitle";
 import CourseCard from "../../components/CourseCard";
 import AlertDialog from "../../components/AlertDialog";
+import CustomizedSnackbars from "../../components/CustomizedSnackbar";
 
 export default function CreateCourse() {
 
@@ -13,6 +14,8 @@ export default function CreateCourse() {
     const [courseDrafts, setCourseDrafts] = useState([{}]);
     const [showSubmitAlertDialog, setShowSubmitAlertDialog] = useState(false);
     const [showDeleteAlertDialog, setShowDeleteAlertDialog] = useState(false);
+    const [showSnackbar, setShowSnackbar] = useState(false);
+    const [snackbarMessage, setSnackbarMessage] = useState('');
     const [submitCourseId, setSubmitCourseId] = useState('');
     const [deleteCourseId, setDeleteCourseId] = useState('');
 
@@ -82,6 +85,8 @@ export default function CreateCourse() {
         });
         setShowDeleteAlertDialog(false);
         window.location.reload();
+        setSnackbarMessage("Course deleted successfully!");
+        setShowSnackbar(true);
     }
 
     const handleDeleteDialogClose = () => {
@@ -112,16 +117,23 @@ export default function CreateCourse() {
         })
         setShowSubmitAlertDialog(false);
         window.location.reload();
+        setSnackbarMessage("Course submitted successfully!");
+        setShowSnackbar(true);
     }
 
     const handleDialogClose = () => {
         setShowSubmitAlertDialog(false);
     }
 
+    const handleSnackbarClose = () => {
+        setShowSnackbar(false);
+    }
+
     return (
         <>
         { showSubmitAlertDialog ? <AlertDialog title={"Do you want to continue?"} description={"Do you want to submit this course for review?"} handleDialogClose={handleDialogClose} handleCourseSubmit={handleCourseSubmit} courseId={submitCourseId}/> : null }
         { showDeleteAlertDialog ? <AlertDialog title={"Do you want to continue?"} description={"Do you want to delete this draft course?"} handleDialogClose={handleDeleteDialogClose} handleCourseSubmit={handleCourseDelete} courseId={deleteCourseId}/> : null }
+        { showSnackbar ? <CustomizedSnackbars message={snackbarMessage} handleSnackbarClose={handleSnackbarClose}/> : null }
         <main className="main" id="main">
             <PageTitle title="Create Course" />
             <section className="section">
