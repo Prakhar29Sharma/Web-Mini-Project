@@ -77,14 +77,18 @@ app.post('/api/courses/', authMiddleware, fileUploadMiddleware, async (req, res)
         });
         // Access the uploaded video's filename and path
         // console.log("files", req.files);
-        const videoFile = req.files.courseVideo[0];
         // console.log(videoFile.path);
-        course.courseVideoPath = videoFile.path;
-        // Access the uploaded PDFs' filenames and paths
-        const pdfFiles = req.files.coursePDFs; // Make sure to use req.files, which should be an array
-        const pdfPaths = pdfFiles.map((file) => file.path);
-        // console.log(pdfPaths);
-        course.coursePdfPath = pdfPaths;
+        if (req.files.courseVideo !== undefined) {
+            const videoFile = req.files.courseVideo[0];
+            course.courseVideoPath = videoFile.path;
+        }
+        if (req.files.coursePDFs !== undefined) {
+            // Access the uploaded PDFs' filenames and paths
+            const pdfFiles = req.files.coursePDFs; // Make sure to use req.files, which should be an array
+            const pdfPaths = pdfFiles.map((file) => file.path);
+            // console.log(pdfPaths);
+            course.coursePdfPath = pdfPaths;
+        }
         await course.save();
         res.json({
             status: 'ok',
