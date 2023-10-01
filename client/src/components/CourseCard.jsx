@@ -4,8 +4,18 @@ import { Link } from 'react-router-dom';
 export default function CourseCard(props) {
     
     const editCourse = () => {     
-        console.log(props.courseId);
-        window.location.href = `/contributor/edit_course/${props.courseId}`;
+      console.log(props.courseId);
+      window.location.href = `/contributor/edit_course/${props.courseId}`;
+    }
+
+    const submitCourse = () => {
+      // console.log('submit course : ', props.courseId);
+      props.handleCourseSubmit(props.courseId);
+      // window.location.href = `/contributor/create_course/`;
+    }
+
+    const deleteCourse = () => {
+      props.handleCourseDelete(props.courseId)
     }
 
     return (
@@ -22,9 +32,9 @@ export default function CourseCard(props) {
                 <p className="card-text" style={{ fontSize: "15px", textAlign: 'left' }}>{props.unitDescription}</p>
                   <Link to="" onClick={editCourse}>Edit</Link>
                   &nbsp;&nbsp;&nbsp;
-                  <Link to="">Delete</Link>
+                  <Link to="" onClick={deleteCourse}>Delete</Link>
                   &nbsp;&nbsp;
-                  <Link to="">Submit</Link>
+                  <Link to="" onClick={submitCourse}>Submit</Link>
               </div>
             </div>
           </div>

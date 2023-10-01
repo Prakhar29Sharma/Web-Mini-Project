@@ -4,12 +4,17 @@ import axios from "axios";
 import { Form } from "react-router-dom";
 import PageTitle from "../../components/PageTitle";
 import CourseCard from "../../components/CourseCard";
+import AlertDialog from "../../components/AlertDialog";
 
 export default function CreateCourse() {
 
     const [subjects, setSubjects] = useState([]);
     const [units, setUnits] = useState([]);
     const [courseDrafts, setCourseDrafts] = useState([{}]);
+    const [showSubmitAlertDialog, setShowSubmitAlertDialog] = useState(false);
+    const [showDeleteAlertDialog, setShowDeleteAlertDialog] = useState(false);
+    const [submitCourseId, setSubmitCourseId] = useState('');
+    const [deleteCourseId, setDeleteCourseId] = useState('');
 
     useEffect(() => {
         const profileData = localStorage.getItem("profileData");
@@ -56,7 +61,38 @@ export default function CreateCourse() {
         })
     }
 
+    const handleDelete = (courseId) => {
+        setShowDeleteAlertDialog(true);
+        setDeleteCourseId(courseId);
+    }
+
+    const handleCourseDelete = (courseId) => {
+        console.log("proceeding to delete : ", courseId);
+        setShowDeleteAlertDialog(false);
+    }
+
+    const handleDeleteDialogClose = () => {
+        setShowDeleteAlertDialog(false);
+    }
+
+    const handleSubmit = (courseId) => {
+        setShowSubmitAlertDialog(true);
+        setSubmitCourseId(courseId);
+    }
+
+    const handleCourseSubmit = (courseId) => {
+        console.log("proceeding to submit : ", courseId);
+        setShowSubmitAlertDialog(false);
+    }
+
+    const handleDialogClose = () => {
+        setShowSubmitAlertDialog(false);
+    }
+
     return (
+        <>
+        { showSubmitAlertDialog ? <AlertDialog title={"Do you want to continue?"} description={"Do you want to submit this course for review?"} handleDialogClose={handleDialogClose} handleCourseSubmit={handleCourseSubmit} courseId={submitCourseId}/> : null }
+        { showDeleteAlertDialog ? <AlertDialog title={"Do you want to continue?"} description={"Do you want to delete this draft course?"} handleDialogClose={handleDeleteDialogClose} handleCourseSubmit={handleCourseDelete} courseId={deleteCourseId}/> : null }
         <main className="main" id="main">
             <PageTitle title="Create Course" />
             <section className="section">
@@ -108,7 +144,16 @@ export default function CreateCourse() {
                             {
                                 courseDrafts.length > 0 ? courseDrafts.map((course, index) => {
                                     if (course.unitData === undefined) return null;
-                                    return <CourseCard key={index} courseId={course._id} unitName={course.unitData.unitName} subjectName={course.subjectData.subjectName} unitDescription={course.unitData.unitDescription} imagePath={course.unitData.unitImagePath} />
+                                    return <CourseCard 
+                                        key={index} 
+                                        courseId={course._id} 
+                                        unitName={course.unitData.unitName} 
+                                        subjectName={course.subjectData.subjectName} 
+                                        unitDescription={course.unitData.unitDescription} 
+                                        imagePath={course.unitData.unitImagePath}
+                                        handleCourseSubmit={handleSubmit}
+                                        handleCourseDelete={handleDelete}
+                                    />
                                 }) : <p>No drafts available</p>
                             }
                         </div>
@@ -117,6 +162,7 @@ export default function CreateCourse() {
             </div>
         </section>
         </main>
+        </>
     )
 }
 

@@ -123,13 +123,18 @@ const updateCourseContent = async (req, res) => {
         throw 'Unauthorized access';
     }
     const courseId = req.params.courseId;
-    const { courseContent } = req.query;
+    const { courseContent, status } = req.query;
     try {
         const course = await Course.findById(courseId);
         if (!course) {
             throw 'Course not found';
         } else {
-            course.courseContent = courseContent;
+            if (courseContent) {
+                course.courseContent = courseContent;
+            }
+            if (status) {
+                course.status = status;
+            }
             await course.save();
             console.log(course);
             res.json({
