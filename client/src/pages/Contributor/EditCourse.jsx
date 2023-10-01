@@ -42,7 +42,7 @@ export default function EditCourse() {
                             <br />
                             <div className="row mb-3">
                                 { 
-                                course.unitData !== undefined ? (
+                                course.unitData !== undefined && course.unitData.unitImagePath !== undefined ? (
                                     <img src={ 'http://localhost:5000/' + course.unitData.unitImagePath.replace(/\\/g, '/').replace('public/', '').replace(/ /g, '%20') } style={{ width: '600px' }} alt='course thumbnail'/>
                                 ) : null 
                                 }
@@ -126,7 +126,7 @@ export default function EditCourse() {
                                 <hr />
 
                                 {
-                                    course.courseVideoPath !== undefined ? (
+                                    course.courseVideoPath !== undefined && course.courseVideoPath !== '' ? (
                                         <>
                                         <video width="800px" height="500px" controls="controls">
                                             <source src={'http://localhost:5000/' + course.courseVideoPath.replace(/\\/g, '/').replace('public/', '').replace(/ /g, '%20')} type="video/mp4" />
@@ -138,7 +138,7 @@ export default function EditCourse() {
                                 <hr />
 
                                 {
-                                    course.coursePdfPath !== undefined ? (
+                                    course.coursePdfPath !== undefined && course.coursePdfPath[0] !== undefined  ? (
                                         <>
                                         <iframe title='course_pdf' src={'http://localhost:5000/' + course.coursePdfPath[0].replace(/\\/g, '/').replace('public/', '').replace(/ /g, '%20')} 
                                         width="800"
