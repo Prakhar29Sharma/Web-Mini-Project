@@ -48,40 +48,40 @@ export default function ViewCourse() {
 
                                 <div style={{height:'25px'}} className="row"></div>
 
-                                <p>Author: {course.authorName !== undefined ? course.authorName : null }</p>
+                                <p style={{ textAlign: 'left', fontSize: '15px' }} ><span style={{ fontWeight: 'bold' }}>Author: </span> {course.authorName !== undefined ? course.authorName : null }</p>
 
                                 <div style={{height:'25px'}} className="row"></div>
 
-                                <div classNameName="row mb-3">
-                                  <label htmlFor="subject" classNameName="col-sm-2 col-form-label">Subject</label>
-                                  <div classNameName="col-sm-10">
+                                <div className="row mb-3">
+                                  <label htmlFor="subject" className="col-sm-2 col-form-label">Subject</label>
+                                  <div className="col-sm-10">
                                     {course.subjectData !== undefined ? course.subjectData.subjectName : "" }
                                   </div>
                                 </div>
 
                                 <div style={{height:'25px'}} className="row"></div>
 
-                                <div classNameName="row mb-3">
-                                  <label htmlFor="unit" classNameName="col-sm-2 col-form-label">Unit</label>
-                                  <div classNameName="col-sm-10">
+                                <div className="row mb-3">
+                                  <label htmlFor="unit" className="col-sm-2 col-form-label">Unit</label>
+                                  <div className="col-sm-10">
                                     { unitData.unitName !== undefined ? unitData.unitName : null }
                                   </div>
                                 </div>
 
                                 <div style={{height:'25px'}} className="row"></div>
 
-                                <div classNameName="row mb-3">
-                                  <label htmlFor="course_desc" classNameName="col-sm-2 col-form-label">Course Description</label>
-                                  <div classNameName="col-sm-10">
+                                <div className="row mb-3">
+                                  <label htmlFor="course_desc" className="col-sm-2 col-form-label">Course Description</label>
+                                  <div className="col-sm-10">
                                     {unitData.unitDescription !== undefined ? unitData.unitDescription : null }
                                   </div>
                                 </div>
 
                                 <div style={{height:'25px'}} className="row"></div>
 
-                                <div classNameName="row mb-3">
-                                  <label htmlFor="course_objectives" classNameName="col-sm-2 col-form-label">Course Objectives</label>
-                                  <div classNameName="col-sm-10">
+                                <div className="row mb-3">
+                                  <label htmlFor="course_objectives" className="col-sm-2 col-form-label">Course Objectives</label>
+                                  <div className="col-sm-10">
                                     <ul>
                                       {
                                         unitData.unitObjectives !== undefined ? unitData.unitObjectives.map((objective, index) => {
@@ -96,9 +96,9 @@ export default function ViewCourse() {
                                   </div>
                                 </div>
 
-                                <div classNameName="row mb-3">
-                                  <label htmlFor="course_prerequisites" classNameName="col-sm-2 col-form-label">Course Prerequisites</label>
-                                  <div classNameName="col-sm-10">
+                                <div className="row mb-3">
+                                  <label htmlFor="course_prerequisites" className="col-sm-2 col-form-label">Course Prerequisites</label>
+                                  <div className="col-sm-10">
                                     <ul>
                                       {
                                         unitData.unitPrerequisites !== undefined ? unitData.unitPrerequisites.map((prereq, index) => {
