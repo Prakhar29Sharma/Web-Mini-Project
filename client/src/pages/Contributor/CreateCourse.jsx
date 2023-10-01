@@ -68,7 +68,20 @@ export default function CreateCourse() {
 
     const handleCourseDelete = (courseId) => {
         console.log("proceeding to delete : ", courseId);
+        axios.delete(`http://localhost:5000/api/courses/${courseId}`, {
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': 'Bearer ' + getToken(),
+            },
+        })
+        .then((response) => {
+            console.log(response);
+        })
+        .catch((error) => {
+            console.log(error);
+        });
         setShowDeleteAlertDialog(false);
+        window.location.reload();
     }
 
     const handleDeleteDialogClose = () => {
@@ -82,7 +95,23 @@ export default function CreateCourse() {
 
     const handleCourseSubmit = (courseId) => {
         console.log("proceeding to submit : ", courseId);
+        axios.patch(`http://localhost:5000/api/courses/${courseId}`, {}, {
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': 'Bearer ' + getToken(),
+            },
+            params: {
+                status: "UnderReview"
+            }
+        })
+        .then((response) => {
+            console.log(response);
+        })
+        .catch((error) => {
+            console.log(error);
+        })
         setShowSubmitAlertDialog(false);
+        window.location.reload();
     }
 
     const handleDialogClose = () => {

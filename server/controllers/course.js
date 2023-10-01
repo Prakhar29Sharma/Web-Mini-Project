@@ -147,6 +147,30 @@ const updateCourseContent = async (req, res) => {
     }
 }
 
+/* DELETE */
+
+const deleteCourse = async (req, res) => {
+    const user = req.user;
+    if (user.role !== 'CONTRIBUTOR') {
+        throw 'Unauthorized access';
+    }
+    try {
+        const id = req.params.courseId;
+        const course = await Course.findOne({ _id: id });
+        if (course) {
+            await Course.deleteOne({ _id: id });
+            res.json({
+                status: 'ok',
+                message: 'deleted course with id = ' + id,
+            });
+        } else {
+            throw "Course not found";
+        }
+    } catch (err) {
+        res.json({ status: 'error', error: err });
+    }
+}
+
 module.exports = {
     getCourse,
     getCourses,
@@ -154,5 +178,6 @@ module.exports = {
     getCoursesByUnit,
     getCoursesByAuthor,
     createCourse,
-    updateCourseContent
+    updateCourseContent,
+    deleteCourse
 };
