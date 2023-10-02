@@ -18,13 +18,13 @@ function Sidebar() {
           </Link>
         </li>
         <li className="nav-item">
-          <Link to="" className="nav-link">
+          <Link to="/contributor" className="nav-link">
             <i className="bi bi-grid"></i>
             <span>View your contributions</span>
           </Link>
         </li>
         <li className="nav-item">
-          <Link to="" className="nav-link">
+          <Link to="/contributor/view_others_contribution" className="nav-link">
             <i className="bi bi-grid"></i>
             <span>Rate and review other contributions</span>
           </Link>

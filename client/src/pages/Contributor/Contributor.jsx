@@ -100,7 +100,7 @@ function Contributor() {
                         <div className="col-xxl-20 col-md-">
                         <div className="card info-card sales-card">
 
-                            <div className="card-body"><Link to="">
+                            <div className="card-body"><Link to="/contributor/view_others_contribution">
                             <h5 className="card-title">Review and rate others contribution </h5>
 
                             <div className="d-flex align-items-center">
