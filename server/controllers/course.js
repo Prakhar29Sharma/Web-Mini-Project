@@ -39,6 +39,13 @@ const getCourses = async (req, res) => {
                 data: courses
             });
             return;
+        } else if (status) {
+            const courses = await Course.find({ status: status });
+            res.json({
+                status: 'ok',
+                data: courses
+            });
+            return;
         } else if (subject) {
             const courses = await Course.find({ 'subjectData.subjectName': subject });
             res.json({

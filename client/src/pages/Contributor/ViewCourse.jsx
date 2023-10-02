@@ -15,6 +15,7 @@ export default function ViewCourse() {
 
     const [course, setCourse] = useState('');
     const [unitData, setUnitData] = useState({});
+    const [authorName, setAuthorName] = useState('');
 
     useEffect(() => {
         const fetchCourses = async () => {
@@ -31,7 +32,19 @@ export default function ViewCourse() {
             await setUnitData(response.data.data.unitData);
         };
         fetchCourses();
-    });
+        const fetchUsersName = async () => {
+          const response = await axios.get('http://localhost:5000/api/contributor/' + course.authorName, {
+            headers: {
+              'Content-Type': 'application/json',
+              'Authorization': 'Bearer ' + getToken(), 
+            },
+          });
+          if (response.data.data !== undefined) {
+            setAuthorName(response.data.data.firstName + ' ' + response.data.data.lastName);
+          }
+        }
+        fetchUsersName();
+    }, [courseId, course.authorName]);
 
     return (
         <main id="main" className="main">
@@ -48,7 +61,7 @@ export default function ViewCourse() {
 
                                 <div style={{height:'25px'}} className="row"></div>
 
-                                <p style={{ textAlign: 'left', fontSize: '15px' }} ><span style={{ fontWeight: 'bold' }}>Author: </span> {course.authorName !== undefined ? course.authorName : null }</p>
+                                <p style={{ textAlign: 'left', fontSize: '15px' }} ><span style={{ fontWeight: 'bold' }}>Author: </span> {authorName !== undefined ? authorName : null }</p>
 
                                 <div style={{height:'25px'}} className="row"></div>
 
