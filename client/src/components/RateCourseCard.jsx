@@ -36,7 +36,7 @@ export default function RateCourseCard(props) {
                 <p className="card-text" style={{ fontSize: "15px", textAlign: 'left' }}><span>Author: </span> {authorName}</p>
                 <p style={{ fontSize: '13px', textAlign: 'left' }}><span style={{ fontWeight: 'bold' }}>Status: </span>{props.status}</p>
                 <BasicRating type='read' size='medium' rating={3} />
-                <Link to="">Review and Rate</Link>
+                <Link to={`/contributor/rate_and_review/${props.courseId}`}>Review and Rate</Link>
               </div>
             </div>
           </div>
