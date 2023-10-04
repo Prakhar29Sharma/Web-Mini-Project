@@ -3,6 +3,7 @@ import PageTitle from '../../components/PageTitle';
 import { Link } from 'react-router-dom';
 import { getToken } from '../../utils/auth';
 import axios from 'axios';
+import BasicChips from '../../components/BasicChips';
 
 export default function Profile() {
 
@@ -19,7 +20,7 @@ export default function Profile() {
             }
         })
         .then((response) => {
-            // console.log(response.data.data);
+            console.log(response.data.data);
             setProfileData(response.data.data);
             const profileImagePath = response.data.data.profileImagePath;
             if (profileImagePath === null) {
@@ -53,8 +54,9 @@ export default function Profile() {
                             <h2>{profileData.firstName} {profileData.lastName}</h2>
                             <h3>Contributor</h3>
                             <div className="social-links mt-2">
-                                <Link to={profileData.github} className="github"><i className="bi bi-github"></i></Link>
-                                <Link to={profileData.linkedIn} className="linkedin"><i className="bi bi-linkedin"></i></Link>
+                                <Link to={profileData.github} className="github" target='_blank'><i className="bi bi-github"></i></Link>
+                                <Link to={profileData.linkedIn} className="linkedin" target='_blank'><i className="bi bi-linkedin"></i></Link>
+                                <Link to={profileData.portfolio} className="portfolio" target='_blank'><i className="bi bi-link"></i></Link>
                             </div>
                             </div>
                         </div>
@@ -131,12 +133,26 @@ export default function Profile() {
 
                                 <div className="row">
                                     <div className="col-lg-3 col-md-4 label">Subjects to Contribute</div>
-                                    <div className="col-lg-9 col-md-8">{ profileData.subjectsToContribute }</div>
+                                    <div className="col-lg-9 col-md-8">{ /* profileData.subjectsToContribute */ }{
+                                        profileData.subjectsOfInterest !== undefined ? profileData.subjectsToContribute[0].slice(1, -1).split(",").map((subject, index) => {
+                                            return (
+                                                <BasicChips key={index} label={JSON.parse(subject)} />
+                                            );
+                                        }) : ""
+                                    }</div>
                                 </div>
 
                                 <div className="row">
                                     <div className="col-lg-3 col-md-4 label">Subjects of Interest</div>
-                                    <div className="col-lg-9 col-md-8">{ profileData.subjectsOfInterest }</div>
+                                    <div className="col-lg-9 col-md-8">{ /* profileData.subjectsOfInterest */ } {
+                                        profileData.subjectsOfInterest !== undefined ? profileData.subjectsOfInterest[0].slice(1, -1).split(",").map((subject, index) => {
+                                            return (
+                                                <>
+                                                    <BasicChips key={index} label={JSON.parse(subject)} />
+                                                </>
+                                            );
+                                        }) : ""
+                                    }</div>
                                 </div>
                             </div>
                     </div>

@@ -22,6 +22,7 @@ import { action as CreateProfileAction } from './pages/Contributor/CreateProfile
 import { action as CreateCourseAction } from './pages/Contributor/CreateCourse';
 import { action as CreateContentAction } from './pages/Contributor/CreateContent';
 import { action as AddUnitAction } from './pages/Admin/AddUnit';
+import { action as EditCourseAction } from './pages/Contributor/EditCourse';
 import logoutAction from "./pages/Logout";
 import CreateProfile from './pages/Contributor/CreateProfile';
 import Profile from './pages/Contributor/Profile';
@@ -29,6 +30,9 @@ import CreateCourse from './pages/Contributor/CreateCourse';
 import CreateContent from './pages/Contributor/CreateContent';
 import AddUnit from './pages/Admin/AddUnit';
 import EditCourse from './pages/Contributor/EditCourse';
+import ViewCourse from './pages/Contributor/ViewCourse';
+import RateAndReview from './pages/Contributor/RateAndReview';
+import ViewOthersContribution from './pages/Contributor/ViewOthersContribution';
 
 function App() {
 
@@ -73,7 +77,10 @@ function App() {
         { path: 'profile', element: <Profile /> },
         { path: 'create_course', element: <CreateCourse />, action: CreateCourseAction },
         { path: 'create_content/:subject/:unit', element: <CreateContent />, action: CreateContentAction, loader: CreateContentLoader },
-        { path: 'edit_course/:courseId', element: <EditCourse /> },
+        { path: 'edit_course/:courseId', element: <EditCourse />, action: EditCourseAction },
+        { path: 'course/:courseId', element: <ViewCourse /> },
+        { path: 'view_others_contribution', element: <ViewOthersContribution /> },
+        { path: 'rate_and_review/:courseId', element: <RateAndReview /> }
       ]
     },
     {

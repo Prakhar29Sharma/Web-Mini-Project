@@ -1,18 +1,21 @@
 import React, { useEffect, useState } from 'react';
-import { Form, useParams } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 import { getToken } from '../../utils/auth';
 import axios from 'axios';
-import TinyEditor from '../../components/TinyEditor';
+import PageTitle from '../../components/PageTitle';
+// import { SafeHTML } from '../../components/SafeHTML';
+import "./ViewCourse.modules.css";
+import TinyMCEViewer from '../../components/TinyMCEViewer';
 
-export default function EditCourse() {
+export default function ViewCourse() {
 
     const params = useParams();
 
-    const [content, setContent] = useState('');
+    const { courseId } = params;
 
+    const [course, setCourse] = useState('');
     const [unitData, setUnitData] = useState({});
-
-    const [course, setCourse] = useState({});
+    const [authorName, setAuthorName] = useState('');
 
     useEffect(() => {
         const fetchCourses = async () => {
@@ -22,57 +25,72 @@ export default function EditCourse() {
                     'Authorization': 'Bearer ' + getToken(),
                 },
                 params: {
-                    id: params.courseId,
+                    id: courseId,
                 },
             });
             await setCourse(response.data.data);
             await setUnitData(response.data.data.unitData);
         };
         fetchCourses();
-    }, [params])
+        const fetchUsersName = async () => {
+          const response = await axios.get('http://localhost:5000/api/contributor/' + course.authorName, {
+            headers: {
+              'Content-Type': 'application/json',
+              'Authorization': 'Bearer ' + getToken(), 
+            },
+          });
+          if (response.data.data !== undefined) {
+            setAuthorName(response.data.data.firstName + ' ' + response.data.data.lastName);
+          }
+        }
+        fetchUsersName();
+    }, [courseId, course.authorName]);
 
     return (
-        <main className='main' id='main'>
-            <section className="section">
+        <main id="main" className="main">
+
+        <PageTitle title="View Course" />
+
+        <section className="section">
             <div className="row">
-                <div className="col-lg-12">
+                <div className="col-lg-10">
                     <div className="card">
                         <div className="card-body">
-                            <h5 className="card-title">Edit Course</h5>
-                            <br />
-                            <div className="row mb-3">
-                                { 
-                                course.unitData !== undefined && course.unitData.unitImagePath !== undefined ? (
-                                    <img src={ 'http://localhost:5000/' + course.unitData.unitImagePath.replace(/\\/g, '/').replace('public/', '').replace(/ /g, '%20') } style={{ width: '600px' }} alt='course thumbnail'/>
-                                ) : null 
-                                }
-                                
-                            </div>
 
-                            <Form method="post" action="" encType="multipart/form-data">
-                                <input type='hidden' name='courseId' value={course._id}/>
+                                <h5 className="card-title" style={{fontSize:'30px'}}>{ unitData.unitName !== undefined ? course.unitData.unitName : null }</h5>
+
+                                <div style={{height:'25px'}} className="row"></div>
+
+                                <p style={{ textAlign: 'left', fontSize: '15px' }} ><span style={{ fontWeight: 'bold' }}>Author: </span> {authorName !== undefined ? authorName : null }</p>
+
+                                <div style={{height:'25px'}} className="row"></div>
+
                                 <div className="row mb-3">
                                   <label htmlFor="subject" className="col-sm-2 col-form-label">Subject</label>
                                   <div className="col-sm-10">
                                     {course.subjectData !== undefined ? course.subjectData.subjectName : "" }
                                   </div>
-                                  {/* <input type='hidden' name='subjectCode' value={subjectCodeHiddenField} onChange={(e) => {setSubjectCodeHiddenField(e.target.value)}}/> */}
                                 </div>
+
+                                <div style={{height:'25px'}} className="row"></div>
 
                                 <div className="row mb-3">
                                   <label htmlFor="unit" className="col-sm-2 col-form-label">Unit</label>
                                   <div className="col-sm-10">
-                                    { course.unitData ? course.unitData.unitName : "" }
+                                    { unitData.unitName !== undefined ? unitData.unitName : null }
                                   </div>
-                                  {/* <input type='hidden' name='unitNumber' value={unitNumberHiddenField} onChange={(e) => {setUnitNumberHiddenField(e.target.value)}}/> */}
                                 </div>
+
+                                <div style={{height:'25px'}} className="row"></div>
 
                                 <div className="row mb-3">
                                   <label htmlFor="course_desc" className="col-sm-2 col-form-label">Course Description</label>
                                   <div className="col-sm-10">
-                                    {course.unitData ? course.unitData.unitDescription : "" }
+                                    {unitData.unitDescription !== undefined ? unitData.unitDescription : null }
                                   </div>
                                 </div>
+
+                                <div style={{height:'25px'}} className="row"></div>
 
                                 <div className="row mb-3">
                                   <label htmlFor="course_objectives" className="col-sm-2 col-form-label">Course Objectives</label>
@@ -108,20 +126,7 @@ export default function EditCourse() {
                                   </div>
                                 </div>
 
-                                
-                                <div className="row mb-3">
-                                  <div className="col-sm-10">
-                                  <TinyEditor initialContent={course.courseContent !== undefined ? course.courseContent : "" } buttonText="Update Content" fetchContent={(content) => {setContent(content)}} />
-                                  <input type="hidden" name="courseContent" value={content} />
-                                  </div>
-                                </div>
-
-                                {/* <div className="row mb-3">
-                                  <label htmlFor="courseVideo" className="col-sm-2 col-form-label">Upload course video</label>
-                                  <div className="col-sm-10">
-                                    <input name="courseVideo" id="courseVideo" type="file" accept="video/*" className="form-control" />
-                                  </div>
-                                </div> */}
+                                <div style={{height:'25px'}} className="row"></div>
 
                                 <hr />
 
@@ -150,46 +155,24 @@ export default function EditCourse() {
 
                                 <hr />
 
+                                <div className="row">
+                                    <div className="col-lg-3 col-md-4 label" style={{fontSize: '20px'}}>Notes</div>
+                                    <div className="col-lg-9 col-md-8">
+                                    {/* <SafeHTML className={"space-y-2 sm:space-y-4"} >
+                                    { course.courseContent !== undefined ? course.courseContent : null }
+                                    </SafeHTML> */}
+                                    </div>
+                                </div>
                                 <br />
 
-                                {/* <div className="row mb-3">
-                                  <label htmlFor="coursePDFs" className="col-sm-2 col-form-label">Upload course PDFs</label>
-                                  <div className="col-sm-10">
-                                    <input name="coursePDFs" id="coursePDFs" type="file" accept=".pdf" multiple className="form-control" />
-                                  </div>
-                                </div> */}
-                            </Form>
+                                <TinyMCEViewer initialContent={course.courseContent !== undefined ? course.courseContent : null} />
+
+                                <div style={{height:'25px'}} className="row"></div>
                         </div>
                     </div>
                 </div>
             </div>
         </section>
-        </main>
+    </main>
     );
 }
-
-export async function action({request}) {
-    const form = await request.formData();
-    const formToJSON = {};
-    for (const [key, value] of [...form.entries()]) {
-        formToJSON[key] = value;
-    }
-    console.log(formToJSON);
-    axios.patch(`http://localhost:5000/api/courses/${formToJSON.courseId}`, {}, {
-      headers: {
-        "Content-Type": "application/json",
-        "Authorization": 'Bearer ' + getToken(),
-      },
-      params: {
-        courseContent: formToJSON.courseContent,
-      }
-    })
-    .then((response) => {
-      console.log(response);
-      window.location.href = '/contributor/edit_course/' + formToJSON.courseId;
-    })
-    .catch((error) => {
-      console.log(error);
-    })
-    return null;
-  }

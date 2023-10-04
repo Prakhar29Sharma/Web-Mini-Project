@@ -4,8 +4,18 @@ import { Link } from 'react-router-dom';
 export default function CourseCard(props) {
     
     const editCourse = () => {     
-        console.log(props.courseId);
-        window.location.href = `/contributor/edit_course/${props.courseId}`;
+      console.log(props.courseId);
+      window.location.href = `/contributor/edit_course/${props.courseId}`;
+    }
+
+    const submitCourse = () => {
+      // console.log('submit course : ', props.courseId);
+      props.handleCourseSubmit(props.courseId);
+      // window.location.href = `/contributor/create_course/`;
+    }
+
+    const deleteCourse = () => {
+      props.handleCourseDelete(props.courseId)
     }
 
     return (
@@ -20,11 +30,22 @@ export default function CourseCard(props) {
                 <hr />
                 <p style={{ fontSize: '15px', textAlign: 'left' }} className="card-text"><span>{props.subjectName}</span></p>
                 <p className="card-text" style={{ fontSize: "15px", textAlign: 'left' }}>{props.unitDescription}</p>
-                  <Link to="" onClick={editCourse}>Edit</Link>
-                  &nbsp;&nbsp;&nbsp;
-                  <Link to="">Delete</Link>
-                  &nbsp;&nbsp;
-                  <Link to="">Submit</Link>
+                <p style={{ fontSize: '13px', textAlign: 'left' }}><span style={{ fontWeight: 'bold' }}>Status: </span>{props.status}</p>
+                  {
+                    props.cardType === 'View' ? (
+                      <>
+                        <Link to={`/contributor/course/${props.courseId}`}>View Course</Link>
+                      </>
+                    ) : (
+                      <>
+                        <Link to="" onClick={editCourse}>Edit</Link>
+                        &nbsp; &nbsp; &nbsp;
+                        <Link to="" onClick={deleteCourse}>Delete</Link>
+                        &nbsp; &nbsp;
+                        <Link to="" onClick={submitCourse}>Submit</Link>
+                      </>
+                    )
+                  }
               </div>
             </div>
           </div>

@@ -4,12 +4,20 @@ import axios from "axios";
 import { Form } from "react-router-dom";
 import PageTitle from "../../components/PageTitle";
 import CourseCard from "../../components/CourseCard";
+import AlertDialog from "../../components/AlertDialog";
+import CustomizedSnackbars from "../../components/CustomizedSnackbar";
 
 export default function CreateCourse() {
 
     const [subjects, setSubjects] = useState([]);
     const [units, setUnits] = useState([]);
     const [courseDrafts, setCourseDrafts] = useState([{}]);
+    const [showSubmitAlertDialog, setShowSubmitAlertDialog] = useState(false);
+    const [showDeleteAlertDialog, setShowDeleteAlertDialog] = useState(false);
+    const [showSnackbar, setShowSnackbar] = useState(false);
+    const [snackbarMessage, setSnackbarMessage] = useState('');
+    const [submitCourseId, setSubmitCourseId] = useState('');
+    const [deleteCourseId, setDeleteCourseId] = useState('');
 
     useEffect(() => {
         const profileData = localStorage.getItem("profileData");
@@ -56,7 +64,80 @@ export default function CreateCourse() {
         })
     }
 
+    const handleDelete = (courseId) => {
+        setShowDeleteAlertDialog(true);
+        setDeleteCourseId(courseId);
+    }
+
+    const handleCourseDelete = (courseId) => {
+        console.log("proceeding to delete : ", courseId);
+        axios.delete(`http://localhost:5000/api/courses/${courseId}`, {
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': 'Bearer ' + getToken(),
+            },
+        })
+        .then((response) => {
+            console.log(response);
+        })
+        .catch((error) => {
+            console.log(error);
+        });
+        setShowDeleteAlertDialog(false);
+        setSnackbarMessage("Course deleted successfully!");
+        setShowSnackbar(true);
+        setTimeout(() => {
+            window.location.reload();
+        }, 3000);
+    }
+
+    const handleDeleteDialogClose = () => {
+        setShowDeleteAlertDialog(false);
+    }
+
+    const handleSubmit = (courseId) => {
+        setShowSubmitAlertDialog(true);
+        setSubmitCourseId(courseId);
+    }
+
+    const handleCourseSubmit = (courseId) => {
+        console.log("proceeding to submit : ", courseId);
+        axios.patch(`http://localhost:5000/api/courses/${courseId}`, {}, {
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': 'Bearer ' + getToken(),
+            },
+            params: {
+                status: "UnderReview"
+            }
+        })
+        .then((response) => {
+            console.log(response);
+        })
+        .catch((error) => {
+            console.log(error);
+        })
+        setShowSubmitAlertDialog(false);
+        setSnackbarMessage("Course submitted successfully!");
+        setShowSnackbar(true);
+        setTimeout(() => {
+            window.location.reload();
+        }, 3000);
+    }
+
+    const handleDialogClose = () => {
+        setShowSubmitAlertDialog(false);
+    }
+
+    const handleSnackbarClose = () => {
+        setShowSnackbar(false);
+    }
+
     return (
+        <>
+        { showSubmitAlertDialog ? <AlertDialog title={"Do you want to continue?"} description={"Do you want to submit this course for review?"} handleDialogClose={handleDialogClose} handleCourseSubmit={handleCourseSubmit} courseId={submitCourseId}/> : null }
+        { showDeleteAlertDialog ? <AlertDialog title={"Do you want to continue?"} description={"Do you want to delete this draft course?"} handleDialogClose={handleDeleteDialogClose} handleCourseSubmit={handleCourseDelete} courseId={deleteCourseId}/> : null }
+        { showSnackbar ? <CustomizedSnackbars message={snackbarMessage} handleSnackbarClose={handleSnackbarClose}/> : null }
         <main className="main" id="main">
             <PageTitle title="Create Course" />
             <section className="section">
@@ -108,7 +189,18 @@ export default function CreateCourse() {
                             {
                                 courseDrafts.length > 0 ? courseDrafts.map((course, index) => {
                                     if (course.unitData === undefined) return null;
-                                    return <CourseCard key={index} courseId={course._id} unitName={course.unitData.unitName} subjectName={course.subjectData.subjectName} unitDescription={course.unitData.unitDescription} imagePath={course.unitData.unitImagePath} />
+                                    return <CourseCard 
+                                        key={index} 
+                                        courseId={course._id} 
+                                        unitName={course.unitData.unitName} 
+                                        subjectName={course.subjectData.subjectName} 
+                                        unitDescription={course.unitData.unitDescription} 
+                                        imagePath={course.unitData.unitImagePath}
+                                        handleCourseSubmit={handleSubmit}
+                                        handleCourseDelete={handleDelete}
+                                        cardType="Draft"
+                                        status={course.status}
+                                    />
                                 }) : <p>No drafts available</p>
                             }
                         </div>
@@ -117,6 +209,7 @@ export default function CreateCourse() {
             </div>
         </section>
         </main>
+        </>
     )
 }
 
