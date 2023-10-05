@@ -36,9 +36,9 @@ export default function Profile() {
 
     const isProfileComplete = localStorage.getItem('isProfileComplete');
 
-    if (!isProfileComplete) {
-        window.location.to = '/contributor';
-        return <></>
+    if (!isProfileComplete || !profileData) {
+        window.location.href = '/contributor'; 
+        return null; 
     }
 
     return (
