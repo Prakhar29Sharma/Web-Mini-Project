@@ -142,7 +142,7 @@ function Contributor() {
                                                 cardType="View"
                                                 status={course.status}
                                             />
-                                        }) : <p>No drafts available</p>
+                                        }) : <p>No contributions yet</p>
                                     }
                                 </div>
                             </div>

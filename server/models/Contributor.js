@@ -41,10 +41,10 @@ const contributorSchema = new mongoose.Schema({
         type: Number,
     },
     subjectsToContribute: {
-        type: [String],
+        type: String,
     },
     subjectsOfInterest: {
-        type: [String],
+        type: String,
     },
     linkedIn: {
         type: String,
