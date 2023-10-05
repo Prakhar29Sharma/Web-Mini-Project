@@ -1,7 +1,5 @@
 export default function action() {
-    localStorage.removeItem('token');
-    localStorage.removeItem('user');
-    localStorage.removeItem('time_created');
+    localStorage.clear();
     window.location.href = '/';
     return null;
 }

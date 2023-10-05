@@ -167,9 +167,7 @@ export async function loader({ request }) {
     // console.log('token:', token);
 
     if (token === 'EXPIRED') {
-        localStorage.removeItem('token');
-        localStorage.removeItem('user');
-        localStorage.removeItem('expiration');
+        localStorage.clear();
         window.location.href = '/login';
         return { isAuthenticated: false };
     }
