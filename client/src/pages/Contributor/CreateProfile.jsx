@@ -285,7 +285,11 @@ export async function action({request}) {
     })
     .then((response) => {
       console.log(response);
-      window.location.href = '/contributor';
+      if (response.data.status === 'ok') {
+        window.location.href = '/contributor';
+      } else {
+        console.log(response);
+      }
     })
     .catch((error) => {
       console.log(error);
