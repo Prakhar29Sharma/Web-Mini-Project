@@ -184,7 +184,7 @@ export default function CreateProfile() {
                                         }
                                     </select> */}
                                     <MultipleSelect list={subjects} type={true} />
-                                    <input type="hidden" name="subjectsToContribute" value={JSON.stringify(selectedSubjectToContrib.map((subject) => subject.value))} />
+                                    <input type="hidden" name="subjectsToContribute" value={selectedSubjectToContrib.map((subject) => subject.value)} />
                                   </div>
                                 </div>
                                 <div className="row mb-3">
@@ -198,7 +198,7 @@ export default function CreateProfile() {
                                         }
                                     </select> */}
                                     <MultipleSelect list={subjects} type={false} />
-                                    <input type="hidden" name="subjectsOfInterest" value={JSON.stringify(selectedSubjectOfInterest.map((subject) => subject.value))} />
+                                    <input type="hidden" name="subjectsOfInterest" value={selectedSubjectOfInterest.map((subject) => subject.value)} />
                                   </div>
                                 </div>
                                 <div className="row mb-3">
@@ -285,7 +285,11 @@ export async function action({request}) {
     })
     .then((response) => {
       console.log(response);
-      window.location.href = '/contributor';
+      if (response.data.status === 'ok') {
+        window.location.href = '/contributor';
+      } else {
+        console.log(response);
+      }
     })
     .catch((error) => {
       console.log(error);

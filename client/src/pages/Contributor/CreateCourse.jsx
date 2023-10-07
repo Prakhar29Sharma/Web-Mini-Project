@@ -22,9 +22,9 @@ export default function CreateCourse() {
     useEffect(() => {
         const profileData = localStorage.getItem("profileData");
         const profile = JSON.parse(profileData);
-        const subjectToContrib = JSON.parse(profile.subjectsToContribute);
+        const subjectToContrib = profile.subjectsToContribute;
         // console.log(subjectToContrib);
-        setSubjects(subjectToContrib);
+        setSubjects(subjectToContrib.split(","));
         const authorName = profile.username;
 
         const fetchCourses = async () => {
