@@ -131,3 +131,5 @@ dist
 
 # rest api's
 *.rest
+
+server/public/assets
