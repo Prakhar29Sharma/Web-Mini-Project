@@ -34,6 +34,10 @@ const getUnits = async (req, res) => {
 /* CREATE */
 
 const createUnit = async (req, res) => {
+    const user = req.user;
+    if (user.role !== 'ADMIN') {
+        return res.json({ status: 'error', error: 'You are not authorized to perform this action'});
+    }
     try {
         const unit = await Unit.findOne(req.body);
         if (!unit) {
@@ -55,6 +59,10 @@ const createUnit = async (req, res) => {
 /* DELETE */
 
 const deleteUnit = async (req, res) => {
+    const user = req.user;
+    if (user.role !== 'ADMIN') {
+        return res.json({ status: 'error', error: 'You are not authorized to perform this action'});
+    }
     try {
         const id = req.params.id;
         const unit = await Unit.findOne({ _id: id });

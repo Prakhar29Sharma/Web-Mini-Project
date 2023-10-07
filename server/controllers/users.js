@@ -3,6 +3,10 @@ const User = require('../models/User');
 /* READ */
 
 const getUser = async (req, res) => {
+    const user = req.user;
+    if (user.role === 'STUDENT' || user.role === 'EVALUATOR') {
+        return res.json({ status: 'error', error: 'You are not authorized to perform this action'});
+    }
     try {
         const {id} = req.params;
         const user = await User.findById(id);
@@ -18,6 +22,10 @@ const getUser = async (req, res) => {
 
 const getUsers = async (req, res) => {
     try {
+        const user = req.user;
+        if (user.role === 'STUDENT' || user.role === 'EVALUATOR') {
+            return res.json({ status: 'error', error: 'You are not authorized to perform this action'});
+        }
         const users = await User.find({});
         // res.status(200).json(user);
         res.json({
@@ -31,6 +39,10 @@ const getUsers = async (req, res) => {
 
 const getUserWithRole = async (req, res) => {
     try {
+        const user = req.user;
+        if (user.role === 'STUDENT' || user.role === 'EVALUATOR') {
+            return res.json({ status: 'error', error: 'You are not authorized to perform this action'});
+        }
         const {role} = req.params;
         const users = await User.find({role: role.toUpperCase()});
         // res.status(200).json(users);
@@ -45,6 +57,10 @@ const getUserWithRole = async (req, res) => {
 
 const getNumOfUsers = async (req, res) => {
     try {
+        const user = req.user;
+        if (user.role === 'STUDENT' || user.role === 'EVALUATOR') {
+            return res.json({ status: 'error', error: 'You are not authorized to perform this action'});
+        }
         const {role} = req.params;
         if (role.toUpperCase() === 'ALL') {
             const users = await User.find({});
@@ -68,6 +84,10 @@ const getNumOfUsers = async (req, res) => {
 /* CREATE */
 
 const createUser = async (req, res) => {
+    const user = req.user;
+    if (user.role !== 'ADMIN') {
+        return res.json({ status: 'error', error: 'You are not authorized to perform this action'});
+    }
     try {
         const { username } = req.body;
         const user = await User.exists({ username: username });
@@ -88,6 +108,5 @@ const createUser = async (req, res) => {
         })
     }
 }
-
 
 module.exports = {getUser, getUsers, getUserWithRole, getNumOfUsers, createUser}
