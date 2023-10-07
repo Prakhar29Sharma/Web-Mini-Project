@@ -36,9 +36,9 @@ export default function Profile() {
 
     const isProfileComplete = localStorage.getItem('isProfileComplete');
 
-    if (!isProfileComplete) {
-        window.location.to = '/contributor';
-        return <></>
+    if (!isProfileComplete || !profileData) {
+        window.location.href = '/contributor'; 
+        return null; 
     }
 
     return (
@@ -134,9 +134,9 @@ export default function Profile() {
                                 <div className="row">
                                     <div className="col-lg-3 col-md-4 label">Subjects to Contribute</div>
                                     <div className="col-lg-9 col-md-8">{ /* profileData.subjectsToContribute */ }{
-                                        profileData.subjectsOfInterest !== undefined ? profileData.subjectsToContribute[0].slice(1, -1).split(",").map((subject, index) => {
+                                        profileData.subjectsOfInterest !== undefined ? profileData.subjectsToContribute.split(",").map((subject, index) => {
                                             return (
-                                                <BasicChips key={index} label={JSON.parse(subject)} />
+                                                <BasicChips key={index} label={subject} />
                                             );
                                         }) : ""
                                     }</div>
@@ -145,10 +145,10 @@ export default function Profile() {
                                 <div className="row">
                                     <div className="col-lg-3 col-md-4 label">Subjects of Interest</div>
                                     <div className="col-lg-9 col-md-8">{ /* profileData.subjectsOfInterest */ } {
-                                        profileData.subjectsOfInterest !== undefined ? profileData.subjectsOfInterest[0].slice(1, -1).split(",").map((subject, index) => {
+                                        profileData.subjectsOfInterest !== undefined ? profileData.subjectsOfInterest.split(",").map((subject, index) => {
                                             return (
                                                 <>
-                                                    <BasicChips key={index} label={JSON.parse(subject)} />
+                                                    <BasicChips key={index} label={subject} />
                                                 </>
                                             );
                                         }) : ""

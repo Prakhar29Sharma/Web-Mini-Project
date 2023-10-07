@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useContext } from "react";
 import jwtDecode from "jwt-decode";
 import { getToken } from "../../utils/auth";
 import { Link, useRouteLoaderData } from "react-router-dom";
@@ -6,10 +6,12 @@ import PageTitle from "../../components/PageTitle";
 import Alert from "../../components/Alert";
 import axios from "axios";
 import CourseCard from "../../components/CourseCard";
+import ProfileContext from "../../store/ProfileContext";
 
 function Contributor() {
 
-    const [displayAlert, setDisplayAlert] = useState(false);
+    const ctx = useContext(ProfileContext);
+
     const [myCourses, setMyCourses] = useState([]);
 
     useEffect(() => {
@@ -40,11 +42,11 @@ function Contributor() {
             // console.log(response.data);
             const data = response.data;
             if (data.status === 'error' && data.message === 'Contributor not found') {
-                setDisplayAlert(true);
                 localStorage.setItem('isProfileComplete', false);
+                ctx.setIsProfileCreated(false);
             } else if (data.status === 'ok') {
-                setDisplayAlert(false);
                 localStorage.setItem('isProfileComplete', true);
+                ctx.setIsProfileCreated(true);
                 localStorage.setItem('profileData', JSON.stringify(data.data));
                 fetchCourses();
             }
@@ -53,7 +55,7 @@ function Contributor() {
             console.log(error);
         });
 
-    }, [])
+    }, [ctx])
 
     const { isAuthenticated } = useRouteLoaderData('contributor');
 
@@ -65,10 +67,9 @@ function Contributor() {
         <>
         <main id="main" className="main">
             <PageTitle title="Dashboard" />
-            { displayAlert && <Alert message="complete your profile!" link="create_profile" link_text="click here to create profile" /> }
             {
-                !displayAlert && (
-                <>
+                ctx.isProfileCreated ? (
+                    <>
                     <section className="section dashboard">
                         <div className="row">
                             
@@ -142,7 +143,7 @@ function Contributor() {
                                                 cardType="View"
                                                 status={course.status}
                                             />
-                                        }) : <p>No drafts available</p>
+                                        }) : <p>No contributions yet</p>
                                     }
                                 </div>
                             </div>
@@ -153,6 +154,8 @@ function Contributor() {
                         </div>
                         </section>
                 </>
+                ) : (
+                    <Alert message="complete your profile!" link="create_profile" link_text="click here to create profile" />
                 )
             }
         </main>
@@ -183,4 +186,8 @@ export async function loader({ request }) {
     }
     window.location.href = '/login';
     return { isAuthenticated: false };
+}
+
+export const reloadPage = () => {
+    window.location.reload();
 }
