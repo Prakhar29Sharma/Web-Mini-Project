@@ -48,6 +48,7 @@ export default function ViewOthersContribution() {
                                         imagePath={course.unitData.unitImagePath}
                                         authorName={course.authorName}
                                         status={course.status}
+                                        rating={course.rating}
                                     />
                                 }) : <p>No contributions yet</p>
                             }

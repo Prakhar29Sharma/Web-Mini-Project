@@ -15,6 +15,7 @@ export default function BasicRating(props) {
         props.type === 'read' ? (
           <>
             <Rating
+              precision={0.5}
               name="simple-controlled"
               readOnly
               value={props.rating}

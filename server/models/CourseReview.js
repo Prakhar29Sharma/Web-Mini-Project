@@ -21,10 +21,7 @@ const courseReviewSchema = new mongoose.Schema({
         type: Number,
         required: true,
     },
-    title: {
-        type: String,
-    },
-    content: {
+    review: {
         type: String,
     },
 
@@ -32,4 +29,4 @@ const courseReviewSchema = new mongoose.Schema({
 
 const CourseReview = mongoose.model('CourseReview', courseReviewSchema);
 
-export default CourseReview
+module.exports = CourseReview;
