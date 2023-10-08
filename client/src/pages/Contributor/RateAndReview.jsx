@@ -1,12 +1,12 @@
 import React, { useEffect, useState } from 'react';
-import { Form, useParams } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 import { getToken } from '../../utils/auth';
 import axios from 'axios';
 import PageTitle from '../../components/PageTitle';
-// import { SafeHTML } from '../../components/SafeHTML';
 import "./ViewCourse.modules.css";
 import TinyMCEViewer from '../../components/TinyMCEViewer';
-import BasicRating from '../../components/BasicRating';
+import ReviewForm from '../../components/ReviewForm';
+import { Button } from '@mui/material';
 
 export default function ViewCourse() {
 
@@ -17,6 +17,7 @@ export default function ViewCourse() {
     const [course, setCourse] = useState('');
     const [unitData, setUnitData] = useState({});
     const [authorName, setAuthorName] = useState('');
+    const [viewRateAndReview, setViewRateAndReview] = useState(false);
 
     useEffect(() => {
         const fetchCourses = async () => {
@@ -47,7 +48,18 @@ export default function ViewCourse() {
         fetchUsersName();
     }, [courseId, course.authorName]);
 
+    function handleReviewFormSubmit (rating, review) {
+      console.log(rating, review);
+      setViewRateAndReview(false);
+    }
+
+    function handleReviewFormClose () {
+      setViewRateAndReview(false);
+    }
+
     return (
+      <>
+        { viewRateAndReview ? <ReviewForm open={true} onSubmit={handleReviewFormSubmit} onClose={handleReviewFormClose} /> : null }
         <main id="main" className="main">
 
         <PageTitle title="Rate and Review Course" />
@@ -173,9 +185,7 @@ export default function ViewCourse() {
                                 <div className="row">
                                 <div className="col-lg-3 col-md-4 label" style={{fontSize: '20px'}}>Rate and review this content</div>
                                     <div className="col-lg-9 col-md-8">
-                                        <Form>
-                                            <BasicRating size='medium' rating={3} />
-                                        </Form>
+                                        <Button variant="contained" onClick={() => {setViewRateAndReview(true)}} >Rate and Review</Button>
                                     </div>
                                 </div>
                         </div>
@@ -184,5 +194,6 @@ export default function ViewCourse() {
             </div>
         </section>
     </main>
+    </>
     );
 }
