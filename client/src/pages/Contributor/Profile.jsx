@@ -4,6 +4,7 @@ import { Link } from 'react-router-dom';
 import { getToken } from '../../utils/auth';
 import axios from 'axios';
 import BasicChips from '../../components/BasicChips';
+import ImageAvatar from '../../components/ImageAvatar';
 
 export default function Profile() {
 
@@ -50,7 +51,7 @@ export default function Profile() {
                     <div className="col-xl-4">
                         <div className="card">
                             <div className="card-body profile-card pt-4 d-flex flex-column align-items-center">
-                            <img src={ImagePath} alt="Profile" className="rounded-circle" />
+                            <ImageAvatar imagePath={ ImagePath } username="avatar" size="100px" />
                             <h2>{profileData.firstName} {profileData.lastName}</h2>
                             <h3>Contributor</h3>
                             <div className="social-links mt-2">

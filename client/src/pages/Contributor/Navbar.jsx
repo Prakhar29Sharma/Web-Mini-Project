@@ -4,6 +4,7 @@ import Notifications from "../../components/Notifications";
 import axios from "axios";
 import { getToken } from "../../utils/auth";
 import ProfileContext from "../../store/ProfileContext";
+import ImageAvatar from "../../components/ImageAvatar";
 
 export default function Navbar() {
 
@@ -67,11 +68,7 @@ export default function Navbar() {
                 <li className="nav-item dropdown pe-3">
 
                   <Link className="nav-link nav-profile d-flex align-items-center pe-0" to="" data-bs-toggle="dropdown">
-                    {
-                      ctx.isProfileCreated && (
-                        <img src={ImagePath} alt="Profile" className="rounded-circle" />
-                      )
-                    }
+                    <ImageAvatar imagePath={ ImagePath } username={ username } size="36px" />
                     <span className="d-none d-md-block dropdown-toggle ps-2">{username}</span>
                   </Link>
 
