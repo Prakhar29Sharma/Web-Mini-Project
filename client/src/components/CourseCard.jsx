@@ -1,5 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import BasicRating from './BasicRating';
 
 export default function CourseCard(props) {
     
@@ -34,6 +35,7 @@ export default function CourseCard(props) {
                   {
                     props.cardType === 'View' ? (
                       <>
+                        <BasicRating type='read' size='medium' rating={props.rating !== undefined ? props.rating : 0 } />
                         <Link to={`/contributor/course/${props.courseId}`}>View Course</Link>
                       </>
                     ) : (
