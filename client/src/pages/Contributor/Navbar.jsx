@@ -15,10 +15,25 @@ export default function Navbar() {
     const username = JSON.parse(user).username;
 
     const [ImagePath, setImagePath] = useState('');
+    const [notifications, setNotifications] = useState([]);
 
     useEffect(() => {
       const user = localStorage.getItem('user');
       const username = JSON.parse(user).username;
+      axios.get(`http://localhost:5000/api/notifications/${username}`,{
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': 'Bearer ' + getToken(),
+        }
+      })
+      .then((response) => {
+        console.log(response.data.notifications);
+        setNotifications(response.data.notifications);
+      })
+      .catch((error) => { 
+        console.log(error);
+      });
+
       axios.get(`http://localhost:5000/api/contributor/${username}`,{
         headers: {
           'Content-Type': 'application/json',
@@ -61,7 +76,7 @@ export default function Navbar() {
 
                 {
                   ctx.isProfileCreated && (
-                    <Notifications />
+                    <Notifications count={notifications.length} notifications={notifications} />
                   )
                 }
 

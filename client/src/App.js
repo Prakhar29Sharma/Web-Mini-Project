@@ -33,6 +33,7 @@ import EditCourse from './pages/Contributor/EditCourse';
 import ViewCourse from './pages/Contributor/ViewCourse';
 import RateAndReview from './pages/Contributor/RateAndReview';
 import ViewOthersContribution from './pages/Contributor/ViewOthersContribution';
+import Notifications from './pages/Contributor/Notifications';
 
 function App() {
 
@@ -80,7 +81,8 @@ function App() {
         { path: 'edit_course/:courseId', element: <EditCourse />, action: EditCourseAction },
         { path: 'course/:courseId', element: <ViewCourse /> },
         { path: 'view_others_contribution', element: <ViewOthersContribution /> },
-        { path: 'rate_and_review/:courseId', element: <RateAndReview /> }
+        { path: 'rate_and_review/:courseId', element: <RateAndReview /> },
+        { path: 'notifications', element: <Notifications /> }
       ]
     },
     {

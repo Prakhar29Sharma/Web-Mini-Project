@@ -11,6 +11,7 @@ const AuthRoute = require("./routes/auth");
 const ContributorRoute = require("./routes/contributor");
 const CourseRoute = require("./routes/course");
 const reviewsRoute = require("./routes/reviews");
+const notificationRoute = require("./routes/notification");
 const authMiddleware = require('./middleware/auth');
 const Contributor = require('./models/Contributor');
 const Unit = require('./models/Unit');
@@ -161,6 +162,7 @@ app.use('/api/auth', AuthRoute);
 app.use('/api/contributor', ContributorRoute);
 app.use('/api/courses', CourseRoute);
 app.use('/api/reviews', reviewsRoute);
+app.use('/api/notifications', notificationRoute);
 
 /* MONGOOSE SETUP */
 const PORT = process.env.PORT || 5000;

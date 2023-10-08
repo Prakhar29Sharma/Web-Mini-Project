@@ -7,6 +7,7 @@ import "./ViewCourse.modules.css";
 import TinyMCEViewer from '../../components/TinyMCEViewer';
 import ReviewForm from '../../components/ReviewForm';
 import { Alert, Button, Snackbar } from '@mui/material';
+import createNotification from '../../utils/notification';
 
 export default function ViewCourse() {
 
@@ -53,14 +54,14 @@ export default function ViewCourse() {
       // courseId, authorId, authorName, authorRole, rating, review
       const profileData = JSON.parse(localStorage.getItem('profileData'));
       const user = JSON.parse(localStorage.getItem('user'));
-      const authorName = profileData.firstName + ' ' + profileData.lastName;
+      const author = profileData.firstName + ' ' + profileData.lastName;
       const authorId = profileData._id;
       const authorRole = user.role;
       const courseId = course._id;
       const data = {
         "courseId": courseId,
         "authorId": authorId,
-        "authorName": authorName,
+        "authorName": author,
         "authorRole": authorRole,
         "rating": rating,
         "review": review,
@@ -76,6 +77,7 @@ export default function ViewCourse() {
         console.log(response);
         if (response.data.status === 'ok') {
           setViewRateAndReviewButton(false);
+          createNotification(course.authorName, 'Course Review', 'A new review has been submitted for your course. Please check your dashboard.')
           setTimeout(() => {
             window.location.href = '/contributor/view_others_contribution';
           }, 2000);
