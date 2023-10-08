@@ -24,7 +24,7 @@ function Evaluator() {
             const profileData = localStorage.getItem("profileData");
             const profile = JSON.parse(profileData);
             const allowedCourseToRate = profile.subjectsOfInterest + profile.subjectsToContribute;
-            setMyCourses(response.data.data.filter((course) => course.authorName !== username).filter((course) => course.status === 'UnderReview' ).filter((course) => allowedCourseToRate.includes(course.subjectData.subjectName)));
+            setMyCourses(response.data.data.filter((course) => course.status === 'UnderReview' ));
         };
         fetchCourses();
     }, [])

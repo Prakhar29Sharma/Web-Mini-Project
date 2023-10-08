@@ -35,6 +35,7 @@ import RateAndReview from './pages/Contributor/RateAndReview';
 import ViewOthersContribution from './pages/Contributor/ViewOthersContribution';
 import { RootLayout as EvaluatorRootLayout } from './pages/Evaluator/RootLayout';
 import ReviewCourse from './pages/Evaluator/ReviewCourse';
+import Analysis from './pages/Evaluator/Analysis';
 
 
 function App() {
@@ -68,7 +69,8 @@ function App() {
       element: <EvaluatorRootLayout />,
       children: [
         { path: '', element: <Evaluator /> },
-        { path: 'rate_and_review/:courseId', element:<ReviewCourse/> }
+        { path: 'rate_and_review/:courseId', element:<ReviewCourse/> },
+        {path:'analysis',element:<Analysis/>}
       ],
     },
     {
