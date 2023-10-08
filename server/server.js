@@ -162,7 +162,7 @@ app.use('/api/courses', CourseRoute);
 
 /* MONGOOSE SETUP */
 const PORT = process.env.PORT || 5000;
-mongoose.connect(process.env.ATLAS_URI, {
+mongoose.connect(process.env.MONGO_DB, {
     useNewUrlParser: true,
     useUnifiedTopology: true,
 })

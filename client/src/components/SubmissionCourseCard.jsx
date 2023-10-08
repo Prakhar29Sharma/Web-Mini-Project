@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom';
 import { getToken } from '../utils/auth';
 import BasicRating from './BasicRating';
 
-export default function RateCourseCard(props) {
+export default function SubmissionCourseCard(props) {
 
     const [authorName, setAuthorName] = useState('');
 
@@ -35,13 +35,13 @@ export default function RateCourseCard(props) {
                 <p className="card-text" style={{ fontSize: "15px", textAlign: 'left' }}>{props.unitDescription}</p>
                 <p className="card-text" style={{ fontSize: "15px", textAlign: 'left' }}><span>Author: </span> {authorName}</p>
                 <p style={{ fontSize: '13px', textAlign: 'left' }}><span style={{ fontWeight: 'bold' }}>Status: </span>{props.status}</p>
-                <BasicRating type='read' size='medium' rating={3} />
+                {/* <BasicRating type='read' size='medium' rating={3} /> */}
                 {/* {isEvaluator ? (
               <Redirect to={`/evaluator/rate_and_review/${props.courseId}`} />
             ) : (
               <Redirect to={`/contributor/rate_and_review/${props.courseId}`} />
             )} */}
-                <Link to={`/contributor/rate_and_review/${props.courseId}`}>Review and Rate</Link>
+                <Link to={`/evaluator/rate_and_review/${props.courseId}`}>Review</Link>
               </div>
             </div>
           </div>

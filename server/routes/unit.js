@@ -13,7 +13,7 @@ router.get('/:subjectCode/:unitNum', getUnit);
 
 // /* CREATE */
 
-// router.post('/', createUnit);
+router.post('/', createUnit);
 
 /* DELETE */
 
