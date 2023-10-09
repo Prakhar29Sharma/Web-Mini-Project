@@ -88,7 +88,15 @@ const createSubject = async (req, res) => {
         return res.json({ status: 'error', error: 'You are not authorized to perform this action'});
     }
     try {
-        const newSubject = Subject(req.body);
+        const { subjectCode, subjectName, semester, year, department, subjectType } = req.query;
+        const newSubject = Subject({
+            subjectCode: subjectCode,
+            subjectName: subjectName,
+            semester: semester,
+            year: year,
+            department: department,
+            subjectType: subjectType,
+        });
         await newSubject.save();
         res.json({
             status: 'ok',

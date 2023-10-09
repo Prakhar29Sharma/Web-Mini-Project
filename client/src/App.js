@@ -9,7 +9,6 @@ import Evaluator from './pages/Evaluator/Evaluator';
 import Contributor from './pages/Contributor/Contributor';
 import Student from './pages/Student/Student';
 import Navbar from './components/Navbar';
-import SubjectList from './pages/Admin/SubjectList';
 import { loader as adminLoader } from './pages/Admin/Admin';
 import { loader as evaluatorLoader } from './pages/Evaluator/Evaluator';
 import { loader as contributorLoader } from './pages/Contributor/Contributor';
@@ -26,6 +25,7 @@ import { action as CreateCourseAction } from './pages/Contributor/CreateCourse';
 import { action as CreateContentAction } from './pages/Contributor/CreateContent';
 import { action as AddUnitAction } from './pages/Admin/AddUnit';
 import { action as EditCourseAction } from './pages/Contributor/EditCourse';
+import { action as AddSubjectAction } from './pages/Admin/AddSubject';
 import logoutAction from "./pages/Logout";
 import CreateContributorProfile from './pages/Contributor/CreateProfile';
 import CreateEvaluatorProfile from './pages/Evaluator/CreateProfile';
@@ -34,6 +34,7 @@ import EvaluatorProfile from './pages/Evaluator/Profile';
 import CreateCourse from './pages/Contributor/CreateCourse';
 import CreateContent from './pages/Contributor/CreateContent';
 import AddUnit from './pages/Admin/AddUnit';
+import AddSubject from './pages/Admin/AddSubject';
 import EditCourse from './pages/Contributor/EditCourse';
 import ViewCourse from './pages/Contributor/ViewCourse';
 import RateAndReview from './pages/Contributor/RateAndReview';
@@ -60,7 +61,7 @@ function App() {
       element: <AdminRootLayout />,
       children: [
         { path: '', element: <Admin />, index: true},
-        { path: 'add_subject', element: <SubjectList /> },
+        { path: 'add_subject', element: <AddSubject />, action: AddSubjectAction },
         { path: 'add_unit', element: <AddUnit />, action: AddUnitAction },
       ]
     },

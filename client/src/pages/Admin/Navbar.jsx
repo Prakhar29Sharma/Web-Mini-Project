@@ -68,7 +68,7 @@ export default function Navbar() {
               <hr className="dropdown-divider" />
             </li>
 
-            <li>
+            {/* <li>
               <Link className="dropdown-item d-flex align-items-center" to="profile">
                 <i className="bi bi-person"></i>
                 <span>My Profile</span>
@@ -76,7 +76,7 @@ export default function Navbar() {
             </li>
             <li>
               <hr className="dropdown-divider" />
-            </li>
+            </li> */}
 
             <li>
               <Link className="dropdown-item d-flex align-items-center" to="">
