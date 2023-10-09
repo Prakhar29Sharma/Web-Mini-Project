@@ -5,6 +5,7 @@ import axios from "axios";
 import { getToken } from "../../utils/auth";
 import ProfileContext from "../../store/ProfileContext";
 import ImageAvatar from "../../components/ImageAvatar";
+import NotificationSnackbar from "../../components/NotificationSnackbar";
 
 export default function Navbar() {
 
@@ -55,8 +56,13 @@ export default function Navbar() {
     }, [ImagePath, ctx]);
 
     return (
+      <>
+          {
+            notifications.length > 0 && (
+              <NotificationSnackbar open={true} message={`you have ${notifications.length} notifications`} />
+            )
+          }
           <header id="header" className="header fixed-top d-flex align-items-center">
-
             <div className="d-flex align-items-center justify-content-between">
               <Link to="/contributor" className="logo d-flex align-items-center">
                 <img src="../../assets/img/logo.png" alt="" />
@@ -144,5 +150,6 @@ export default function Navbar() {
             </nav>
 
           </header>
+          </>
         )
       }

@@ -6,8 +6,13 @@ import PageTitle from '../../components/PageTitle';
 import "./ViewCourse.modules.css";
 import TinyMCEViewer from '../../components/TinyMCEViewer';
 import ReviewForm from '../../components/ReviewForm';
-import { Alert, Button, Snackbar } from '@mui/material';
+import { Button, Snackbar } from '@mui/material';
 import createNotification from '../../utils/notification';
+import MuiAlert from '@mui/material/Alert';
+
+const Alert = React.forwardRef(function Alert(props, ref) {
+  return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
+});
 
 export default function ViewCourse() {
 
