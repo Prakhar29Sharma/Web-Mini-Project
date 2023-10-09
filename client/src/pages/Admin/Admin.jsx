@@ -19,7 +19,6 @@ import PageTitle from "../../components/PageTitle";
 function Admin() {
 
     const [userCount, setUserCount] = useState(0);
-    const [message, setMessage] = useState('');
 
     useEffect(() => {
         axios.get('http://localhost:5000/api/users/count/all', {
@@ -32,8 +31,6 @@ function Admin() {
             // console.log(response.data);
             if (response.data.status === 'ok') {
                 setUserCount(response.data.user_count);
-            } else {
-                setMessage(response.data.error);
             }
         })
         .catch((err) => {
@@ -52,7 +49,6 @@ function Admin() {
         <main id="main" className="main">
             <PageTitle title="Dashboard" />
             <Link to='subjects'>Go to Subjects</Link>
-            <p>{ message }</p>
             <p> User Count : { userCount } </p>
         </main>
         </>

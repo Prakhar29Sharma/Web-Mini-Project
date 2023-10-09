@@ -60,7 +60,7 @@ function App() {
       element: <AdminRootLayout />,
       children: [
         { path: '', element: <Admin />, index: true},
-        { path: 'subjects', element: <SubjectList /> },
+        { path: 'add_subject', element: <SubjectList /> },
         { path: 'add_unit', element: <AddUnit />, action: AddUnitAction },
       ]
     },
