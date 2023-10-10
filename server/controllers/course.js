@@ -150,7 +150,7 @@ const updateCourseContent = async (req, res) => {
         throw 'Unauthorized access';
     }
     const courseId = req.params.courseId;
-    const { courseContent, status } = req.query;
+    const { courseContent, status, isPublic } = req.query;
     try {
         const course = await Course.findById(courseId);
         if (!course) {
@@ -162,6 +162,9 @@ const updateCourseContent = async (req, res) => {
             if (status) {
                 course.status = status;
             }
+            if (isPublic) {
+                course.isPublic = isPublic;
+            }
             await course.save();
             console.log(course);
             res.json({
@@ -170,6 +173,7 @@ const updateCourseContent = async (req, res) => {
             });
         }
     } catch (error) {
+        console.log(error);
         res.json({ status: 'error', error: err });
     }
 }
