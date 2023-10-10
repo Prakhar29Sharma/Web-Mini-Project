@@ -1,11 +1,12 @@
 import React, { useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom';
+import { Link, useParams } from 'react-router-dom';
 import { getToken } from '../../utils/auth';
 import axios from 'axios';
 import PageTitle from '../../components/PageTitle';
 // import { SafeHTML } from '../../components/SafeHTML';
 import "./ViewCourse.modules.css";
 import TinyMCEViewer from '../../components/TinyMCEViewer';
+import ImageAvatar from '../../components/ImageAvatar';
 
 export default function ViewCourse() {
 
@@ -16,7 +17,7 @@ export default function ViewCourse() {
     const [course, setCourse] = useState('');
     const [unitData, setUnitData] = useState({});
     const [authorName, setAuthorName] = useState('');
-
+    const [ImagePath, setImagePath] = useState('');
     useEffect(() => {
         const fetchCourses = async () => {
             const response = await axios.get('http://localhost:5000/api/courses', {
@@ -41,6 +42,13 @@ export default function ViewCourse() {
           });
           if (response.data.data !== undefined) {
             setAuthorName(response.data.data.firstName + ' ' + response.data.data.lastName);
+            const profileImagePath = response.data.data.profileImagePath;
+            if (profileImagePath === null) {
+            setImagePath('http://localhost:5000/assets/profile-image.jpg');
+            } else {
+            setImagePath('http://localhost:5000/' + profileImagePath.replace('\\', '/').replace('public/', ''));
+            return;
+            }
           }
         }
         fetchUsersName();
@@ -58,10 +66,9 @@ export default function ViewCourse() {
                         <div className="card-body">
 
                                 <h5 className="card-title" style={{fontSize:'30px'}}>{ unitData.unitName !== undefined ? course.unitData.unitName : null }</h5>
-
-                                <div style={{height:'25px'}} className="row"></div>
-
-                                <p style={{ textAlign: 'left', fontSize: '15px' }} ><span style={{ fontWeight: 'bold' }}>Author: </span> {authorName !== undefined ? authorName : null }</p>
+                                <ImageAvatar imagePath={ ImagePath } username="avatar" size="80px" />
+                                <p style={{ textAlign: 'left', fontSize: '15px', marginTop: '10px' }}><Link to={`/contributor/${course.authorName}`} target='_blank'>Go to author's profile</Link></p>
+                                <p style={{ textAlign: 'left', fontSize: '15px', marginTop: '10px' }} ><span style={{ fontWeight: 'bold' }}>Author: </span> {authorName !== undefined ? authorName : null }</p>
 
                                 <div style={{height:'25px'}} className="row"></div>
 
