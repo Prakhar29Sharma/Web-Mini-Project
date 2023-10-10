@@ -128,11 +128,10 @@ export default function ViewCourse() {
 
                                 <div style={{height:'25px'}} className="row"></div>
 
-                                <hr />
-
                                 {
                                     course.courseVideoPath !== undefined && course.courseVideoPath !== '' ? (
                                         <>
+                                        <hr />
                                         <video width="800px" height="500px" controls="controls">
                                             <source src={'http://localhost:5000/' + course.courseVideoPath.replace(/\\/g, '/').replace('public/', '').replace(/ /g, '%20')} type="video/mp4" />
                                         </video>
@@ -140,11 +139,11 @@ export default function ViewCourse() {
                                     ) : null
                                 }
 
-                                <hr />
 
                                 {
                                     course.coursePdfPath !== undefined && course.coursePdfPath[0] !== undefined  ? (
                                         <>
+                                        <hr />
                                         <iframe title='course_pdf' src={'http://localhost:5000/' + course.coursePdfPath[0].replace(/\\/g, '/').replace('public/', '').replace(/ /g, '%20')} 
                                         width="800"
                                         height="500">
