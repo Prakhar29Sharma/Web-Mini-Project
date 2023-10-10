@@ -40,6 +40,7 @@ import ViewCourse from './pages/Contributor/ViewCourse';
 import RateAndReview from './pages/Contributor/RateAndReview';
 import ViewOthersContribution from './pages/Contributor/ViewOthersContribution';
 import Notifications from './pages/Contributor/Notifications';
+import PublicProfile from './pages/Home/PublicProfile';
 
 function App() {
 
@@ -51,7 +52,8 @@ function App() {
       children: [
         { path: '', element: <Home /> },
         { path: 'login', element: <Login /> },
-        { path: 'register', element: <Register /> }
+        { path: 'register', element: <Register /> },
+        { path: 'contributor/:username', element: <PublicProfile /> }
       ]
     },
     {

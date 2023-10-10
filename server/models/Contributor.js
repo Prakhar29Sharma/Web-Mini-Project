@@ -57,7 +57,11 @@ const contributorSchema = new mongoose.Schema({
     },
     profileImagePath: {
         type: String,
-    }
+    },
+    noOfCoursesPublic: {
+        type: Number,
+        default: 0,
+    },
 });
 
 const Contributor = mongoose.model('Contributor', contributorSchema);

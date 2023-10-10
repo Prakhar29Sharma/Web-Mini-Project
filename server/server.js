@@ -180,6 +180,26 @@ app.post('/api/units/', authMiddleware, upload.single('unitImage'), async (req, 
     }
 });
 
+app.get('/api/public/contributor/:username', async (req, res) => {
+    try {
+        const { username } = req.params;
+        const contributor = await Contributor.findOne({ username: username });
+        if (contributor === null) {
+            res.json({
+                status: 'error',
+                message: 'Contributor not found'
+            });
+        } else {
+            res.json({
+                status: 'ok',
+                data: contributor
+            })
+        }
+    } catch (err) {
+        res.json({ status: 'error', error: err });
+    }
+});
+
 /* ROUTES */
 app.get('/', (req, res) => res.sendStatus(200));
 app.use('/api/users', userRoute);
