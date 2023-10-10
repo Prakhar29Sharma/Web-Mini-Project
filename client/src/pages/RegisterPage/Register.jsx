@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import axios from "axios";
+import PasswordStrengthBar from 'react-password-strength-bar';
 
 function Register() {
 
@@ -54,6 +55,7 @@ function Register() {
                 <div className="user-box">
                 <input type="password" name="password" onChange={(e) => {setPassword(e.target.value)}} required autoComplete="false" />
                 <label>Password</label>
+                <PasswordStrengthBar password={password} />
                 </div>
                 <div className="user-box">
                     <select name="role" className="form-select" aria-label="Default select example" onChange={(e) => { setRole(e.target.value) }}>
