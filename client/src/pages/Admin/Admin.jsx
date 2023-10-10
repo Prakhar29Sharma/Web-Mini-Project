@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { useEffect } from "react";
 import jwtDecode from "jwt-decode";
-import {Link, useRouteLoaderData} from 'react-router-dom';
+import {useRouteLoaderData} from 'react-router-dom';
 import axios from "axios";
 import { getToken } from "../../utils/auth";
 import "../../assets/vendor/bootstrap/css/bootstrap.min.css";
@@ -13,12 +13,15 @@ import "../../assets/vendor/remixicon/remixicon.css";
 import "../../assets/vendor/simple-datatables/style.css";
 import "../../assets/css/style.css";
 import "./Admin.modules.css";
-
 import PageTitle from "../../components/PageTitle";
+import { Grid, Card, CardContent, Typography } from "@mui/material";
 
 function Admin() {
 
     const [userCount, setUserCount] = useState(0);
+    const [studentCount, setStudentCount] = useState(0);
+    const [contributorCount, setContributorCount] = useState(0);
+    const [evaluatorCount, setEvaluatorCount] = useState(0);
 
     useEffect(() => {
         axios.get('http://localhost:5000/api/users/count/all', {
@@ -31,6 +34,9 @@ function Admin() {
             // console.log(response.data);
             if (response.data.status === 'ok') {
                 setUserCount(response.data.user_count);
+                setStudentCount(response.data.student_count);
+                setContributorCount(response.data.contributor_count);
+                setEvaluatorCount(response.data.evaluator_count);
             }
         })
         .catch((err) => {
@@ -46,12 +52,62 @@ function Admin() {
 
     return (
         <>
-        <main id="main" className="main">
-            <PageTitle title="Dashboard" />
-            <Link to='subjects'>Go to Subjects</Link>
-            <p> User Count : { userCount } </p>
-        </main>
-        </>
+      <main id="main" className="main">
+        <PageTitle title="Dashboard" />
+        <section className="section dashboard">
+          <Grid container spacing={3}>
+            <Grid item xs={12} sm={6} md={3}>
+              <Card>
+                <CardContent>
+                  <Typography variant="h6" component="div">
+                    Total Users
+                  </Typography>
+                  <Typography variant="h4" color="primary">
+                    {userCount}
+                  </Typography>
+                </CardContent>
+              </Card>
+            </Grid>
+            <Grid item xs={12} sm={6} md={3}>
+              <Card>
+                <CardContent>
+                  <Typography variant="h6" component="div">
+                    Students
+                  </Typography>
+                  <Typography variant="h4" color="primary">
+                    {studentCount}
+                  </Typography>
+                </CardContent>
+              </Card>
+            </Grid>
+            <Grid item xs={12} sm={6} md={3}>
+              <Card>
+                <CardContent>
+                  <Typography variant="h6" component="div">
+                    Contributors
+                  </Typography>
+                  <Typography variant="h4" color="primary">
+                    {contributorCount}
+                  </Typography>
+                </CardContent>
+              </Card>
+            </Grid>
+            <Grid item xs={12} sm={6} md={3}>
+              <Card>
+                <CardContent>
+                  <Typography variant="h6" component="div">
+                    Evaluators
+                  </Typography>
+                  <Typography variant="h4" color="primary">
+                    {evaluatorCount}
+                  </Typography>
+                </CardContent>
+              </Card>
+            </Grid>
+          </Grid>
+        </section>
+      </main>
+    </>
     );
 }
 

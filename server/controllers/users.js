@@ -64,9 +64,16 @@ const getNumOfUsers = async (req, res) => {
         const {role} = req.params;
         if (role.toUpperCase() === 'ALL') {
             const users = await User.find({});
+            const studentCount = await User.find({role: 'STUDENT'});
+            const evaluatorCount = await User.find({role: 'EVALUATOR'});
+            const contributorCount = await User.find({role: 'CONTRIBUTOR'});
+            const adminCount = await User.find({role: 'ADMIN'});
             res.status(200).json({
                 status: 'ok',
-                user_count: users.length,
+                user_count: users.length - adminCount.length,
+                student_count: studentCount.length,
+                evaluator_count: evaluatorCount.length,
+                contributor_count: contributorCount.length,
             })
         } else {
             const users = await User.find({role: role.toUpperCase()});
