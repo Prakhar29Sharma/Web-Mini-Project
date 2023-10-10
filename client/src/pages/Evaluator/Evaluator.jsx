@@ -22,38 +22,21 @@ function Evaluator() {
   const [courses, setCourses] = useState([]);
   const [unitCounts, setUnitCounts] = useState({});
 
-  const countUnits = () => {
-    if (courses.length !== 0) {
-      const unitCounts = {};
-      // Iterate through the courses array
-      courses.forEach((course) => {
-        const unitName = course.unitData.unitName;
-
-        // If the unit name doesn't exist in unitCounts, initialize it with a count of 1
-        if (!unitCounts[unitName]) {
-          unitCounts[unitName] = 1;
-        } else {
-          // If the unit name already exists, increment the count
-          unitCounts[unitName]++;
-        }
-      });
-      setUnitCounts(unitCounts);
-    }
-  };
-
   useEffect(() => {
-    const user = localStorage.getItem("user");
-    const username = JSON.parse(user).username;
+    const fetchData = async () => {
+      const user = localStorage.getItem("user");
+      const username = JSON.parse(user).username;
 
-    axios
-      .get(`http://localhost:5000/api/evaluator/${username}`, {
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: "Bearer " + getToken(),
-        },
-      })
-      .then((response) => {
+      try {
+        const response = await axios.get(`http://localhost:5000/api/evaluator/${username}`, {
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: "Bearer " + getToken(),
+          },
+        });
+
         const data = response.data;
+
         if (data.status === "error" && data.message === "Evaluator not found") {
           localStorage.setItem("isProfileComplete", false);
           ctx.setIsProfileCreated(false);
@@ -64,44 +47,64 @@ function Evaluator() {
           const profileData = localStorage.getItem("profileData");
           const profile = JSON.parse(profileData);
           const subjectsOfInterest = profile.subjectsOfInterest;
-          // Use a functional update to setSubjects
-          setSubjects((prevSubjects) => subjectsOfInterest.split(","));
+          setSubjects(subjectsOfInterest.split(","));
         }
-      })
-      .catch((error) => {
-        console.log(error);
-      });
-
-    // Move fetchCourses outside of the useEffect
-    const fetchCourses = async () => {
-      // console.log('subjects:', subjects);
-      axios
-        .get("http://localhost:5000/api/courses/subjects/", {
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: "Bearer " + getToken(),
-          },
-          params: {
-            subjects: subjects ? subjects : [],
-            isPublic: false,
-          },
-        })
-        .then((response) => {
-          console.log(response.data.data);
-          setCourses(response.data.data);
-        })
-        .catch((error) => {
-          console.log(error);
-        });
+      } catch (error) {
+        console.error("Error fetching data:", error);
+      }
     };
 
-    // Call fetchCourses here
-    if (subjects.length > 0) {
-      fetchCourses();
-      countUnits();
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+    fetchData();
   }, [ctx]);
+
+  useEffect(() => {
+    const fetchCourses = async () => {
+      if (subjects.length > 0) {
+        try {
+          const response = await axios.get("http://localhost:5000/api/courses/subjects/", {
+            headers: {
+              "Content-Type": "application/json",
+              Authorization: "Bearer " + getToken(),
+            },
+            params: {
+              subjects: subjects,
+              isPublic: false,
+              status: "UnderReview"
+            },
+          });
+
+          const data = response.data;
+          setCourses(data.data);
+        } catch (error) {
+          console.error("Error fetching courses:", error);
+        }
+      }
+    };
+
+    fetchCourses();
+  }, [subjects]);
+
+  useEffect(() => {
+    if (courses.length > 0) {
+      const unitCountsData = {};
+
+      courses.forEach((course) => {
+        const unitName = course.unitData.unitName;
+        const subjectName = course.subjectData.subjectName;
+
+        const key = `${subjectName}_${unitName}`;
+
+        if (!unitCountsData[key]) {
+          unitCountsData[key] = 1;
+        } else {
+          unitCountsData[key]++;
+        }
+      });
+
+      sessionStorage.setItem("unitCounts", JSON.stringify(unitCountsData));
+      setUnitCounts(unitCountsData);
+    }
+  }, [courses]);
 
   const { isAuthenticated } = useRouteLoaderData("evaluator");
 
@@ -165,11 +168,12 @@ function Evaluator() {
                     <div className="card info-card sales-card">
                       <div className="card-body">
                         <Link to="">
-                          <h5 className="card-title">Course Counts by Unit</h5>
+                          <h5 className="card-title">Course Counts by Unit and Subject</h5>
                             <TableContainer component={Paper}>
                             <Table>
                                 <TableHead>
                                 <TableRow>
+                                    <TableCell>Subject</TableCell>
                                     <TableCell>Unit Name</TableCell>
                                     <TableCell>
                                     Courses submitted for review
@@ -178,12 +182,16 @@ function Evaluator() {
                                 </TableHead>
                                 <TableBody>
                                 {Object.entries(unitCounts).map(
-                                    ([unitName, count]) => (
-                                    <TableRow key={unitName}>
-                                        <TableCell>{unitName}</TableCell>
-                                        <TableCell>{count}</TableCell>
-                                    </TableRow>
-                                    )
+                                    ([key, count]) => {
+                                      const [subjectName, unitName] = key.split("_");
+                                      return (
+                                        <TableRow key={key}>
+                                            <TableCell>{subjectName}</TableCell>
+                                            <TableCell>{unitName}</TableCell>
+                                            <TableCell>{count}</TableCell>
+                                        </TableRow>
+                                      );
+                                    }
                                 )}
                                 </TableBody>
                             </Table>

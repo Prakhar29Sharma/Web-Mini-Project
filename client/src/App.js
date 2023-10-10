@@ -38,9 +38,11 @@ import AddSubject from './pages/Admin/AddSubject';
 import EditCourse from './pages/Contributor/EditCourse';
 import ViewCourse from './pages/Contributor/ViewCourse';
 import RateAndReview from './pages/Contributor/RateAndReview';
+import EvaluatorRateAndReview from './pages/Evaluator/RateAndReview';
 import ViewOthersContribution from './pages/Contributor/ViewOthersContribution';
 import Notifications from './pages/Contributor/Notifications';
 import PublicProfile from './pages/Home/PublicProfile';
+import Evaluate from './pages/Evaluator/Evaluate';
 
 function App() {
 
@@ -75,7 +77,9 @@ function App() {
       children: [
         { path: '', element: <Evaluator /> },
         { path: 'create_profile', element: <CreateEvaluatorProfile />, action: CreateEvaluatorProfileAction, loader: CreateEvaluatorProfileLoader},
-        { path: 'profile', element: <EvaluatorProfile />}
+        { path: 'profile', element: <EvaluatorProfile />},
+        { path: 'evaluate', element: <Evaluate /> },
+        { path: 'evaluate/review/course/:courseId', element: <EvaluatorRateAndReview /> }
       ],
     },
     {
