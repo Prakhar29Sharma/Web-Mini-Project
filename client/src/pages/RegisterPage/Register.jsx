@@ -66,9 +66,8 @@ function Register() {
                         <option value="Evaluator">Evaluator</option>
                     </select>
                 </div>
-                <br />
-                <button type="submit" className="btn btn-primary">Register</button>
-                <p className="message">{message}</p>
+                <button style={{ marginTop: '10px' }} type="submit" className="btn btn-primary">Register</button>
+                <p style={{ textAlign: 'left', fontSize: '15px', fontWeight: 'bold', color: 'red', marginTop: '10px' }} className="message">{message}</p>
             </form>
         </div>
     );
