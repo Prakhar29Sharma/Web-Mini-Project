@@ -2,6 +2,7 @@ import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { getToken } from "../../utils/auth";
 import { Link } from "react-router-dom";
+import { formatDistance } from "date-fns";
 
 export default function Notifications() {
 
@@ -55,7 +56,7 @@ export default function Notifications() {
                                                 <img src="http://localhost:5000/assets/notification.jpeg" alt="notification"/>
                                                 <h4><Link to="">{notification.title}</Link></h4>
                                                 <p style={{ textAlign: 'left' }}>{notification.message}</p>
-                                                <p style={{ textAlign: 'left' }}>{notification.time}</p>
+                                                <p style={{ textAlign: 'left' }}>{formatDistance(new Date(notification.date), new Date(), { addSuffix: true })}</p>
                                             </div>
                                         )
                                     })

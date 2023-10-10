@@ -29,7 +29,7 @@ export default function Notifications(props) {
                   return null;
                 }
                 return (
-                  <NotificationItem key={index} title={notification.title} message={notification.message} time={notification.time} />
+                  <NotificationItem key={index} title={notification.title} message={notification.message} date={notification.date} />
                 );
               })
             }
