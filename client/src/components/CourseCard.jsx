@@ -1,5 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import BasicRating from './BasicRating';
 
 export default function CourseCard(props) {
     
@@ -27,6 +28,7 @@ export default function CourseCard(props) {
             <div className="col-md-8">
               <div className="card-body">
                 <h5 className="card-title">{ props.unitName }</h5>
+                <p style={{ fontSize: '10px', color: 'grey', textAlign: 'left' }} className="card-text">{props.courseId}</p>
                 <hr />
                 <p style={{ fontSize: '15px', textAlign: 'left' }} className="card-text"><span>{props.subjectName}</span></p>
                 <p className="card-text" style={{ fontSize: "15px", textAlign: 'left' }}>{props.unitDescription}</p>
@@ -34,6 +36,7 @@ export default function CourseCard(props) {
                   {
                     props.cardType === 'View' ? (
                       <>
+                        <BasicRating type='read' size='medium' rating={props.rating !== undefined ? props.rating : 0 } />
                         <Link to={`/contributor/course/${props.courseId}`}>View Course</Link>
                       </>
                     ) : (

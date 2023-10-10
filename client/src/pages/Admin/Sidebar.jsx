@@ -12,15 +12,21 @@ function Sidebar() {
           </Link>
         </li>
         <li className="nav-item">
-          <Link to="subjects" className="nav-link">
+          <Link to="/admin" className="nav-link">
             <i className="bi bi-grid"></i>
-            <span>Subjects and Units</span>
+            <span>View Contributions</span>
           </Link>
         </li>
         <li className="nav-item">
-          <Link to="courses" className="nav-link">
+          <Link to="add_subject" className="nav-link">
             <i className="bi bi-grid"></i>
-            <span>View Courses</span>
+            <span>Add Subject</span>
+          </Link>
+        </li>
+        <li className="nav-item">
+          <Link to="add_unit" className="nav-link">
+            <i className="bi bi-grid"></i>
+            <span>Add Units</span>
           </Link>
         </li>
       </ul>

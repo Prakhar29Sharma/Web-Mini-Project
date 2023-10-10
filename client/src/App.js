@@ -9,30 +9,37 @@ import Evaluator from './pages/Evaluator/Evaluator';
 import Contributor from './pages/Contributor/Contributor';
 import Student from './pages/Student/Student';
 import Navbar from './components/Navbar';
-import SubjectList from './pages/Admin/SubjectList';
 import { loader as adminLoader } from './pages/Admin/Admin';
 import { loader as evaluatorLoader } from './pages/Evaluator/Evaluator';
 import { loader as contributorLoader } from './pages/Contributor/Contributor';
 import { loader as studentLoader } from './pages/Student/Student';
-import { loader as CreateProfileLoader } from './pages/Contributor/CreateProfile';
+import { loader as CreateContributorProfileLoader } from './pages/Contributor/CreateProfile';
 import { loader as CreateContentLoader } from './pages/Contributor/CreateContent';
+import { loader as CreateEvaluatorProfileLoader} from './pages/Evaluator/CreateProfile';
 import { RootLayout as AdminRootLayout } from './pages/Admin/RootLayout';
 import { RootLayout as ContributorRootLayout } from './pages/Contributor/RootLayout';
-import { action as CreateProfileAction } from './pages/Contributor/CreateProfile';
+import { RootLayout as EvaluatorRootLayout } from './pages/Evaluator/RootLayout';
+import { action as CreateContributorProfileAction } from './pages/Contributor/CreateProfile';
+import { action as CreateEvaluatorProfileAction } from './pages/Evaluator/CreateProfile';
 import { action as CreateCourseAction } from './pages/Contributor/CreateCourse';
 import { action as CreateContentAction } from './pages/Contributor/CreateContent';
 import { action as AddUnitAction } from './pages/Admin/AddUnit';
 import { action as EditCourseAction } from './pages/Contributor/EditCourse';
+import { action as AddSubjectAction } from './pages/Admin/AddSubject';
 import logoutAction from "./pages/Logout";
-import CreateProfile from './pages/Contributor/CreateProfile';
-import Profile from './pages/Contributor/Profile';
+import CreateContributorProfile from './pages/Contributor/CreateProfile';
+import CreateEvaluatorProfile from './pages/Evaluator/CreateProfile';
+import ContributorProfile from './pages/Contributor/Profile';
+import EvaluatorProfile from './pages/Evaluator/Profile';
 import CreateCourse from './pages/Contributor/CreateCourse';
 import CreateContent from './pages/Contributor/CreateContent';
 import AddUnit from './pages/Admin/AddUnit';
+import AddSubject from './pages/Admin/AddSubject';
 import EditCourse from './pages/Contributor/EditCourse';
 import ViewCourse from './pages/Contributor/ViewCourse';
 import RateAndReview from './pages/Contributor/RateAndReview';
 import ViewOthersContribution from './pages/Contributor/ViewOthersContribution';
+import Notifications from './pages/Contributor/Notifications';
 
 function App() {
 
@@ -54,7 +61,7 @@ function App() {
       element: <AdminRootLayout />,
       children: [
         { path: '', element: <Admin />, index: true},
-        { path: 'subjects', element: <SubjectList /> },
+        { path: 'add_subject', element: <AddSubject />, action: AddSubjectAction },
         { path: 'add_unit', element: <AddUnit />, action: AddUnitAction },
       ]
     },
@@ -62,8 +69,11 @@ function App() {
       path: '/evaluator',
       id: 'evaluator',
       loader: evaluatorLoader,
+      element: <EvaluatorRootLayout />,
       children: [
         { path: '', element: <Evaluator /> },
+        { path: 'create_profile', element: <CreateEvaluatorProfile />, action: CreateEvaluatorProfileAction, loader: CreateEvaluatorProfileLoader},
+        { path: 'profile', element: <EvaluatorProfile />}
       ],
     },
     {
@@ -73,14 +83,15 @@ function App() {
       element: <ContributorRootLayout />,
       children: [
         { path: '', element: <Contributor /> },
-        { path: 'create_profile', element: <CreateProfile />, action: CreateProfileAction, loader: CreateProfileLoader},
-        { path: 'profile', element: <Profile /> },
+        { path: 'create_profile', element: <CreateContributorProfile />, action: CreateContributorProfileAction, loader: CreateContributorProfileLoader},
+        { path: 'profile', element: <ContributorProfile /> },
         { path: 'create_course', element: <CreateCourse />, action: CreateCourseAction },
         { path: 'create_content/:subject/:unit', element: <CreateContent />, action: CreateContentAction, loader: CreateContentLoader },
         { path: 'edit_course/:courseId', element: <EditCourse />, action: EditCourseAction },
         { path: 'course/:courseId', element: <ViewCourse /> },
         { path: 'view_others_contribution', element: <ViewOthersContribution /> },
-        { path: 'rate_and_review/:courseId', element: <RateAndReview /> }
+        { path: 'rate_and_review/:courseId', element: <RateAndReview /> },
+        { path: 'notifications', element: <Notifications /> }
       ]
     },
     {

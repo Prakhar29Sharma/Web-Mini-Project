@@ -142,6 +142,7 @@ function Contributor() {
                                                 handleCourseDelete={() => null}
                                                 cardType="View"
                                                 status={course.status}
+                                                rating={course.rating}
                                             />
                                         }) : <p>No contributions yet</p>
                                     }

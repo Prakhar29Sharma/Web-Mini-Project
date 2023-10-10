@@ -59,6 +59,7 @@ function Login() {
         })
         .catch(function (error) {
             console.log(error);
+            setMessage(error.response.data.message);
         });
     }
 
@@ -75,7 +76,7 @@ function Login() {
                 <label>Password</label>
                 </div>
                 <button type="submit" className="btn btn-primary">Login</button>
-                <p className="message">{message}</p>
+                <p style={{ textAlign: 'left', fontSize: '15px', fontWeight: 'bold', color: 'red', marginTop: '10px' }} className="message">{message}</p>
             </form>
         </div>
     );

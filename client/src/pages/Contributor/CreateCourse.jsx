@@ -6,6 +6,7 @@ import PageTitle from "../../components/PageTitle";
 import CourseCard from "../../components/CourseCard";
 import AlertDialog from "../../components/AlertDialog";
 import CustomizedSnackbars from "../../components/CustomizedSnackbar";
+import createNotification from "../../utils/notification";
 
 export default function CreateCourse() {
 
@@ -120,8 +121,11 @@ export default function CreateCourse() {
         setShowSubmitAlertDialog(false);
         setSnackbarMessage("Course submitted successfully!");
         setShowSnackbar(true);
+        const user = localStorage.getItem('user');
+        const username = JSON.parse(user).username;
+        createNotification(username, "course submited", "your course has been submitted for review");
         setTimeout(() => {
-            window.location.reload();
+            // window.location.reload();
         }, 3000);
     }
 

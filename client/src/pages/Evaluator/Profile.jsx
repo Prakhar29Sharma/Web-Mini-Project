@@ -14,7 +14,7 @@ export default function Profile() {
     useEffect(() => {
         const user = localStorage.getItem('user');
         const username = JSON.parse(user).username;
-        axios.get(`http://localhost:5000/api/contributor/${username}`,{
+        axios.get(`http://localhost:5000/api/evaluator/${username}`,{
             headers: {
             'Content-Type': 'application/json',
             'Authorization': 'Bearer ' + getToken(),
@@ -53,7 +53,7 @@ export default function Profile() {
                             <div className="card-body profile-card pt-4 d-flex flex-column align-items-center">
                             <ImageAvatar imagePath={ ImagePath } username="avatar" size="100px" />
                             <h2>{profileData.firstName} {profileData.lastName}</h2>
-                            <h3>Contributor</h3>
+                            <h3>Evaluator</h3>
                             <div className="social-links mt-2">
                                 <Link to={profileData.github} className="github" target='_blank'><i className="bi bi-github"></i></Link>
                                 <Link to={profileData.linkedIn} className="linkedin" target='_blank'><i className="bi bi-linkedin"></i></Link>
@@ -130,17 +130,6 @@ export default function Profile() {
                                 <div className="row">
                                     <div className="col-lg-3 col-md-4 label">Years of Experience</div>
                                     <div className="col-lg-9 col-md-8">{ profileData.yearsOfExperience }</div>
-                                </div>
-
-                                <div className="row">
-                                    <div className="col-lg-3 col-md-4 label">Subjects to Contribute</div>
-                                    <div className="col-lg-9 col-md-8">{ /* profileData.subjectsToContribute */ }{
-                                        profileData.subjectsOfInterest !== undefined ? profileData.subjectsToContribute.split(",").map((subject, index) => {
-                                            return (
-                                                <BasicChips key={index} label={subject} />
-                                            );
-                                        }) : ""
-                                    }</div>
                                 </div>
 
                                 <div className="row">

@@ -34,7 +34,11 @@ const courseSchema = new mongoose.Schema({
         type: String,
         default: 'Draft',
         enum: ['Draft', 'UnderReview', 'Approved']
-    }
+    },
+    rating: {
+        type: Number,
+        default: 0,
+    },
 }, { timestamps: true });
 
 const Course = mongoose.model('Course', courseSchema);

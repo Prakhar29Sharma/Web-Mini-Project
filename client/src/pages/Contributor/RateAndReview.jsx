@@ -1,12 +1,18 @@
 import React, { useEffect, useState } from 'react';
-import { Form, useParams } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 import { getToken } from '../../utils/auth';
 import axios from 'axios';
 import PageTitle from '../../components/PageTitle';
-// import { SafeHTML } from '../../components/SafeHTML';
 import "./ViewCourse.modules.css";
 import TinyMCEViewer from '../../components/TinyMCEViewer';
-import BasicRating from '../../components/BasicRating';
+import ReviewForm from '../../components/ReviewForm';
+import { Button, Snackbar } from '@mui/material';
+import createNotification from '../../utils/notification';
+import MuiAlert from '@mui/material/Alert';
+
+const Alert = React.forwardRef(function Alert(props, ref) {
+  return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
+});
 
 export default function ViewCourse() {
 
@@ -17,6 +23,8 @@ export default function ViewCourse() {
     const [course, setCourse] = useState('');
     const [unitData, setUnitData] = useState({});
     const [authorName, setAuthorName] = useState('');
+    const [viewRateAndReview, setViewRateAndReview] = useState(false);
+    const [viewRateAndReviewButton, setViewRateAndReviewButton] = useState(true);
 
     useEffect(() => {
         const fetchCourses = async () => {
@@ -47,7 +55,52 @@ export default function ViewCourse() {
         fetchUsersName();
     }, [courseId, course.authorName]);
 
+    function handleReviewFormSubmit (rating, review) {
+      // courseId, authorId, authorName, authorRole, rating, review
+      const profileData = JSON.parse(localStorage.getItem('profileData'));
+      const user = JSON.parse(localStorage.getItem('user'));
+      const author = profileData.firstName + ' ' + profileData.lastName;
+      const authorId = profileData._id;
+      const authorRole = user.role;
+      const courseId = course._id;
+      const data = {
+        "courseId": courseId,
+        "authorId": authorId,
+        "authorName": author,
+        "authorRole": authorRole,
+        "rating": rating,
+        "review": review,
+      }
+      console.log(data);
+      axios.post('http://localhost:5000/api/reviews', data, {
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': 'Bearer ' + getToken(), 
+        },
+      })
+      .then((response) => {
+        console.log(response);
+        if (response.data.status === 'ok') {
+          setViewRateAndReviewButton(false);
+          createNotification(course.authorName, 'Course Review', 'A new review has been submitted for your course. Please check your dashboard.')
+          setTimeout(() => {
+            window.location.href = '/contributor/view_others_contribution';
+          }, 2000);
+        }
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+      setViewRateAndReview(false);
+    }
+
+    function handleReviewFormClose () {
+      setViewRateAndReview(false);
+    }
+
     return (
+      <>
+        { viewRateAndReview ? <ReviewForm open={true} onSubmit={handleReviewFormSubmit} onClose={handleReviewFormClose} /> : null }
         <main id="main" className="main">
 
         <PageTitle title="Rate and Review Course" />
@@ -173,9 +226,17 @@ export default function ViewCourse() {
                                 <div className="row">
                                 <div className="col-lg-3 col-md-4 label" style={{fontSize: '20px'}}>Rate and review this content</div>
                                     <div className="col-lg-9 col-md-8">
-                                        <Form>
-                                            <BasicRating size='medium' rating={3} />
-                                        </Form>
+                                      {
+                                        viewRateAndReviewButton ? (
+                                          <Button variant="contained" onClick={() => {setViewRateAndReview(true)}} >Rate and Review</Button>
+                                        ) : (
+                                          <Snackbar open={true} autoHideDuration={2000} onClose={() => {}}>
+                                            <Alert onClose={() => {}} severity="success" sx={{ width: '100%' }}>
+                                              Course Review Submitted Successfully!
+                                            </Alert>
+                                          </Snackbar>
+                                        )
+                                      }
                                     </div>
                                 </div>
                         </div>
@@ -184,5 +245,6 @@ export default function ViewCourse() {
             </div>
         </section>
     </main>
+    </>
     );
 }

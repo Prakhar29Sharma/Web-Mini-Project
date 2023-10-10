@@ -1,22 +1,27 @@
 const mongoose = require('mongoose');
 
 const courseReviewSchema = new mongoose.Schema({
-    course_id: {
+    courseId: {
         type: String,
         required: true,
     },
-    author: {
+    authorId: {
         type: String, 
+        required: true,
+    },
+    authorName: {
+        type: String,
+        required: true,
+    },
+    authorRole: {
+        type: String,
         required: true,
     },
     rating: {
         type: Number,
         required: true,
     },
-    title: {
-        type: String,
-    },
-    content: {
+    review: {
         type: String,
     },
 
@@ -24,4 +29,4 @@ const courseReviewSchema = new mongoose.Schema({
 
 const CourseReview = mongoose.model('CourseReview', courseReviewSchema);
 
-export default CourseReview
+module.exports = CourseReview;

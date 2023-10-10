@@ -1,16 +1,14 @@
-import React, { useEffect, useState, useContext } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { Form, Link } from "react-router-dom";
 import Notifications from "../../components/Notifications";
-import axios from "axios";
-import { getToken } from "../../utils/auth";
 import ProfileContext from "../../store/ProfileContext";
 import ImageAvatar from "../../components/ImageAvatar";
-import NotificationSnackbar from "../../components/NotificationSnackbar";
+import { getToken } from "../../utils/auth";
+import axios from "axios";
 
 export default function Navbar() {
 
     const ctx = useContext(ProfileContext);
-
     const user = localStorage.getItem('user');
     const userRole = JSON.parse(user).role;  
     const username = JSON.parse(user).username;
@@ -35,7 +33,7 @@ export default function Navbar() {
         console.log(error);
       });
 
-      axios.get(`http://localhost:5000/api/contributor/${username}`,{
+      axios.get(`http://localhost:5000/api/evaluator/${username}`,{
         headers: {
           'Content-Type': 'application/json',
           'Authorization': 'Bearer ' + getToken(),
@@ -56,15 +54,10 @@ export default function Navbar() {
     }, [ImagePath, ctx]);
 
     return (
-      <>
-          {
-            notifications.length > 0 && (
-              <NotificationSnackbar open={true} message={`you have ${notifications.length} notifications`} />
-            )
-          }
           <header id="header" className="header fixed-top d-flex align-items-center">
+
             <div className="d-flex align-items-center justify-content-between">
-              <Link to="/contributor" className="logo d-flex align-items-center">
+              <Link to="/evaluator" className="logo d-flex align-items-center">
                 <img src="../../assets/img/logo.png" alt="" />
                 <span className="d-none d-lg-block">Edulib</span>
               </Link>
@@ -150,6 +143,5 @@ export default function Navbar() {
             </nav>
 
           </header>
-          </>
         )
       }

@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import axios from "axios";
+import PasswordStrengthBar from 'react-password-strength-bar';
 
 function Register() {
 
@@ -30,12 +31,13 @@ function Register() {
                 localStorage.setItem('user', JSON.stringify(response.data.user));
                 window.location.href = '/';
             } else {
-                console.log(response.data);
+                console.log(response.data.message);
                 setMessage(response.data.message);
             }
         })
         .catch(function (error) {
             console.log(error);
+            setMessage(error.response.data.message);
         });
     }
 
@@ -54,6 +56,7 @@ function Register() {
                 <div className="user-box">
                 <input type="password" name="password" onChange={(e) => {setPassword(e.target.value)}} required autoComplete="false" />
                 <label>Password</label>
+                <PasswordStrengthBar style={{ marginBottom: '10px' }} password={password} />
                 </div>
                 <div className="user-box">
                     <select name="role" className="form-select" aria-label="Default select example" onChange={(e) => { setRole(e.target.value) }}>
@@ -63,9 +66,8 @@ function Register() {
                         <option value="Evaluator">Evaluator</option>
                     </select>
                 </div>
-                <br />
-                <button type="submit" className="btn btn-primary">Register</button>
-                <p className="message">{message}</p>
+                <button style={{ marginTop: '10px' }} type="submit" className="btn btn-primary">Register</button>
+                <p style={{ textAlign: 'left', fontSize: '15px', fontWeight: 'bold', color: 'red', marginTop: '10px' }} className="message">{message}</p>
             </form>
         </div>
     );

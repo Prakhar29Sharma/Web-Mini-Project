@@ -61,7 +61,7 @@ export default function AddUnit() {
                 <div className="col-lg-10">
                     <div className="card">
                         <div className="card-body">
-                            <h5 className="card-title">Add Units</h5>
+                            <h5 className="card-title">Add Unit</h5>
                             <Form method="post" encType="multipart/form-data" action=''>
                                 <div className="row mb-3">
                                   <label htmlFor="unitNumber" className="col-sm-2 col-form-label">Unit Number</label>

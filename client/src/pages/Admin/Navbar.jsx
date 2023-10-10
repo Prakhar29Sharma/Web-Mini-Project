@@ -1,12 +1,34 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Form, Link } from "react-router-dom";
 import Notifications from "../../components/Notifications";
+import ImageAvatar from "../../components/ImageAvatar";
+import { getToken } from "../../utils/auth";
+import axios from "axios";
 
 export default function Navbar() {
 
     const user = localStorage.getItem('user');  
     const userRole = JSON.parse(user).role;
     const username = JSON.parse(user).username;
+    const [notifications, setNotifications] = useState([]);
+
+    useEffect(() => {
+      const user = localStorage.getItem('user');
+      const username = JSON.parse(user).username;
+      axios.get(`http://localhost:5000/api/notifications/${username}`,{
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': 'Bearer ' + getToken(),
+        }
+      })
+      .then((response) => {
+        console.log(response.data.notifications);
+        setNotifications(response.data.notifications);
+      })
+      .catch((error) => { 
+        console.log(error);
+      });
+    }, []);
 
     return (
   <header id="header" className="header fixed-top d-flex align-items-center">
@@ -28,12 +50,12 @@ export default function Navbar() {
           </Link>
         </li>
 
-        <Notifications />
+        <Notifications notifications={notifications} />
 
         <li className="nav-item dropdown pe-3">
 
           <Link className="nav-link nav-profile d-flex align-items-center pe-0" to="" data-bs-toggle="dropdown">
-            <img src="http://localhost:5000/assets/profile-image.jpg" alt="Profile" className="rounded-circle" />
+            <ImageAvatar imagePath="" username={ username } size="36px" />
             <span className="d-none d-md-block dropdown-toggle ps-2">{username}</span>
           </Link>
 
@@ -46,7 +68,7 @@ export default function Navbar() {
               <hr className="dropdown-divider" />
             </li>
 
-            <li>
+            {/* <li>
               <Link className="dropdown-item d-flex align-items-center" to="profile">
                 <i className="bi bi-person"></i>
                 <span>My Profile</span>
@@ -54,7 +76,7 @@ export default function Navbar() {
             </li>
             <li>
               <hr className="dropdown-divider" />
-            </li>
+            </li> */}
 
             <li>
               <Link className="dropdown-item d-flex align-items-center" to="">
