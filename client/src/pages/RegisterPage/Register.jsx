@@ -31,12 +31,13 @@ function Register() {
                 localStorage.setItem('user', JSON.stringify(response.data.user));
                 window.location.href = '/';
             } else {
-                console.log(response.data);
+                console.log(response.data.message);
                 setMessage(response.data.message);
             }
         })
         .catch(function (error) {
             console.log(error);
+            setMessage(error.response.data.message);
         });
     }
 
@@ -55,7 +56,7 @@ function Register() {
                 <div className="user-box">
                 <input type="password" name="password" onChange={(e) => {setPassword(e.target.value)}} required autoComplete="false" />
                 <label>Password</label>
-                <PasswordStrengthBar password={password} />
+                <PasswordStrengthBar style={{ marginBottom: '10px' }} password={password} />
                 </div>
                 <div className="user-box">
                     <select name="role" className="form-select" aria-label="Default select example" onChange={(e) => { setRole(e.target.value) }}>
