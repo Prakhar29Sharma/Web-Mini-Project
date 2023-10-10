@@ -28,6 +28,7 @@ export default function CourseCard(props) {
             <div className="col-md-8">
               <div className="card-body">
                 <h5 className="card-title">{ props.unitName }</h5>
+                <p style={{ fontSize: '10px', color: 'grey', textAlign: 'left' }} className="card-text">{props.courseId}</p>
                 <hr />
                 <p style={{ fontSize: '15px', textAlign: 'left' }} className="card-text"><span>{props.subjectName}</span></p>
                 <p className="card-text" style={{ fontSize: "15px", textAlign: 'left' }}>{props.unitDescription}</p>
