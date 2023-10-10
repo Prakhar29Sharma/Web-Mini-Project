@@ -24,14 +24,13 @@ export default function Notifications(props) {
             </li>
 
             {
-              notifications.map((notification, index) => {
-                if (index >= 4) { // limit number of notifications to 4 on dropdown
-                  return null;
-                }
-                return (
+              notifications
+                .slice()
+                .reverse()
+                .slice(0, 4)
+                .map((notification, index) => (
                   <NotificationItem key={index} title={notification.title} message={notification.message} date={notification.date} />
-                );
-              })
+                ))
             }
 
             {/* <li className="notification-item">
