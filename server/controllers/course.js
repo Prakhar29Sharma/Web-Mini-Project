@@ -112,8 +112,8 @@ const getCoursesByAuthor = async (req, res) => {
 
 const getCoursesBySubjects = async (req, res) => {
     try {
-        const { subjects, isPublic } = req.query;
-        const courses = await Course.find({ 'subjectData.subjectName': { $in: subjects }, isPublic: isPublic });
+        const { subjects, isPublic, status } = req.query;
+        const courses = await Course.find({ 'subjectData.subjectName': { $in: subjects }, isPublic: isPublic, status: status });
         res.json({
             status: 'ok',
             data: courses
@@ -146,7 +146,7 @@ const createCourse = async (req, res) => {
 
 const updateCourseContent = async (req, res) => {
     const user = req.user;
-    if (user.role !== 'CONTRIBUTOR') {
+    if (user.role !== 'CONTRIBUTOR' && user.role !== 'EVALUATOR') {
         throw 'Unauthorized access';
     }
     const courseId = req.params.courseId;

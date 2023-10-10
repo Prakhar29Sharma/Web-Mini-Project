@@ -4,7 +4,7 @@ const {
     getCourses,
     updateCourseContent,
     deleteCourse,
-    getCoursesBySubjects
+    getCoursesBySubjects,
 
 } = require('../controllers/course');
 
