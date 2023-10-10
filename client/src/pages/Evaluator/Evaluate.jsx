@@ -219,19 +219,19 @@ export default function Evaluate() {
                     <Table>
                       <TableHead>
                         <TableRow>
-                          <TableCell>Contributor</TableCell>
-                          <TableCell>Pdf</TableCell>
-                          <TableCell>Video</TableCell>
-                          <TableCell>Notes</TableCell>
-                          <TableCell>Average Rating</TableCell>
-                          <TableCell>View</TableCell>
-                          <TableCell>Actions</TableCell>
+                          <TableCell>CONTRIBUTOR</TableCell>
+                          <TableCell>PDF</TableCell>
+                          <TableCell>VIDEO</TableCell>
+                          <TableCell>NOTES</TableCell>
+                          <TableCell>AVG RATING</TableCell>
+                          <TableCell>VIEW</TableCell>
+                          <TableCell>ACTION</TableCell>
                         </TableRow>
                       </TableHead>
                       <TableBody>
                         {courseUnderReview.map((course, index) => (
                           <TableRow key={index}>
-                            <TableCell>{course.authorName}</TableCell>
+                            <TableCell><Link to={`/contributor/${course.authorName}`} target='_blank'>{course.authorName}</Link></TableCell>
                             <TableCell>{course.coursePdfPath.length !== 0 ? <DoneIcon /> : <CloseRoundedIcon /> }</TableCell>
                             <TableCell>{course.courseVideoPath !== '' ? <DoneIcon /> : <CloseRoundedIcon /> }</TableCell>
                             <TableCell>{course.courseContent.length >= 100 ? <DoneIcon /> : <CloseRoundedIcon /> }</TableCell>
