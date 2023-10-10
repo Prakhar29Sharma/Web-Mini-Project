@@ -19,6 +19,7 @@ import { loader as CreateEvaluatorProfileLoader} from './pages/Evaluator/CreateP
 import { RootLayout as AdminRootLayout } from './pages/Admin/RootLayout';
 import { RootLayout as ContributorRootLayout } from './pages/Contributor/RootLayout';
 import { RootLayout as EvaluatorRootLayout } from './pages/Evaluator/RootLayout';
+import { RootLayout as StudentRootLayout } from './pages/Student/RootLayout';
 import { action as CreateContributorProfileAction } from './pages/Contributor/CreateProfile';
 import { action as CreateEvaluatorProfileAction } from './pages/Evaluator/CreateProfile';
 import { action as CreateCourseAction } from './pages/Contributor/CreateCourse';
@@ -38,6 +39,7 @@ import AddSubject from './pages/Admin/AddSubject';
 import EditCourse from './pages/Contributor/EditCourse';
 import ViewCourse from './pages/Contributor/ViewCourse';
 import ViewApprovedCourse from './pages/Admin/Courses';
+import ViewStudentCourse from './pages/Student/ViewCourse';
 import RateAndReview from './pages/Contributor/RateAndReview';
 import EvaluatorRateAndReview from './pages/Evaluator/RateAndReview';
 import AdminViewCourse from './pages/Admin/ViewCourse';
@@ -108,8 +110,10 @@ function App() {
       path: '/student',
       id: 'student',
       loader: studentLoader,
+      element: <StudentRootLayout />,
       children: [
         { path: '', element: <Student /> },
+        { path: 'course/:courseId', element: <ViewStudentCourse /> }
       ]
     }, 
     { 
