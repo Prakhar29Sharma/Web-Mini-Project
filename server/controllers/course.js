@@ -110,6 +110,19 @@ const getCoursesByAuthor = async (req, res) => {
     }
 }
 
+const getCoursesBySubjects = async (req, res) => {
+    try {
+        const { subjects, isPublic } = req.query;
+        const courses = await Course.find({ 'subjectData.subjectName': { $in: subjects }, isPublic: isPublic });
+        res.json({
+            status: 'ok',
+            data: courses
+        });
+    } catch (err) {
+        res.json({ status: 'error', error: err });
+    }
+}
+
 /* CREATE */
 
 const createCourse = async (req, res) => {
@@ -189,6 +202,7 @@ module.exports = {
     getCourse,
     getCourses,
     getCoursesBySubject,
+    getCoursesBySubjects,
     getCoursesByUnit,
     getCoursesByAuthor,
     createCourse,

@@ -17,9 +17,9 @@ function Sidebar() {
           ctx.isProfileCreated && (
             <>
             <li className="nav-item">
-              <Link to="" className="nav-link">
+              <Link to="evaluate" className="nav-link">
                 <i className="bi bi-grid"></i>
-                <span>Some Option</span>
+                <span>Evaluate</span>
               </Link>
             </li>
             </>
