@@ -22,6 +22,11 @@ function Admin() {
     const [studentCount, setStudentCount] = useState(0);
     const [contributorCount, setContributorCount] = useState(0);
     const [evaluatorCount, setEvaluatorCount] = useState(0);
+    const [totalCourseCount, setTotalCourseCount] = useState(0);
+    const [approvedCourseCount, setApprovedCourseCount] = useState(0);
+    const [underReviewCourseCount, setUnderReviewCourseCount] = useState(0);
+    const [draftCourseCount, setDraftCourseCount] = useState(0);
+    const [publicCourseCount, setPublicCourseCount] = useState(0);
 
     useEffect(() => {
         axios.get('http://localhost:5000/api/users/count/all', {
@@ -42,6 +47,25 @@ function Admin() {
         .catch((err) => {
             console.log(err);
         })
+
+        axios
+      .get("http://localhost:5000/api/stats/course", {
+        headers: {
+          "Content-Type": "application/json",
+        },
+      })
+      .then((response) => {
+        if (response.data.status === "ok") {
+          setTotalCourseCount(response.data.totalCourseCount);
+          setApprovedCourseCount(response.data.approvedCourseCount);
+          setUnderReviewCourseCount(response.data.underReviewCourseCount);
+          setDraftCourseCount(response.data.draftCourseCount);
+          setPublicCourseCount(response.data.publicCourseCount);
+        }
+      })
+      .catch((err) => {
+        console.log(err);
+      });
     }, []);
 
     const { isAuthenticated } = useRouteLoaderData('admin');
@@ -100,6 +124,66 @@ function Admin() {
                   </Typography>
                   <Typography variant="h4" color="primary">
                     {evaluatorCount}
+                  </Typography>
+                </CardContent>
+              </Card>
+            </Grid>
+            <Grid item xs={12} sm={6} md={3}>
+              <Card>
+                <CardContent>
+                  <Typography variant="h6" component="div">
+                    Total Courses
+                  </Typography>
+                  <Typography variant="h4" color="primary">
+                    {totalCourseCount}
+                  </Typography>
+                </CardContent>
+              </Card>
+            </Grid>
+            <Grid item xs={12} sm={6} md={3}>
+              <Card>
+                <CardContent>
+                  <Typography variant="h6" component="div">
+                    Approved Courses
+                  </Typography>
+                  <Typography variant="h4" color="primary">
+                    {approvedCourseCount}
+                  </Typography>
+                </CardContent>
+              </Card>
+            </Grid>
+            <Grid item xs={12} sm={6} md={3}>
+              <Card>
+                <CardContent>
+                  <Typography variant="h6" component="div">
+                    Under Review Courses
+                  </Typography>
+                  <Typography variant="h4" color="primary">
+                    {underReviewCourseCount}
+                  </Typography>
+                </CardContent>
+              </Card>
+            </Grid>
+            <Grid item xs={12} sm={6} md={3}>
+              <Card>
+                <CardContent>
+                  <Typography variant="h6" component="div">
+                    Draft Courses
+                  </Typography>
+                  <Typography variant="h4" color="primary">
+                    {draftCourseCount}
+                  </Typography>
+                </CardContent>
+              </Card>
+            </Grid>
+            <Grid item xs={12} sm={6} md={3}>
+              <Card>
+                <CardContent>
+                  <Typography variant="h6" component="div">
+                    Public Courses
+                  </Typography>
+                  <Typography variant="h4" color="primary">
+                    {publicCourseCount}
                   </Typography>
                 </CardContent>
               </Card>
