@@ -3,10 +3,16 @@ import { Link, useParams } from 'react-router-dom';
 import { getToken } from '../../utils/auth';
 import axios from 'axios';
 import PageTitle from '../../components/PageTitle';
-// import { SafeHTML } from '../../components/SafeHTML';
-import "./ViewCourse.modules.css";
 import TinyMCEViewer from '../../components/TinyMCEViewer';
+import ReviewForm from '../../components/ReviewForm';
+import { Button, Snackbar } from '@mui/material';
+import createNotification from '../../utils/notification';
+import MuiAlert from '@mui/material/Alert';
 import ImageAvatar from '../../components/ImageAvatar';
+
+const Alert = React.forwardRef(function Alert(props, ref) {
+  return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
+});
 
 export default function ViewCourse() {
 
@@ -17,7 +23,10 @@ export default function ViewCourse() {
     const [course, setCourse] = useState('');
     const [unitData, setUnitData] = useState({});
     const [authorName, setAuthorName] = useState('');
+    const [viewRateAndReview, setViewRateAndReview] = useState(false);
+    const [viewRateAndReviewButton, setViewRateAndReviewButton] = useState(true);
     const [ImagePath, setImagePath] = useState('');
+
     useEffect(() => {
         const fetchCourses = async () => {
             const response = await axios.get('http://localhost:5000/api/courses', {
@@ -54,10 +63,55 @@ export default function ViewCourse() {
         fetchUsersName();
     }, [courseId, course.authorName]);
 
+    function handleReviewFormSubmit (rating, review) {
+      // courseId, authorId, authorName, authorRole, rating, review
+      const profileData = JSON.parse(localStorage.getItem('profileData'));
+      const user = JSON.parse(localStorage.getItem('user'));
+      const author = profileData.firstName + ' ' + profileData.lastName;
+      const authorId = profileData._id;
+      const authorRole = user.role;
+      const courseId = course._id;
+      const data = {
+        "courseId": courseId,
+        "authorId": authorId,
+        "authorName": author,
+        "authorRole": authorRole,
+        "rating": rating,
+        "review": review,
+      }
+      console.log(data);
+      axios.post('http://localhost:5000/api/reviews', data, {
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': 'Bearer ' + getToken(), 
+        },
+      })
+      .then((response) => {
+        console.log(response);
+        if (response.data.status === 'ok') {
+          setViewRateAndReviewButton(false);
+          createNotification(course.authorName, 'Course Review', `Evaluator ${user.username} has reviewed your course ${course.unitData.unitName}.`)
+          setTimeout(() => {
+            window.location.href = '/evaluator/evaluate';
+          }, 2000);
+        }
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+      setViewRateAndReview(false);
+    }
+
+    function handleReviewFormClose () {
+      setViewRateAndReview(false);
+    }
+
     return (
+      <>
+        { viewRateAndReview ? <ReviewForm open={true} onSubmit={handleReviewFormSubmit} onClose={handleReviewFormClose} /> : null }
         <main id="main" className="main">
 
-        <PageTitle title="View Course" />
+        <PageTitle title="Rate and Review Course" />
 
         <section className="section">
             <div className="row">
@@ -66,9 +120,11 @@ export default function ViewCourse() {
                         <div className="card-body">
 
                                 <h5 className="card-title" style={{fontSize:'30px'}}>{ unitData.unitName !== undefined ? course.unitData.unitName : null }</h5>
+
                                 <ImageAvatar imagePath={ ImagePath } username="avatar" size="80px" />
                                 <p style={{ textAlign: 'left', fontSize: '15px', marginTop: '10px' }}><Link to={`/contributor/${course.authorName}`} target='_blank'>Go to author's profile</Link></p>
-                                <p style={{ textAlign: 'left', fontSize: '15px', marginTop: '10px' }} ><span style={{ fontWeight: 'bold' }}>Author: </span> {authorName !== undefined ? authorName : null }</p>
+
+                                <p style={{ textAlign: 'left', fontSize: '15px' }} ><span style={{ fontWeight: 'bold' }}>Author: </span> {authorName !== undefined ? authorName : null }</p>
 
                                 <div style={{height:'25px'}} className="row"></div>
 
@@ -135,10 +191,11 @@ export default function ViewCourse() {
 
                                 <div style={{height:'25px'}} className="row"></div>
 
+                                <hr />
+
                                 {
                                     course.courseVideoPath !== undefined && course.courseVideoPath !== '' ? (
                                         <>
-                                        <hr />
                                         <video width="800px" height="500px" controls="controls">
                                             <source src={'http://localhost:5000/' + course.courseVideoPath.replace(/\\/g, '/').replace('public/', '').replace(/ /g, '%20')} type="video/mp4" />
                                         </video>
@@ -146,11 +203,11 @@ export default function ViewCourse() {
                                     ) : null
                                 }
 
+                                <hr />
 
                                 {
                                     course.coursePdfPath !== undefined && course.coursePdfPath[0] !== undefined  ? (
                                         <>
-                                        <hr />
                                         <iframe title='course_pdf' src={'http://localhost:5000/' + course.coursePdfPath[0].replace(/\\/g, '/').replace('public/', '').replace(/ /g, '%20')} 
                                         width="800"
                                         height="500">
@@ -174,11 +231,29 @@ export default function ViewCourse() {
                                 <TinyMCEViewer initialContent={course.courseContent !== undefined ? course.courseContent : null} />
 
                                 <div style={{height:'25px'}} className="row"></div>
+
+                                <div className="row">
+                                <div className="col-lg-3 col-md-4 label" style={{fontSize: '20px'}}>Rate and review this content</div>
+                                    <div className="col-lg-9 col-md-8">
+                                      {
+                                        viewRateAndReviewButton ? (
+                                          <Button variant="contained" onClick={() => {setViewRateAndReview(true)}} >Rate and Review</Button>
+                                        ) : (
+                                          <Snackbar open={true} autoHideDuration={2000} onClose={() => {}}>
+                                            <Alert onClose={() => {}} severity="success" sx={{ width: '100%' }}>
+                                              Course Review Submitted Successfully!
+                                            </Alert>
+                                          </Snackbar>
+                                        )
+                                      }
+                                    </div>
+                                </div>
                         </div>
                     </div>
                 </div>
             </div>
         </section>
     </main>
+    </>
     );
 }

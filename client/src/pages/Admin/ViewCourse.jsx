@@ -3,8 +3,6 @@ import { Link, useParams } from 'react-router-dom';
 import { getToken } from '../../utils/auth';
 import axios from 'axios';
 import PageTitle from '../../components/PageTitle';
-// import { SafeHTML } from '../../components/SafeHTML';
-import "./ViewCourse.modules.css";
 import TinyMCEViewer from '../../components/TinyMCEViewer';
 import ImageAvatar from '../../components/ImageAvatar';
 
@@ -18,6 +16,7 @@ export default function ViewCourse() {
     const [unitData, setUnitData] = useState({});
     const [authorName, setAuthorName] = useState('');
     const [ImagePath, setImagePath] = useState('');
+
     useEffect(() => {
         const fetchCourses = async () => {
             const response = await axios.get('http://localhost:5000/api/courses', {
@@ -54,10 +53,12 @@ export default function ViewCourse() {
         fetchUsersName();
     }, [courseId, course.authorName]);
 
+
     return (
+      <>
         <main id="main" className="main">
 
-        <PageTitle title="View Course" />
+        <PageTitle title="Rate and Review Course" />
 
         <section className="section">
             <div className="row">
@@ -66,9 +67,11 @@ export default function ViewCourse() {
                         <div className="card-body">
 
                                 <h5 className="card-title" style={{fontSize:'30px'}}>{ unitData.unitName !== undefined ? course.unitData.unitName : null }</h5>
+
                                 <ImageAvatar imagePath={ ImagePath } username="avatar" size="80px" />
                                 <p style={{ textAlign: 'left', fontSize: '15px', marginTop: '10px' }}><Link to={`/contributor/${course.authorName}`} target='_blank'>Go to author's profile</Link></p>
-                                <p style={{ textAlign: 'left', fontSize: '15px', marginTop: '10px' }} ><span style={{ fontWeight: 'bold' }}>Author: </span> {authorName !== undefined ? authorName : null }</p>
+
+                                <p style={{ textAlign: 'left', fontSize: '15px' }} ><span style={{ fontWeight: 'bold' }}>Author: </span> {authorName !== undefined ? authorName : null }</p>
 
                                 <div style={{height:'25px'}} className="row"></div>
 
@@ -135,10 +138,11 @@ export default function ViewCourse() {
 
                                 <div style={{height:'25px'}} className="row"></div>
 
+                                <hr />
+
                                 {
                                     course.courseVideoPath !== undefined && course.courseVideoPath !== '' ? (
                                         <>
-                                        <hr />
                                         <video width="800px" height="500px" controls="controls">
                                             <source src={'http://localhost:5000/' + course.courseVideoPath.replace(/\\/g, '/').replace('public/', '').replace(/ /g, '%20')} type="video/mp4" />
                                         </video>
@@ -146,11 +150,11 @@ export default function ViewCourse() {
                                     ) : null
                                 }
 
+                                <hr />
 
                                 {
                                     course.coursePdfPath !== undefined && course.coursePdfPath[0] !== undefined  ? (
                                         <>
-                                        <hr />
                                         <iframe title='course_pdf' src={'http://localhost:5000/' + course.coursePdfPath[0].replace(/\\/g, '/').replace('public/', '').replace(/ /g, '%20')} 
                                         width="800"
                                         height="500">
@@ -180,5 +184,6 @@ export default function ViewCourse() {
             </div>
         </section>
     </main>
+    </>
     );
 }

@@ -37,7 +37,7 @@ export default function CourseCard(props) {
                     props.cardType === 'View' ? (
                       <>
                         <BasicRating type='read' size='medium' rating={props.rating !== undefined ? props.rating : 0 } />
-                        <Link to={`/contributor/course/${props.courseId}`}>View Course</Link>
+                        <Link to={`/${props.role}/course/${props.courseId}`}>View Course</Link>
                       </>
                     ) : (
                       <>

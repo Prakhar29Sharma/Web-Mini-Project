@@ -13,6 +13,7 @@ const EvaluatorRoute = require("./routes/evaluator");
 const CourseRoute = require("./routes/course");
 const reviewsRoute = require("./routes/reviews");
 const notificationRoute = require("./routes/notification");
+const statsRoute = require("./routes/stats");
 const authMiddleware = require('./middleware/auth');
 const Contributor = require('./models/Contributor');
 const Unit = require('./models/Unit');
@@ -180,6 +181,26 @@ app.post('/api/units/', authMiddleware, upload.single('unitImage'), async (req, 
     }
 });
 
+app.get('/api/public/contributor/:username', async (req, res) => {
+    try {
+        const { username } = req.params;
+        const contributor = await Contributor.findOne({ username: username });
+        if (contributor === null) {
+            res.json({
+                status: 'error',
+                message: 'Contributor not found'
+            });
+        } else {
+            res.json({
+                status: 'ok',
+                data: contributor
+            })
+        }
+    } catch (err) {
+        res.json({ status: 'error', error: err });
+    }
+});
+
 /* ROUTES */
 app.get('/', (req, res) => res.sendStatus(200));
 app.use('/api/users', userRoute);
@@ -191,6 +212,7 @@ app.use('/api/courses', CourseRoute);
 app.use('/api/reviews', reviewsRoute);
 app.use('/api/notifications', notificationRoute);
 app.use('/api/evaluator', EvaluatorRoute);
+app.use('/api/stats', statsRoute);
 
 /* MONGOOSE SETUP */
 const PORT = process.env.PORT || 5000;

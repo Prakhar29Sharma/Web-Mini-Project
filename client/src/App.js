@@ -19,6 +19,7 @@ import { loader as CreateEvaluatorProfileLoader} from './pages/Evaluator/CreateP
 import { RootLayout as AdminRootLayout } from './pages/Admin/RootLayout';
 import { RootLayout as ContributorRootLayout } from './pages/Contributor/RootLayout';
 import { RootLayout as EvaluatorRootLayout } from './pages/Evaluator/RootLayout';
+import { RootLayout as StudentRootLayout } from './pages/Student/RootLayout';
 import { action as CreateContributorProfileAction } from './pages/Contributor/CreateProfile';
 import { action as CreateEvaluatorProfileAction } from './pages/Evaluator/CreateProfile';
 import { action as CreateCourseAction } from './pages/Contributor/CreateCourse';
@@ -37,9 +38,15 @@ import AddUnit from './pages/Admin/AddUnit';
 import AddSubject from './pages/Admin/AddSubject';
 import EditCourse from './pages/Contributor/EditCourse';
 import ViewCourse from './pages/Contributor/ViewCourse';
+import ViewApprovedCourse from './pages/Admin/Courses';
+import ViewStudentCourse from './pages/Student/ViewCourse';
 import RateAndReview from './pages/Contributor/RateAndReview';
+import EvaluatorRateAndReview from './pages/Evaluator/RateAndReview';
+import AdminViewCourse from './pages/Admin/ViewCourse';
 import ViewOthersContribution from './pages/Contributor/ViewOthersContribution';
 import Notifications from './pages/Contributor/Notifications';
+import PublicProfile from './pages/Home/PublicProfile';
+import Evaluate from './pages/Evaluator/Evaluate';
 
 function App() {
 
@@ -51,7 +58,8 @@ function App() {
       children: [
         { path: '', element: <Home /> },
         { path: 'login', element: <Login /> },
-        { path: 'register', element: <Register /> }
+        { path: 'register', element: <Register /> },
+        { path: 'contributor/:username', element: <PublicProfile /> }
       ]
     },
     {
@@ -63,6 +71,8 @@ function App() {
         { path: '', element: <Admin />, index: true},
         { path: 'add_subject', element: <AddSubject />, action: AddSubjectAction },
         { path: 'add_unit', element: <AddUnit />, action: AddUnitAction },
+        { path: 'courses', element: <ViewApprovedCourse /> },
+        { path: 'review/course/:courseId', element: <AdminViewCourse /> }
       ]
     },
     {
@@ -73,7 +83,9 @@ function App() {
       children: [
         { path: '', element: <Evaluator /> },
         { path: 'create_profile', element: <CreateEvaluatorProfile />, action: CreateEvaluatorProfileAction, loader: CreateEvaluatorProfileLoader},
-        { path: 'profile', element: <EvaluatorProfile />}
+        { path: 'profile', element: <EvaluatorProfile />},
+        { path: 'evaluate', element: <Evaluate /> },
+        { path: 'evaluate/review/course/:courseId', element: <EvaluatorRateAndReview /> }
       ],
     },
     {
@@ -98,8 +110,10 @@ function App() {
       path: '/student',
       id: 'student',
       loader: studentLoader,
+      element: <StudentRootLayout />,
       children: [
         { path: '', element: <Student /> },
+        { path: 'course/:courseId', element: <ViewStudentCourse /> }
       ]
     }, 
     { 

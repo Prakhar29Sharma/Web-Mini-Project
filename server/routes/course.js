@@ -3,7 +3,9 @@ const express = require('express');
 const {
     getCourses,
     updateCourseContent,
-    deleteCourse
+    deleteCourse,
+    getCoursesBySubjects,
+
 } = require('../controllers/course');
 
 const authMiddleware = require('../middleware/auth');
@@ -15,6 +17,7 @@ router.use(authMiddleware);
 /* READ */
 
 router.get('/', getCourses);
+router.get('/subjects/', getCoursesBySubjects);
 
 /* UPDATE  */
 

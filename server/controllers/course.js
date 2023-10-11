@@ -110,6 +110,19 @@ const getCoursesByAuthor = async (req, res) => {
     }
 }
 
+const getCoursesBySubjects = async (req, res) => {
+    try {
+        const { subjects, isPublic, status } = req.query;
+        const courses = await Course.find({ 'subjectData.subjectName': { $in: subjects }, isPublic: isPublic, status: status });
+        res.json({
+            status: 'ok',
+            data: courses
+        });
+    } catch (err) {
+        res.json({ status: 'error', error: err });
+    }
+}
+
 /* CREATE */
 
 const createCourse = async (req, res) => {
@@ -133,11 +146,11 @@ const createCourse = async (req, res) => {
 
 const updateCourseContent = async (req, res) => {
     const user = req.user;
-    if (user.role !== 'CONTRIBUTOR') {
+    if (user.role !== 'CONTRIBUTOR' && user.role !== 'EVALUATOR') {
         throw 'Unauthorized access';
     }
     const courseId = req.params.courseId;
-    const { courseContent, status } = req.query;
+    const { courseContent, status, isPublic } = req.query;
     try {
         const course = await Course.findById(courseId);
         if (!course) {
@@ -149,6 +162,9 @@ const updateCourseContent = async (req, res) => {
             if (status) {
                 course.status = status;
             }
+            if (isPublic) {
+                course.isPublic = isPublic;
+            }
             await course.save();
             console.log(course);
             res.json({
@@ -157,6 +173,7 @@ const updateCourseContent = async (req, res) => {
             });
         }
     } catch (error) {
+        console.log(error);
         res.json({ status: 'error', error: err });
     }
 }
@@ -189,6 +206,7 @@ module.exports = {
     getCourse,
     getCourses,
     getCoursesBySubject,
+    getCoursesBySubjects,
     getCoursesByUnit,
     getCoursesByAuthor,
     createCourse,

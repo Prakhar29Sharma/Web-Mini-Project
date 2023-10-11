@@ -143,6 +143,7 @@ function Contributor() {
                                                 cardType="View"
                                                 status={course.status}
                                                 rating={course.rating}
+                                                role="contributor"
                                             />
                                         }) : <p>No contributions yet</p>
                                     }
