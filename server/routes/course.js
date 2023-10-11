@@ -3,7 +3,8 @@ const express = require('express');
 const {
     getCourses,
     updateCourseContent,
-    deleteCourse
+    deleteCourse,
+    updateStatus
 } = require('../controllers/course');
 
 const authMiddleware = require('../middleware/auth');
@@ -19,6 +20,7 @@ router.get('/', getCourses);
 /* UPDATE  */
 
 router.patch('/:courseId', updateCourseContent);
+
 
 /* DELETE */
 

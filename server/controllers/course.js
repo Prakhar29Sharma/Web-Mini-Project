@@ -133,7 +133,7 @@ const createCourse = async (req, res) => {
 
 const updateCourseContent = async (req, res) => {
     const user = req.user;
-    if (user.role !== 'CONTRIBUTOR') {
+    if (user.role !== 'CONTRIBUTOR' || user.role !== 'STUDENT' ) {
         throw 'Unauthorized access';
     }
     const courseId = req.params.courseId;
@@ -184,7 +184,27 @@ const deleteCourse = async (req, res) => {
         res.json({ status: 'error', error: err });
     }
 }
-
+const updateStatus=async(req,res)=>{
+    if (user.role !== 'EVALUATOR') {
+        throw 'Unauthorized access';
+    }
+    try {
+        const id = req.params.courseId;
+        const course = await Course.findOne({ _id: id });
+        if (course) {
+            
+            await Course.updateOne({ _id: id });
+            res.json({
+                status: 'ok',
+                message: 'Updated course with id = ' + id,
+            });
+        } else {
+            throw "Course not found";
+        }
+    } catch (err) {
+        res.json({ status: 'error', error: err });
+    }
+}
 module.exports = {
     getCourse,
     getCourses,
@@ -193,5 +213,6 @@ module.exports = {
     getCoursesByAuthor,
     createCourse,
     updateCourseContent,
-    deleteCourse
+    deleteCourse,
+    updateStatus
 };

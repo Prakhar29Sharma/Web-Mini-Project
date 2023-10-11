@@ -48,15 +48,51 @@ export default function ReviewCourse() {
       fetchUsersName();
   }, [courseId, course.authorName]);
 
-  const handleApprovalClick=async()=>{
+  // const handleCourseSubmit = (courseId) => {
+  //   console.log("proceeding to submit : ", courseId);
+  //   axios.patch(`http://localhost:5000/api/courses/${courseId}`, {}, {
+  //       headers: {
+  //           'Content-Type': 'application/json',
+  //           'Authorization': 'Bearer ' + getToken(),
+  //       },
+  //       params: {
+  //           status: "Approved"
+  //       }
+  //   })
+  //   .then((response) => {
+  //       console.log(response);
+  //   })
+  //   .catch((error) => {
+  //       console.log(error);
+  //   })
+    // setShowSubmitAlertDialog(false);
+    // setSnackbarMessage("Course Approved successfully!");
+    // setShowSnackbar(true);
+    // setTimeout(() => {
+    //     window.location.reload();
+    // }, 3000);
+// }
+
+  const handleApprovalClick=async(courseId)=>{
     try{
-      axios.put('http://localhost:5000/api/courses/'+courseId,{status:'Approved'},{
+      console.log("proceeding to submit : ", courseId);
+      const response=axios.patch('http://localhost:5000/api/courses/'+courseId,{
         headers:{
           'Content-Type': 'application/json',
           'Authorization': 'Bearer ' + getToken(),
         },
+        params: {
+          status: "Approved"
+      }
     });
-    setStatus('Approved');
+     // Check the response for success or process it as needed
+     if (response.status === 200) {
+      // Successful update, you can update the local state or perform other actions.
+      setStatus('Approved');
+    } else {
+      // Handle any other response codes or errors appropriately.
+      console.log('Update failed with status code: ' + response.status);
+    }
   }
   catch(error){
     console.log(error);

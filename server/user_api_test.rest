@@ -29,3 +29,10 @@ content-type: application/json
 }
 
 
+###
+PUT http://localhost:5000/api/courses/65225902a20fb6355e4d63d9 HTTP/1.1
+Content-Type: 'application/json',
+Authorization: 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImV2YWx1YXRvciIsImVtYWlsIjoiZXZhbHVhdG9yQGhvdG1haWwuY29tIiwicm9sZSI6IkVWQUxVQVRPUiIsImlhdCI6MTY5Njk5Nzc0MSwiZXhwIjoxNjk3MDAxMzQxfQ.hjsXfHbf0XGgJJ8lJUhekNXZthqSuqNEM2htSTz-xL8'
+# {
+#     "status":"Approved"
+# }
