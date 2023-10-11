@@ -13,7 +13,7 @@ function Home() {
                             </div>
                         </div>
                         <div class="col-12 col-lg-10 mx-auto">
-                            <div class="text-center position-relative"><img class="img-fluid" src="http://localhost:5000/assets/illustration.jpg" width="500" height="500"/></div>
+                            <div class="text-center position-relative"><img class="img-fluid" src="http://localhost:5000/assets/illustration.jpg" width="500" height="500" alt="illustration" /></div>
                         </div>
                     </div>
                 </div>

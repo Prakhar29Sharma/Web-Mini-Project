@@ -20,24 +20,24 @@ import {
 } from "@mui/material";
 import { Link } from "react-router-dom";
 import BasicRating from "../../components/BasicRating";
-import createNotification from "../../utils/notification";
+// import createNotification from "../../utils/notification";
 
 export default function ApprovedCourses() {
   const [approvedCourses, setApprovedCourses] = useState([]);
   const [openDialog, setOpenDialog] = useState(false);
   const [selectedCourseId, setSelectedCourseId] = useState("");
-  const [selectedCourseAuthor, setSelectedCourseAuthor] = useState("");
+  // const [selectedCourseAuthor, setSelectedCourseAuthor] = useState("");
 
   const openMakePublicDialog = (courseId, authorName) => {
     setSelectedCourseId(courseId);
-    setSelectedCourseAuthor(authorName);
+    // setSelectedCourseAuthor(authorName);
     setOpenDialog(true);
   };
 
   const handleMakePublic = () => {
     // Perform the make public action here
     const courseId = selectedCourseId;
-    const authorName = selectedCourseAuthor;
+    // const authorName = selectedCourseAuthor;
     console.log("Making course public with ID: " + courseId);
     
     // Simulate a delay for demonstration purposes
@@ -68,7 +68,7 @@ export default function ApprovedCourses() {
     // });
 
     setSelectedCourseId("");
-    setSelectedCourseAuthor("");
+    // setSelectedCourseAuthor("");
   };
 
   useEffect(() => {
