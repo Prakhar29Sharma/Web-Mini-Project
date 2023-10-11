@@ -21,10 +21,7 @@ function Evaluator() {
                     'Authorization': 'Bearer ' + getToken(),
                 },
             });
-            const profileData = localStorage.getItem("profileData");
-            const profile = JSON.parse(profileData);
-            const allowedCourseToRate = profile.subjectsOfInterest + profile.subjectsToContribute;
-            setMyCourses(response.data.data.filter((course) => course.status === 'UnderReview' ));
+           setMyCourses(response.data.data.filter((course) => course.status === 'Under-Review' ));
         };
         fetchCourses();
     }, [])

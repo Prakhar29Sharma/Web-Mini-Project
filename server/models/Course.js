@@ -33,7 +33,7 @@ const courseSchema = new mongoose.Schema({
     status: {
         type: String,
         default: 'Draft',
-        enum: ['Draft', 'UnderReview', 'Approved']
+        enum: ['Draft', 'Under-Review', 'Approved']
     }
 }, { timestamps: true });
 

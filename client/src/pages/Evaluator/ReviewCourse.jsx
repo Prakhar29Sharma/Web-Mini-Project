@@ -6,7 +6,7 @@ import PageTitle from '../../components/PageTitle';
 // import { SafeHTML } from '../../components/SafeHTML';
 // import "./ViewCourse.modules.css";
 import TinyMCEViewer from '../../components/TinyMCEViewer';
-import BasicRating from '../../components/BasicRating';
+// import BasicRating from '../../components/BasicRating';
 
 export default function ReviewCourse() {
   
@@ -17,6 +17,7 @@ export default function ReviewCourse() {
   const [course, setCourse] = useState('');
   const [unitData, setUnitData] = useState({});
   const [authorName, setAuthorName] = useState('');
+  const [status, setStatus] = useState('');
 
   useEffect(() => {
       const fetchCourses = async () => {
@@ -46,6 +47,21 @@ export default function ReviewCourse() {
       }
       fetchUsersName();
   }, [courseId, course.authorName]);
+
+  const handleApprovalClick=async()=>{
+    try{
+      axios.put('http://localhost:5000/api/courses/'+courseId,{status:'Approved'},{
+        headers:{
+          'Content-Type': 'application/json',
+          'Authorization': 'Bearer ' + getToken(),
+        },
+    });
+    setStatus('Approved');
+  }
+  catch(error){
+    console.log(error);
+  }
+  }
 
   return (
       <main id="main" className="main">
@@ -181,7 +197,13 @@ export default function ReviewCourse() {
                               <div className="col-lg-3 col-md-4 label" style={{fontSize: '20px'}}></div>
                                   <div className="col-lg-9 col-md-8">
                                       <Form>
-                                         <button className="btn btn-success " sx={{"align":"left"}}>Submit</button>
+                                      <button
+                className={`btn ${status === 'Approved' ? 'btn-success' : 'btn-primary'}`}
+                onClick={handleApprovalClick}
+                disabled={status === 'Approved'} // Disable the button if already approved
+              >
+                {status === 'Approved' ? 'Approved' : 'Approval'}
+              </button>
                                          <span> </span>
                                          <button className="btn btn-danger">Raise Issue</button>
                                       </Form>
