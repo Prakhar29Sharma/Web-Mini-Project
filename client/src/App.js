@@ -47,6 +47,7 @@ import ViewOthersContribution from './pages/Contributor/ViewOthersContribution';
 import Notifications from './pages/Contributor/Notifications';
 import PublicProfile from './pages/Home/PublicProfile';
 import Evaluate from './pages/Evaluator/Evaluate';
+import AboutUs from './pages/Home/AboutUs';
 
 function App() {
 
@@ -59,7 +60,8 @@ function App() {
         { path: '', element: <Home /> },
         { path: 'login', element: <Login /> },
         { path: 'register', element: <Register /> },
-        { path: 'contributor/:username', element: <PublicProfile /> }
+        { path: 'contributor/:username', element: <PublicProfile /> },
+        { path: 'aboutus', element: <AboutUs /> }
       ]
     },
     {

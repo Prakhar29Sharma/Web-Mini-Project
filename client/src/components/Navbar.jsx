@@ -12,7 +12,7 @@ function Navbar() {
             </div>
             <ul className="nav col-12 col-md-auto mb-2 justify-content-center mb-md-0">
                 <li><Link to="/" className="nav-link px-2 link-secondary">Home</Link></li>
-                <li><Link to="/about" className="nav-link px-2">About</Link></li>
+                <li><Link to="/aboutus" className="nav-link px-2">About Us</Link></li>
                 <li><Link to="/contact" className="nav-link px-2">Contact</Link></li>
             </ul>
             <div className="col-md-3 text-end mx-5">
