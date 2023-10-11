@@ -1,5 +1,5 @@
-# Python-Project
-#Python Mini Project, Group Number 12 , Mentor : Prof. Shiv Negi
+# Web-Mini-Project
+#Web Mini Project, Group Number 4 , Mentor : Prof. Shiv Negi
 
 
 # Edulib
