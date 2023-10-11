@@ -48,6 +48,7 @@ import Notifications from './pages/Contributor/Notifications';
 import PublicProfile from './pages/Home/PublicProfile';
 import Evaluate from './pages/Evaluator/Evaluate';
 import AboutUs from './pages/Home/AboutUs';
+import ContactUs from './pages/Home/ContactUs';
 
 function App() {
 
@@ -61,7 +62,8 @@ function App() {
         { path: 'login', element: <Login /> },
         { path: 'register', element: <Register /> },
         { path: 'contributor/:username', element: <PublicProfile /> },
-        { path: 'aboutus', element: <AboutUs /> }
+        { path: 'aboutus', element: <AboutUs /> },
+        { path: 'contact', element: <ContactUs /> }
       ]
     },
     {
