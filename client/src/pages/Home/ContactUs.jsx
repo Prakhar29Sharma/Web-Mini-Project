@@ -69,7 +69,7 @@ class ContactUs extends Component {
       width: '100%',
       border: '2px solid rgba(0, 0, 0, 0)',
       outline: 'none',
-      backgroundColor: 'rgba(230, 230, 230, 0.6)',
+      backgroundColor: '#071952',
       padding: '0.5rem 1rem',
       fontSize: '1.1rem',
       marginBottom: '22px',
@@ -83,7 +83,7 @@ class ContactUs extends Component {
     const btnStyle = {
       width: '100%',
       padding: '0.5rem 1rem',
-      backgroundColor: '#2ecc71',
+      backgroundColor: 'navy',
       color: '#fff',
       fontSize: '1.1rem',
       border: 'none',
