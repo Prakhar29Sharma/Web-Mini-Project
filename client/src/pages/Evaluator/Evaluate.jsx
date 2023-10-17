@@ -126,7 +126,7 @@ export default function Evaluate() {
             // console.log(response.data.data);
           // Filter courses based on the selected unit
           const filteredCourses = response.data.data.filter(
-            (course) => course.unitData.unitNumber === selectedUnit
+            (course) => course.unitData.unitNumber === selectedUnit && course.subjectData.subjectName === selectedSubject
           );
           setCourseUnderReview(filteredCourses);
         })
@@ -134,7 +134,7 @@ export default function Evaluate() {
           console.log(error);
         });
     }
-  }, [selectedUnit]);
+  }, [selectedUnit, selectedSubject]);
 
   return (
     <>
