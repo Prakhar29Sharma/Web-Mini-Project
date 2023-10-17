@@ -146,12 +146,12 @@ const createCourse = async (req, res) => {
 
 const updateCourseContent = async (req, res) => {
     const user = req.user;
-    if (user.role !== 'CONTRIBUTOR' && user.role !== 'EVALUATOR') {
-        throw 'Unauthorized access';
-    }
     const courseId = req.params.courseId;
     const { courseContent, status, isPublic } = req.query;
     try {
+        if (user.role !== 'CONTRIBUTOR' && user.role !== 'EVALUATOR' && user.role !== 'ADMIN') {
+            throw 'Unauthorized access';
+        }
         const course = await Course.findById(courseId);
         if (!course) {
             throw 'Course not found';
@@ -166,7 +166,7 @@ const updateCourseContent = async (req, res) => {
                 course.isPublic = isPublic;
             }
             await course.save();
-            console.log(course);
+            // console.log(course);
             res.json({
                 status: 'ok',
                 message: 'Course content updated successfully',
