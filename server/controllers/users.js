@@ -1,4 +1,5 @@
 const User = require('../models/User');
+const createMail = require('../services/mailService');
 
 /* READ */
 
@@ -88,6 +89,34 @@ const getNumOfUsers = async (req, res) => {
     }
 }
 
+/* UPDATE */
+const updateUser = async (req, res) => {
+    const user = req.user;
+    if (user.role !== 'ADMIN') {
+        return res.json({ status: 'error', error: 'You are not authorized to perform this action'});
+    }
+    try {
+        const {id} = req.params;
+        const { isActive } = req.query;
+        const user = await User.findById(id);
+        if (user === null) {
+            throw "User not found"
+        } else {
+            user.isActive = isActive;
+            await user.save()
+            .then(async () => {
+                await createMail(user.username, user.email, 'Your account has been activated', `<p>Your account has been activated. You can now login to your account.</p><p>Regards,<br>Team Edulib</p>`)
+            });
+            res.json({
+                status: 'ok',
+                message: 'user account status updated'
+            });
+        }
+    } catch (err) {
+        res.json({ status: 'error', error: err });
+    }
+}
+
 /* CREATE */
 
 const createUser = async (req, res) => {
@@ -116,4 +145,4 @@ const createUser = async (req, res) => {
     }
 }
 
-module.exports = {getUser, getUsers, getUserWithRole, getNumOfUsers, createUser}
+module.exports = {getUser, getUsers, getUserWithRole, getNumOfUsers, createUser, updateUser}

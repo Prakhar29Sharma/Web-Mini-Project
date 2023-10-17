@@ -5,7 +5,8 @@ const {
     getUsers, 
     getUserWithRole,
     getNumOfUsers,
-    createUser
+    createUser,
+    updateUser
 } = require('../controllers/users');
 
 const authMiddleware = require('../middleware/auth');
@@ -19,6 +20,9 @@ router.get('/', getUsers);
 router.get('/:id', getUser);
 router.get('/role/:role', getUserWithRole);
 router.get('/count/:role', getNumOfUsers);
+
+/* UPDATE */
+router.patch('/:id', updateUser);
 
 /* CREATE */
 router.post('/', createUser);
