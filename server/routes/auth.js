@@ -7,7 +7,7 @@ const router = express.Router();
 
 router.post('/login', async (req, res) => {
     const { username, password } = req.body;
-    const user = await User.findOne({ username: username });
+    const user = await User.findOne({ username: username, isActive: true });
     if (user) {
 
         const token = jwt.sign({
@@ -42,7 +42,7 @@ router.post('/login', async (req, res) => {
 });
 
 router.post('/register', async (req, res) => {
-    const { username, password, email, role } = req.body;
+    const { username, password, email, role, portfolio, experience } = req.body;
     try {
         if (role === '' || password === '' || username === '' || email === '') {
             res.status(400).json({
@@ -57,10 +57,14 @@ router.post('/register', async (req, res) => {
                     message: "username already exists",
                 });
             } else {
-                const user = new User({ username, password, email, role });
+                isActive = false;
+                if (role === 'STUDENT') {
+                    isActive = true;
+                }
+                const user = new User({ username, password, email, role, isActive, portfolio, experience });
                 await user.save()
                 .then(async () => {
-                    await createMail(username, email, 'Welcome to Edulib!', `<p>Thank you for registering with us. We hope you have a great experience!</p>`);
+                    await createMail(username, email, 'Welcome to Edulib!', `<p>Thank you for registering with us. We hope you have a great experience!</p>${role !== 'STUDENT' ? `<p>Your account is not active yet, we'll get back to you.</p>` : null }<p>Regards,<br>Team Edulib</p>`);
                 });
                 res.status(200).json({
                     status: 'ok',

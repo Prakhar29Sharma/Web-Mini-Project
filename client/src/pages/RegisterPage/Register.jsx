@@ -9,12 +9,14 @@ function Register() {
     const [password, setPassword] = useState('');
     const [role, setRole] = useState('');
     const [message, setMessage] = useState('');
+    const [portfolio, setPortfolio] = useState('');
+    const [experience, setExperience] = useState('');
 
     const handleSubmit = (e) => {
 
         e.preventDefault();
 
-        const data = { username, email, password, role: role.toUpperCase() };
+        const data = { username, email, password, role: role.toUpperCase(), portfolio, experience };
 
         console.log(data);
 
@@ -42,7 +44,7 @@ function Register() {
     }
 
     return (
-        <div className="login-box">
+        <div className="login-box mt-5">
             <h2>Register</h2>
             <form onSubmit={handleSubmit}>
                 <div className="user-box">
@@ -66,6 +68,19 @@ function Register() {
                         <option value="Evaluator">Evaluator</option>
                     </select>
                 </div>
+                {/* Render LinkedIn and GitHub fields if the role is Contributor or Evaluator */}
+                {role === 'Contributor' || role === 'Evaluator' ? (
+                    <div style={{ marginTop: '15px' }}>
+                        <div className="user-box">
+                            <input type="text" name="portfolio" onChange={(e) => {setPortfolio(e.target.value)}} required autoComplete="off"/>
+                            <label>Portfolio</label>
+                        </div>
+                        <div className="user-box">
+                            <input type="number" name="experience" onChange={(e) => {setExperience(e.target.value)}} min="0" required autoComplete="off"/>
+                            <label>Years of Experience</label>
+                        </div>
+                    </div>
+                ) : null}
                 <button style={{ marginTop: '10px' }} type="submit" className="btn btn-primary">Register</button>
                 <p style={{ textAlign: 'left', fontSize: '15px', fontWeight: 'bold', color: 'red', marginTop: '10px' }} className="message">{message}</p>
             </form>
