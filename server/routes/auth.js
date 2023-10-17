@@ -60,7 +60,7 @@ router.post('/register', async (req, res) => {
                 const user = new User({ username, password, email, role });
                 await user.save()
                 .then(async () => {
-                    await createMail(email, 'Welcome to Edulib!', `<h1>Hello, ${username}!</h1> <p>Thank you for registering with us. Web hope you have a great experience!</p><br /><p>Regards,</p><p>Team Edulib</p>`);
+                    await createMail(username, email, 'Welcome to Edulib!', `<p>Thank you for registering with us. We hope you have a great experience!</p>`);
                 });
                 res.status(200).json({
                     status: 'ok',
