@@ -1,6 +1,7 @@
 const express = require('express');
 const User = require('../models/User');
 const jwt = require('jsonwebtoken');
+const createMail = require('../services/mailService');
 
 const router = express.Router();
 
@@ -57,7 +58,10 @@ router.post('/register', async (req, res) => {
                 });
             } else {
                 const user = new User({ username, password, email, role });
-                await user.save();
+                await user.save()
+                .then(async () => {
+                    await createMail(email, 'Welcome to Edulib!', `<h1>Hello, ${username}!</h1> <p>Thank you for registering with us. Web hope you have a great experience!</p><br /><p>Regards,</p><p>Team Edulib</p>`);
+                });
                 res.status(200).json({
                     status: 'ok',
                     message: "user created",
