@@ -18,7 +18,7 @@ let MailGenerator = new Mailgen({
     product: {
         name: 'Edulib',
         link: 'http://localhost:3000/',
-        logo: 'https://img.freepik.com/premium-vector/happy-guy-using-computer-online-chat_179970-671.jpg?w=2000'
+        logo: 'https://main--gorgeous-lokum-416ef9.netlify.app/public/assets/logo_edulib.png'
     }
 });
 
