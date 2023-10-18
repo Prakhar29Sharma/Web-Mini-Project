@@ -25,7 +25,20 @@ const createNotification = async (req, res) => {
     }
 }
 
+/* DELETE */
+const deleteNotification = async (req, res) => {
+    try {
+        const { id } = req.params;
+        await Notification.findByIdAndDelete(id);
+        res.status(200).json({ message: 'Notification deleted successfully' });
+    } catch (error) {
+        console.log(error);
+        res.status(500).json({ error });
+    }
+}
+
 module.exports = {
     getNotifications,
-    createNotification
+    createNotification,
+    deleteNotification
 }
