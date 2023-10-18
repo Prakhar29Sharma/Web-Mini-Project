@@ -95,9 +95,9 @@ export default function ApprovedCourses() {
   return (
     <>
     <Dialog open={openDialog} onClose={() => setOpenDialog(false)}>
-        <DialogTitle>Confirm Course Approval</DialogTitle>
+        <DialogTitle>Confirm Course Publish</DialogTitle>
         <DialogContent>
-            Are you sure you want to approve this course?
+            Are you sure you want to publish this course and to make it publicly available?
         </DialogContent>
         <DialogActions>
             <Button onClick={() => setOpenDialog(false)} color="primary">

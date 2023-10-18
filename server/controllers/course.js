@@ -1,4 +1,6 @@
 const Course = require('../models/Course');
+const Contributor = require('../models/Contributor');
+const createMail = require('../services/mailService');
 
 /* READ */
 
@@ -163,6 +165,8 @@ const updateCourseContent = async (req, res) => {
                 course.status = status;
             }
             if (isPublic) {
+                const authorProfile = await Contributor.findOne({ username: course.authorName });
+                await createMail(authorProfile.firstName, authorProfile.email, 'Course made public', `<p>Your course on subject ${course.subjectData.subjectName}, unit ${course.unitData.unitName} has been made public on Edulib<p><br /><p>regards,<br />Team Edulib</p>`)
                 course.isPublic = isPublic;
             }
             await course.save();
