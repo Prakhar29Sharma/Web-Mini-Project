@@ -18,7 +18,9 @@ let MailGenerator = new Mailgen({
     product: {
         name: 'Edulib',
         link: 'http://localhost:3000/',
-        logo: 'https://main--gorgeous-lokum-416ef9.netlify.app/public/assets/logo_edulib.png'
+        logo: 'https://main--gorgeous-lokum-416ef9.netlify.app/public/assets/logo_edulib.png',
+        logoHeight: '400px',
+        copyright: 'Copyright © 2023 Edulib. All rights reserved.',
     }
 });
 
@@ -35,7 +37,7 @@ const createMail = (name, email, subject, instructions) => {
                     text: 'Open Edulib',
                     link: 'http://localhost:3000/'
                 }
-            }
+            },
         }
     };
     
