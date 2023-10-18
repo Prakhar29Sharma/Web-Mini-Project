@@ -43,6 +43,7 @@ import ViewStudentCourse from './pages/Student/ViewCourse';
 import RateAndReview from './pages/Contributor/RateAndReview';
 import EvaluatorRateAndReview from './pages/Evaluator/RateAndReview';
 import AdminViewCourse from './pages/Admin/ViewCourse';
+import ManageUsers from './pages/Admin/ManageUsers';
 import ViewOthersContribution from './pages/Contributor/ViewOthersContribution';
 import Notifications from './pages/Contributor/Notifications';
 import PublicProfile from './pages/Home/PublicProfile';
@@ -76,7 +77,8 @@ function App() {
         { path: 'add_subject', element: <AddSubject />, action: AddSubjectAction },
         { path: 'add_unit', element: <AddUnit />, action: AddUnitAction },
         { path: 'courses', element: <ViewApprovedCourse /> },
-        { path: 'review/course/:courseId', element: <AdminViewCourse /> }
+        { path: 'review/course/:courseId', element: <AdminViewCourse /> },
+        { path: 'users', element: <ManageUsers /> }
       ]
     },
     {

@@ -1,4 +1,6 @@
 const Course = require('../models/Course');
+const Contributor = require('../models/Contributor');
+const createMail = require('../services/mailService');
 
 /* READ */
 
@@ -146,12 +148,12 @@ const createCourse = async (req, res) => {
 
 const updateCourseContent = async (req, res) => {
     const user = req.user;
-    if (user.role !== 'CONTRIBUTOR' && user.role !== 'EVALUATOR') {
-        throw 'Unauthorized access';
-    }
     const courseId = req.params.courseId;
     const { courseContent, status, isPublic } = req.query;
     try {
+        if (user.role !== 'CONTRIBUTOR' && user.role !== 'EVALUATOR' && user.role !== 'ADMIN') {
+            throw 'Unauthorized access';
+        }
         const course = await Course.findById(courseId);
         if (!course) {
             throw 'Course not found';
@@ -163,10 +165,12 @@ const updateCourseContent = async (req, res) => {
                 course.status = status;
             }
             if (isPublic) {
+                const authorProfile = await Contributor.findOne({ username: course.authorName });
+                await createMail(authorProfile.firstName, authorProfile.email, 'Course made public', `<p>Your course on subject ${course.subjectData.subjectName}, unit ${course.unitData.unitName} has been made public on Edulib<p><br /><p>regards,<br />Team Edulib</p>`)
                 course.isPublic = isPublic;
             }
             await course.save();
-            console.log(course);
+            // console.log(course);
             res.json({
                 status: 'ok',
                 message: 'Course content updated successfully',

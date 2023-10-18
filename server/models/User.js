@@ -35,6 +35,18 @@ const userSchema = new mongoose.Schema({
         required: true,
         enum: rolesEnum,
     },
+    portfolio: {
+        type: String,
+        default: '',
+    },
+    experience: {
+        type: String,
+        default: 0,
+    },
+    isActive: {
+        type: Boolean,
+        default: false,
+    },
 }, { timestamps: true });
 
 const User = mongoose.model("User", userSchema);

@@ -38,46 +38,57 @@ export default function Evaluate() {
   const [selectedCourseId, setSelectedCourseId] = useState("");
   const [selectedCourseAuthor, setSelectedCourseAuthor] = useState("");
 
+  // State to track viewed courses
+  const [viewedCourses, setViewedCourses] = useState({});
+
   const openApproveDialog = (courseId, authorName) => {
     setSelectedCourseId(courseId);
     setSelectedCourseAuthor(authorName);
     setOpenDialog(true);
   };
 
-  const handleApproveCourse = () => {
-    // Perform the approval action here
-    const courseId = selectedCourseId;
-    const authorName = selectedCourseAuthor;
-    console.log("Approving course with ID: " + courseId);
-    setTimeout(() => {
-      setOpenDialog(false);
-      setSelectedCourseId("");
-    }, 1000); // Simulating a delay for demonstration purposes
-  
-    axios.patch(`http://localhost:5000/api/courses/${courseId}`, {}, {
-      headers: {
-        "Content-Type": "application/json",
-        "Authorization": 'Bearer ' + getToken(),
-      },
-      params: {
-        status: 'Approved',
-      }
-    })
-    .then((response) => {
-      console.log(response);
-      if (response.data.status === 'ok') {
-        createNotification(authorName ,'Success', `Your course with id ${courseId} has been approved successfully.`);
-        window.location.href = '/evaluator/evaluate/';
-      }
-    })
-    .catch((error) => {
-      console.log(error);
-    })
-    // Clear the selected course ID
-    setSelectedCourseId("");
-    setSelectedCourseAuthor("");
+  const handleViewCourse = (courseId) => {
+    // Mark the course as viewed
+    setViewedCourses({ ...viewedCourses, [courseId]: true });
   };
-  
+
+  const handleApproveCourse = () => {
+    // Check if the selected course for approval matches the viewed course
+    if (selectedCourseId in viewedCourses) {
+      // Perform the approval action here
+      const courseId = selectedCourseId;
+      const authorName = selectedCourseAuthor;
+      console.log("Approving course with ID: " + courseId);
+      setTimeout(() => {
+        setOpenDialog(false);
+        setSelectedCourseId("");
+      }, 1000); // Simulating a delay for demonstration purposes
+
+      axios
+        .patch(`http://localhost:5000/api/courses/${courseId}`, {}, {
+          headers: {
+            "Content-Type": "application/json",
+            "Authorization": 'Bearer ' + getToken(),
+          },
+          params: {
+            status: 'Approved',
+          }
+        })
+        .then((response) => {
+          console.log(response);
+          if (response.data.status === 'ok') {
+            createNotification(authorName, 'Success', `Your course with id ${courseId} has been approved successfully.`);
+            window.location.href = '/evaluator/evaluate/';
+          }
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    } else {
+      // Handle the case where the Approve button was clicked without viewing the course
+      console.log("You must view the course before approving it.");
+    }
+  };
 
   useEffect(() => {
     const profileData = localStorage.getItem("profileData");
@@ -126,7 +137,7 @@ export default function Evaluate() {
             // console.log(response.data.data);
           // Filter courses based on the selected unit
           const filteredCourses = response.data.data.filter(
-            (course) => course.unitData.unitNumber === selectedUnit
+            (course) => course.unitData.unitNumber === selectedUnit && course.subjectData.subjectName === selectedSubject
           );
           setCourseUnderReview(filteredCourses);
         })
@@ -134,7 +145,7 @@ export default function Evaluate() {
           console.log(error);
         });
     }
-  }, [selectedUnit]);
+  }, [selectedUnit, selectedSubject]);
 
   return (
     <>
@@ -239,13 +250,13 @@ export default function Evaluate() {
                                 <BasicRating type="read" rating={course.rating} size="medium"/>
                             </TableCell>
                             <TableCell>
-                                <Link to={`review/course/${course._id}`} target="_blank" className="btn btn-primary">View</Link>
+                                <Link to={`review/course/${course._id}`} target="_blank" className="btn btn-primary"  onClick={() => handleViewCourse(course._id)}>View</Link>
                             </TableCell>
                             <TableCell>
                             <Button
                             className="btn btn-primary"
                             onClick={() => openApproveDialog(course._id, course.authorName)}
-                            disabled={selectedCourseId !== "" && selectedCourseId !== course._id}
+                            disabled={!viewedCourses[course._id]}
                             style={{ backgroundColor: 'green', color: 'white' }}
                             >
                             Approve
