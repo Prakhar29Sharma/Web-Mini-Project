@@ -70,7 +70,7 @@ export default function Notifications() {
                                 {
                                     notifications.map((notification, index) => {
                                         return (
-                                            <div style={{ marginBottom: '25px', display: 'flex', flexDirection: 'row', gap: '10px' }} key={index} className="post-item clearfix">
+                                            <div style={{ position: 'relative', marginBottom: '25px', display: 'flex', flexDirection: 'row', gap: '10px' }} key={index} className="post-item clearfix">
                                                 <div>
                                                 <img src="http://localhost:5000/assets/notification.jpeg" alt="notification"/>
                                                 <h4><Link to="">{notification.title}</Link></h4>
@@ -79,7 +79,7 @@ export default function Notifications() {
                                                 </div>
                                                 <DeleteIcon
                                                 onClick={() => onDeleteNotification(notification._id)} // Pass the notification ID to onDeleteNotification
-                                                style={{ cursor: 'pointer', float: 'right', color: 'red' }}
+                                                style={{ cursor: 'pointer', float: 'right', color: 'red', position: 'absolute', right: '0px', top: '0px'}}
                                                 />
                                             </div>
                                         )
