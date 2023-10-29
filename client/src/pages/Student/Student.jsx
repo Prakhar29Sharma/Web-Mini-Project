@@ -4,7 +4,8 @@ import { getToken } from "../../utils/auth";
 import { useRouteLoaderData } from "react-router-dom";
 import PageTitle from "../../components/PageTitle";
 import axios from "axios";
-import CourseCard from "../../components/CourseCard";
+import CourseCard from "./CourseCard";
+import { Box, Grid } from "@mui/material";
 
 function Student() {
 
@@ -34,32 +35,33 @@ function Student() {
         <main id="main" className="main">
         <PageTitle title="Dashboard" />
             <section className="section dashboard">
-            <div className="col-lg-8">
-                <div className="card">
-                    <div className="card-body">
+                        <Box sx={{ flexGrow: 1 }}>
                         <h5 className="card-title">Courses</h5>
-                        {
-                            courses.length > 0 ? courses.map((course, index) => {
-                                if (course.unitData === undefined) return null;
-                                return <CourseCard 
-                                    key={index} 
-                                    courseId={course._id} 
-                                    unitName={course.unitData.unitName} 
-                                    subjectName={course.subjectData.subjectName} 
-                                    unitDescription={course.unitData.unitDescription} 
-                                    imagePath={course.unitData.unitImagePath}
-                                    handleCourseSubmit={() => null}
-                                    handleCourseDelete={() => null}
-                                    cardType="View"
-                                    status={course.status}
-                                    role="student"
-                                    rating={course.rating}
-                                />
-                            }) : <p>No courses available</p>
-                        }
-                    </div>
-                </div>
-            </div>
+                        <Grid container spacing={2}>
+                            {
+                                courses.length > 0 ? courses.map((course, index) => {
+                                    if (course.unitData === undefined) return null;
+                                    return <Grid item xs={3}><CourseCard 
+                                        key={index} 
+                                        courseId={course._id} 
+                                        unitName={course.unitData.unitName} 
+                                        subjectName={course.subjectData.subjectName} 
+                                        unitDescription={course.unitData.unitDescription} 
+                                        imagePath={course.unitData.unitImagePath}
+                                        handleCourseSubmit={() => null}
+                                        handleCourseDelete={() => null}
+                                        cardType="View"
+                                        status={course.status}
+                                        role="student"
+                                        rating={course.rating}
+                                    />
+                                    </Grid>
+                                }) : <p>No courses available</p>
+                            }
+                            
+                            
+                        </Grid>
+                        </Box>
             </section>
         </main>
         </>

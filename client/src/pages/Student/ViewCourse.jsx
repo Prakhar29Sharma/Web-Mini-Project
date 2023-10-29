@@ -2,7 +2,6 @@ import React, { useEffect, useState } from 'react';
 import { Link, useParams } from 'react-router-dom';
 import { getToken } from '../../utils/auth';
 import axios from 'axios';
-import PageTitle from '../../components/PageTitle';
 import TinyMCEViewer from '../../components/TinyMCEViewer';
 import ReviewForm from '../../components/ReviewForm';
 import { Button, Snackbar } from '@mui/material';
@@ -110,9 +109,6 @@ export default function ViewCourse() {
       <>
         { viewRateAndReview ? <ReviewForm open={true} onSubmit={handleReviewFormSubmit} onClose={handleReviewFormClose} /> : null }
         <main id="main" className="main">
-
-        <PageTitle title="Rate and Review Course" />
-
         <section className="section">
             <div className="row">
                 <div className="col-lg-10">
