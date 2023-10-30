@@ -22,7 +22,25 @@ const getStudents = async (req, res) => {
     }
 }
 
+/* UPDATE */
+const updateStudent = async (req, res) => {
+    try {
+        const student = await Student.findOne({ username: req.params.username });
+        if (!student) {
+            throw 'Student not found';
+        }
+        if (req.query.courseId !== undefined && !student.recentlyVisited.includes(req.query.courseId)) {
+            student.recentlyVisited.push(req.query.courseId);
+        }
+        student.save();
+        res.json({ status: 'ok', data: student });
+    } catch (err) {
+        res.json({ status: 'error', error: err });
+    }
+}
+
 module.exports = {
     getStudent,
     getStudents,
+    updateStudent
 }

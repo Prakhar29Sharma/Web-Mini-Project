@@ -17,10 +17,10 @@ function Sidebar() {
           </Link>
         </li>
         <li className="nav-item">
-          <Link to="" className="nav-link">
+          <Link to="all_courses" className="nav-link">
             <PageviewIcon />
             &nbsp;
-            <span>View Courses</span>
+            <span>Explore Courses</span>
           </Link>
         </li>
         {

@@ -1,5 +1,5 @@
 const express = require('express');
-const { getStudent, getStudents } = require('../controllers/student');
+const { getStudent, getStudents, updateStudent } = require('../controllers/student');
 
 const authMiddleware = require('../middleware/auth');
 
@@ -10,6 +10,9 @@ router.use(authMiddleware);
 /* READ */
 router.get('/', getStudents);
 router.get('/:username', getStudent);
+
+/* UPDATE */
+router.patch('/add_course/:username', updateStudent);
 
 /* CREATE */
 // router.post('/', createContributor);

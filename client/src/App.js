@@ -53,6 +53,7 @@ import PublicProfile from './pages/Home/PublicProfile';
 import Evaluate from './pages/Evaluator/Evaluate';
 import AboutUs from './pages/Home/AboutUs';
 import ContactUs from './pages/Home/ContactUs';
+import ViewAllCourses from './pages/Student/ViewAllCourses';
 
 function App() {
 
@@ -124,7 +125,8 @@ function App() {
         { path: '', element: <Student /> },
         { path: 'course/:courseId', element: <ViewStudentCourse /> },
         { path: 'create_profile', element: <CreateStudentProfile />, action: CreateStudentProfileAction },
-        { path: 'profile', element: <StudentProfile />}
+        { path: 'profile', element: <StudentProfile />},
+        { path: 'all_courses', element: <ViewAllCourses /> }
       ]
     }, 
     { 
