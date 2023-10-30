@@ -20,6 +20,8 @@ const Unit = require('./models/Unit');
 const Subject = require('./models/Subject');
 const Course = require('./models/Course');
 const Evaluator = require('./models/Evaluator');
+const Student = require('./models/Student');
+const StudentRoute = require('./routes/student');
 
 /* CONFIG */
 const app = express()
@@ -105,6 +107,27 @@ app.post('/api/courses/', authMiddleware, fileUploadMiddleware, async (req, res)
     }
 });
 
+app.post('/api/student/', authMiddleware, upload.single('profileImage'), async (req, res) => {
+    try {
+        const user = req.user;
+        if (user.role !== 'STUDENT') {
+            throw 'Unauthorized access';
+        }
+        const student = new Student(req.body);
+        // Access the uploaded image path
+        const imagePath = req.file.path;
+        student.profileImagePath = imagePath;
+        await student.save();
+        console.log('Student profile created successfully');
+        res.json({
+            status: 'ok',
+            message: 'Student profile created successfully',
+        });
+    } catch (err) {
+        res.json({ status: 'error', error: err });
+    }
+});
+
 app.post('/api/contributor/',authMiddleware, upload.single('profileImage'), async (req, res) => {
     try {
         const user = req.user;
@@ -112,13 +135,12 @@ app.post('/api/contributor/',authMiddleware, upload.single('profileImage'), asyn
             throw 'Unauthorized access';
         }
         const contributor = new Contributor(req.body);
-        console.log('hi');
         // Access the uploaded image path
         console.log(req.file);
         const imagePath = req.file.path;
         contributor.profileImagePath = imagePath;
         await contributor.save();
-        console.log('hi');
+        console.log('Contributor profile created successfully');
         res.json({
             status: 'ok',
             message: 'Contributor profile created successfully',
@@ -142,7 +164,7 @@ app.post('/api/evaluator/', authMiddleware, upload.single('profileImage'), async
         const imagePath = req.file.path;
         evaluator.profileImagePath = imagePath;
         await evaluator.save();
-        console.log('hi');
+        console.log('Evaluator profile created successfully');
         res.json({
             status: 'ok',
             message: 'Evaluator profile created successfully',
@@ -213,6 +235,7 @@ app.use('/api/reviews', reviewsRoute);
 app.use('/api/notifications', notificationRoute);
 app.use('/api/evaluator', EvaluatorRoute);
 app.use('/api/stats', statsRoute);
+app.use('/api/student', StudentRoute);
 
 /* MONGOOSE SETUP */
 const PORT = process.env.PORT || 5000;

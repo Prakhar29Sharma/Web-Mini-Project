@@ -2,7 +2,6 @@ import React, { useEffect, useState } from 'react';
 import { Link, useParams } from 'react-router-dom';
 import { getToken } from '../../utils/auth';
 import axios from 'axios';
-import PageTitle from '../../components/PageTitle';
 import TinyMCEViewer from '../../components/TinyMCEViewer';
 import ReviewForm from '../../components/ReviewForm';
 import { Button, Snackbar } from '@mui/material';
@@ -42,6 +41,26 @@ export default function ViewCourse() {
             await setUnitData(response.data.data.unitData);
         };
         fetchCourses();
+        const addCourseToStudent = async () => {
+          const user = localStorage.getItem('user');
+          const username = JSON.parse(user).username;
+          axios.patch('http://localhost:5000/api/student/add_course/' + username, {}, {
+            headers: {
+              'Content-Type': 'application/json',
+              'Authorization': 'Bearer ' + getToken(),
+            },
+            params: {
+              courseId: courseId,
+            },
+          })
+          .then((response) => {
+            console.log(response);
+          })
+          .catch((error) => {
+            console.log(error);
+          });
+        }
+        addCourseToStudent();
         const fetchUsersName = async () => {
           const response = await axios.get('http://localhost:5000/api/contributor/' + course.authorName, {
             headers: {
@@ -90,9 +109,9 @@ export default function ViewCourse() {
         console.log(response);
         if (response.data.status === 'ok') {
           setViewRateAndReviewButton(false);
-          createNotification(course.authorName, 'Course Review', `Evaluator ${user.username} has reviewed your course ${course.unitData.unitName}.`)
+          createNotification(course.authorName, 'Course Review', `Student ${user.username} has reviewed your course ${course.unitData.unitName}.`)
           setTimeout(() => {
-            window.location.href = '/evaluator/evaluate';
+            window.location.href = '/student';
           }, 2000);
         }
       })
@@ -110,9 +129,6 @@ export default function ViewCourse() {
       <>
         { viewRateAndReview ? <ReviewForm open={true} onSubmit={handleReviewFormSubmit} onClose={handleReviewFormClose} /> : null }
         <main id="main" className="main">
-
-        <PageTitle title="Rate and Review Course" />
-
         <section className="section">
             <div className="row">
                 <div className="col-lg-10">

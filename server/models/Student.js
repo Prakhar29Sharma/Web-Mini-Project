@@ -1,15 +1,15 @@
 const mongoose = require('mongoose');
 
 const studentSchema = new mongoose.Schema({
-    user_id: {
+    username: {
         type: String,
         unique: true,
     },
-    first_name: {
+    firstName: {
         type: String,
         required: true,
     },
-    last_name: {
+    lastName: {
         type: String,
     },
     dob: {
@@ -29,7 +29,7 @@ const studentSchema = new mongoose.Schema({
         message: 'Please provide a valid email address',
         },
     },
-    phone_no: {
+    phone: {
         type: String,
         required: true,
     },
@@ -45,14 +45,14 @@ const studentSchema = new mongoose.Schema({
         type: String,
         required: true,
     },
-    enrolled_in: {
+    recentlyVisited: {
         type: [String],
     },
-    last_login: {
-        type: Date,
+    profileImagePath: {
+        type: String,
     },
 }, { timestamps: true });
 
 const Student = mongoose.model('Student', studentSchema);
 
-export default Student
+module.exports = Student;

@@ -7,6 +7,7 @@ import PageTitle from '../../components/PageTitle';
 import "./ViewCourse.modules.css";
 import TinyMCEViewer from '../../components/TinyMCEViewer';
 import ImageAvatar from '../../components/ImageAvatar';
+import Stepper from '../../components/Stepper';
 
 export default function ViewCourse() {
 
@@ -64,6 +65,9 @@ export default function ViewCourse() {
                 <div className="col-lg-10">
                     <div className="card">
                         <div className="card-body">
+                                <br />
+                                <p style={{ fontSize:"20px" }}>Current Status</p>
+                                <Stepper activeStep={course.status} />
 
                                 <h5 className="card-title" style={{fontSize:'30px'}}>{ unitData.unitName !== undefined ? course.unitData.unitName : null }</h5>
                                 <ImageAvatar imagePath={ ImagePath } username="avatar" size="80px" />

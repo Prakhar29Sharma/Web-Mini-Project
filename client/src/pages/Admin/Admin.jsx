@@ -15,6 +15,7 @@ import "../../assets/css/style.css";
 import "./Admin.modules.css";
 import PageTitle from "../../components/PageTitle";
 import { Grid, Card, CardContent, Typography } from "@mui/material";
+import PieChart from "../../components/PieChart";
 
 function Admin() {
 
@@ -74,11 +75,33 @@ function Admin() {
         return (<div></div>);
     }
 
+    const user_data = [
+        { id: 0, value: studentCount, label: 'Students' },
+        { id: 1, value: contributorCount, label: 'Contributors' },
+        { id: 2, value: evaluatorCount, label: 'Evaluators' },
+    ]
+
+    const course_data = [
+        { id: 0, value: approvedCourseCount, label: 'Approved' },
+        { id: 1, value: underReviewCourseCount, label: 'Under Review' },
+        { id: 2, value: draftCourseCount, label: 'Draft' },
+        { id: 3, value: publicCourseCount, label: 'Public' },
+    ]
+
     return (
         <>
       <main id="main" className="main">
         <PageTitle title="Dashboard" />
         <section className="section dashboard">
+          <Grid container spacing={50}>
+            <Grid item xs={12} sm={6} md={3}>
+              <PieChart data={user_data} />
+            </Grid>
+            <Grid item xs={12} sm={6} md={3}>
+              <PieChart data={course_data} />
+            </Grid>
+          </Grid>
+          <br />
           <Grid container spacing={3}>
             <Grid item xs={12} sm={6} md={3}>
               <Card>

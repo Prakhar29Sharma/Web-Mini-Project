@@ -1,0 +1,74 @@
+
+@import url('https://fonts.googleapis.com/css2?family=Courgette&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Edu+TAS+Beginner&display=swap');
+
+.gradient-section {
+    background: linear-gradient(90deg, rgb(189, 204, 255) 0%, rgb(193, 244, 255) 35%, rgb(163, 229, 255) 100%);
+    color: black;
+    padding: 1rem;
+    border-radius: 0.5rem;
+    margin-bottom: 1rem;
+    font-family: 'Courgette', cursive;
+}
+
+.gradient-section h1 {
+    font-size: 3rem;
+    font-weight: 600;
+    font-family: 'Courgette', cursive;
+    text-align: left;
+}
+
+blockquote {
+    font-size: 1.5rem;
+    font-family: 'Edu TAS Beginner', cursive;
+    text-align: left;
+    margin: 1rem 0;
+}
+
+
+
+.search-container{
+    width: 490px;
+    display: block;
+    margin: 0 auto;
+  }
+  
+  input#search-bar{
+    margin: 0 auto;
+    width: 100%;
+    height: 45px;
+    padding: 0 20px;
+    font-size: 1rem;
+    border: 1px solid #D0CFCE;
+    outline: none;
+    &:focus{
+      border: 1px solid #008ABF;
+      transition: 0.35s ease;
+      color: #008ABF;
+      &::-webkit-input-placeholder{
+        transition: opacity 0.45s ease; 
+          opacity: 0;
+       }
+      &::-moz-placeholder {
+        transition: opacity 0.45s ease; 
+          opacity: 0;
+       }
+      &:-ms-placeholder {
+       transition: opacity 0.45s ease; 
+         opacity: 0;
+       }    
+     }
+   }
+  
+  .search-icon{
+    position: relative;
+    float: right;
+    width: 75px;
+    height: 75px;
+    top: -35px;
+    right: -45px;
+  }
+  
+  
+  
+  
