@@ -33,7 +33,7 @@ export default function Navbar() {
         console.log(error);
       });
 
-      axios.get(`http://localhost:5000/api/evaluator/${username}`,{
+      axios.get(`http://localhost:5000/api/student/${username}`,{
         headers: {
           'Content-Type': 'application/json',
           'Authorization': 'Bearer ' + getToken(),
@@ -57,7 +57,7 @@ export default function Navbar() {
           <header id="header" className="header fixed-top d-flex align-items-center">
 
             <div className="d-flex align-items-center justify-content-between">
-              <Link to="/evaluator" className="logo d-flex align-items-center">
+              <Link to="/student" className="logo d-flex align-items-center">
                 <img src="../../assets/img/logo.png" alt="" />
                 <span className="d-none d-lg-block">Edulib</span>
               </Link>

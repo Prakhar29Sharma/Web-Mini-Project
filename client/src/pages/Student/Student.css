@@ -1,0 +1,13 @@
+
+@import url('https://fonts.googleapis.com/css2?family=Courgette&display=swap');
+
+.gradient-header {
+    background-image: linear-gradient(45deg, #3b31c9, #159dd2);
+    color: white;
+    padding: 1rem;
+    border-radius: 0.5rem;
+    margin-bottom: 1rem;
+    text-align: left;
+    font-size: 5rem;
+    font-family: 'Courgette', cursive;
+}

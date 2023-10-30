@@ -22,6 +22,7 @@ import { RootLayout as EvaluatorRootLayout } from './pages/Evaluator/RootLayout'
 import { RootLayout as StudentRootLayout } from './pages/Student/RootLayout';
 import { action as CreateContributorProfileAction } from './pages/Contributor/CreateProfile';
 import { action as CreateEvaluatorProfileAction } from './pages/Evaluator/CreateProfile';
+import { action as CreateStudentProfileAction } from './pages/Student/CreateProfile';
 import { action as CreateCourseAction } from './pages/Contributor/CreateCourse';
 import { action as CreateContentAction } from './pages/Contributor/CreateContent';
 import { action as AddUnitAction } from './pages/Admin/AddUnit';
@@ -30,8 +31,10 @@ import { action as AddSubjectAction } from './pages/Admin/AddSubject';
 import logoutAction from "./pages/Logout";
 import CreateContributorProfile from './pages/Contributor/CreateProfile';
 import CreateEvaluatorProfile from './pages/Evaluator/CreateProfile';
+import CreateStudentProfile from './pages/Student/CreateProfile';
 import ContributorProfile from './pages/Contributor/Profile';
 import EvaluatorProfile from './pages/Evaluator/Profile';
+import StudentProfile from './pages/Student/Profile';
 import CreateCourse from './pages/Contributor/CreateCourse';
 import CreateContent from './pages/Contributor/CreateContent';
 import AddUnit from './pages/Admin/AddUnit';
@@ -119,7 +122,9 @@ function App() {
       element: <StudentRootLayout />,
       children: [
         { path: '', element: <Student /> },
-        { path: 'course/:courseId', element: <ViewStudentCourse /> }
+        { path: 'course/:courseId', element: <ViewStudentCourse /> },
+        { path: 'create_profile', element: <CreateStudentProfile />, action: CreateStudentProfileAction },
+        { path: 'profile', element: <StudentProfile />}
       ]
     }, 
     { 
