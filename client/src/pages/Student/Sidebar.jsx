@@ -1,6 +1,8 @@
 // import React, { useContext } from 'react';
 import { Link } from 'react-router-dom';
 // import ProfileContext from '../../store/ProfileContext';
+import DashboardIcon from '@mui/icons-material/Dashboard';
+import PageviewIcon from '@mui/icons-material/Pageview';
 
 function Sidebar() {
   // const ctx = useContext(ProfileContext);
@@ -9,13 +11,15 @@ function Sidebar() {
       <ul className="sidebar-nav" id="sidebar-nav">
         <li className="nav-item">
           <Link to="/student" className="nav-link">
-            <i className="bi bi-grid"></i>
+            <DashboardIcon />
+            &nbsp;
             <span>Dashboard</span>
           </Link>
         </li>
         <li className="nav-item">
           <Link to="" className="nav-link">
-            <i className="bi bi-grid"></i>
+            <PageviewIcon />
+            &nbsp;
             <span>View Courses</span>
           </Link>
         </li>
