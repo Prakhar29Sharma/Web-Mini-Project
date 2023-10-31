@@ -90,8 +90,11 @@ function Student() {
     }, [ctx]);
 
     useEffect(() => {
-        setRecentlyViewedCourses(courses.filter((course) => profileData.recentlyVisited.includes(course._id)));
+        if (profileData && profileData.recentlyVisited) {
+            setRecentlyViewedCourses(courses.filter((course) => profileData.recentlyVisited.includes(course._id)));
+        }
     }, [courses, profileData]);
+    
 
     const { isAuthenticated } = useRouteLoaderData('student');
 
