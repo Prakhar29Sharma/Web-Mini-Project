@@ -143,10 +143,10 @@ export async function action({request}) {
     })
     .then((response) => {
         console.log(response);
-        if (response.status === "ok") {
-            alert("Subject added successfully");
-            window.location.href = "/admin";
-        }
+        console.log(response);
+        alert("Subject added successfully");
+        // reload
+        window.location.reload();
     })
     .catch((error) => {
         console.log(error);

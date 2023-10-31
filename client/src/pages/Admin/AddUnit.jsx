@@ -208,6 +208,9 @@ export async function action({request}) {
     })
     .then((response) => {
         console.log(response);
+        alert("Unit added successfully");
+        // reload
+        window.location.reload();
     })
     .catch((error) => {
         console.log(error);
