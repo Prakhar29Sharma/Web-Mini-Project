@@ -11,6 +11,8 @@ import ImageAvatar from '../../components/ImageAvatar';
 import BasicRating from '../../components/BasicRating';
 import { formatDistance } from 'date-fns'
 import './ViewCourse.css';
+const Sentiment = require('sentiment');
+const sentiment = new Sentiment();
 
 const Alert = React.forwardRef(function Alert(props, ref) {
   return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
@@ -29,26 +31,29 @@ export default function ViewCourse() {
     const [viewRateAndReviewButton, setViewRateAndReviewButton] = useState(true);
     const [ImagePath, setImagePath] = useState('');
     const [courseReviews, setCourseReviews] = useState([]);
+    const [sentimentResult, setSentimentResult] = useState(null);
 
     useEffect(() => {
-        const fetchCourses = async () => {
-            const response = await axios.get('http://localhost:5000/api/courses', {
-                headers: {
-                    'Content-Type': 'application/json',
-                    'Authorization': 'Bearer ' + getToken(),
-                },
-                params: {
-                    id: courseId,
-                },
-            });
-            await setCourse(response.data.data);
-            await setUnitData(response.data.data.unitData);
-        };
-        fetchCourses();
-        const addCourseToStudent = async () => {
+      const fetchData = async () => {
+        try {
+          // Fetch course details
+          const courseResponse = await axios.get('http://localhost:5000/api/courses', {
+            headers: {
+              'Content-Type': 'application/json',
+              'Authorization': 'Bearer ' + getToken(),
+            },
+            params: {
+              id: courseId,
+            },
+          });
+    
+          setCourse(courseResponse.data.data);
+          setUnitData(courseResponse.data.data.unitData);
+    
+          // Fetch and set author details
           const user = localStorage.getItem('user');
           const username = JSON.parse(user).username;
-          axios.patch('http://localhost:5000/api/student/add_course/' + username, {}, {
+          await axios.patch('http://localhost:5000/api/student/add_course/' + username, {}, {
             headers: {
               'Content-Type': 'application/json',
               'Authorization': 'Bearer ' + getToken(),
@@ -56,51 +61,84 @@ export default function ViewCourse() {
             params: {
               courseId: courseId,
             },
-          })
-          .then((response) => {
-            console.log(response);
-          })
-          .catch((error) => {
-            console.log(error);
           });
-        }
-        addCourseToStudent();
-        const fetchUsersName = async () => {
-          const response = await axios.get('http://localhost:5000/api/contributor/' + course.authorName, {
+    
+          const authorResponse = await axios.get('http://localhost:5000/api/contributor/' + courseResponse.data.data.authorName, {
             headers: {
               'Content-Type': 'application/json',
-              'Authorization': 'Bearer ' + getToken(), 
+              'Authorization': 'Bearer ' + getToken(),
             },
           });
-          if (response.data.data !== undefined) {
-            setAuthorName(response.data.data.firstName + ' ' + response.data.data.lastName);
-            const profileImagePath = response.data.data.profileImagePath;
+    
+          if (authorResponse.data.data !== undefined) {
+            setAuthorName(authorResponse.data.data.firstName + ' ' + authorResponse.data.data.lastName);
+            const profileImagePath = authorResponse.data.data.profileImagePath;
+    
             if (profileImagePath === null) {
-            setImagePath('http://localhost:5000/assets/profile-image.jpg');
+              setImagePath('http://localhost:5000/assets/profile-image.jpg');
             } else {
-            setImagePath('http://localhost:5000/' + profileImagePath.replace('\\', '/').replace('public/', ''));
-            return;
+              setImagePath('http://localhost:5000/' + profileImagePath.replace('\\', '/').replace('public/', ''));
             }
           }
-        }
-        fetchUsersName();
-        const fetchReviews = async () => {
-          axios.get('http://localhost:5000/api/reviews/' + courseId, {
+    
+          // Fetch reviews
+          const reviewsResponse = await axios.get('http://localhost:5000/api/reviews/' + courseId, {
             headers: {
               'Content-Type': 'application/json',
-              'Authorization': 'Bearer ' + getToken(), 
+              'Authorization': 'Bearer ' + getToken(),
             },
-          })
-          .then((response) => {
-            console.log(response.data);
-            setCourseReviews(response.data.data);
-          })
-          .catch((err) => {
-            console.log(err);
           });
+    
+          setCourseReviews(reviewsResponse.data.data);
+    
+          // Perform sentiment analysis
+          const reviewsForAnalysis = reviewsResponse.data.data.map((review) => {
+            return { text: review.review, rating: review.rating };
+          });
+    
+          let positiveCount = 0;
+          let neutralCount = 0;
+          let negativeCount = 0;
+    
+          reviewsForAnalysis.forEach((review) => {
+            const textAnalysis = sentiment.analyze(review.text);
+    
+            if (review.rating >= 4 || textAnalysis.score > 0.2) {
+              positiveCount++;
+            } else if (review.rating === 3 || (textAnalysis.score >= -0.2 && textAnalysis.score <= 0.2)) {
+              neutralCount++;
+            } else {
+              negativeCount++;
+            }
+          });
+    
+          const totalReviews = reviewsForAnalysis.length;
+          const positivePercentage = (positiveCount / totalReviews) * 100;
+          const neutralPercentage = (neutralCount / totalReviews) * 100;
+          const negativePercentage = (negativeCount / totalReviews) * 100;
+    
+          setSentimentResult({
+            "positives": {
+              "count": positiveCount,
+              "percentage": positivePercentage.toFixed(2),
+            },
+            "neutrals": {
+              "count": neutralCount,
+              "percentage": neutralPercentage.toFixed(2),
+            },
+            "negatives": {
+              "count": negativeCount,
+              "percentage": negativePercentage.toFixed(2),
+            },
+          });
+        } catch (error) {
+          console.log(error);
         }
-        fetchReviews();
-    }, [courseId, course.authorName]);
+      };
+    
+      fetchData();
+    }, [courseId]);
+    
 
     function handleReviewFormSubmit (rating, review) {
       // courseId, authorId, authorName, authorRole, rating, review
@@ -290,6 +328,7 @@ export default function ViewCourse() {
                                 {
                                   courseReviews.length > 0 ? (
                                     <>
+                                      <hr />
                                       <div className="row">
                                         <h3>Reviews</h3>
                                         {
@@ -319,6 +358,13 @@ export default function ViewCourse() {
                                             );
                                           })
                                         }
+                                      </div>
+                                      <hr />
+                                      <h3>Reviews Sentiment Analysis</h3>
+                                      <div className='sentiment-card'>
+                                          <p>Positive Reviews: {sentimentResult !== null ? sentimentResult.positives.count + ' (' + sentimentResult.positives.percentage + '%)' : null}</p>
+                                          <p>Neutral Reviews: {sentimentResult !== null ? sentimentResult.neutrals.count + ' (' + sentimentResult.neutrals.percentage + '%)' : null}</p>
+                                          <p>Negative Reviews: {sentimentResult !== null ? sentimentResult.negatives.count + ' (' + sentimentResult.negatives.percentage + '%)' : null}</p>
                                       </div>
                                     </>
                                   ) : null
