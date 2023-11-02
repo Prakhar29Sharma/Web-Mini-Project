@@ -8,6 +8,9 @@ import { Button, Snackbar } from '@mui/material';
 import createNotification from '../../utils/notification';
 import MuiAlert from '@mui/material/Alert';
 import ImageAvatar from '../../components/ImageAvatar';
+import BasicRating from '../../components/BasicRating';
+import { formatDistance } from 'date-fns'
+import './ViewCourse.css';
 
 const Alert = React.forwardRef(function Alert(props, ref) {
   return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
@@ -25,6 +28,7 @@ export default function ViewCourse() {
     const [viewRateAndReview, setViewRateAndReview] = useState(false);
     const [viewRateAndReviewButton, setViewRateAndReviewButton] = useState(true);
     const [ImagePath, setImagePath] = useState('');
+    const [courseReviews, setCourseReviews] = useState([]);
 
     useEffect(() => {
         const fetchCourses = async () => {
@@ -80,6 +84,22 @@ export default function ViewCourse() {
           }
         }
         fetchUsersName();
+        const fetchReviews = async () => {
+          axios.get('http://localhost:5000/api/reviews/' + courseId, {
+            headers: {
+              'Content-Type': 'application/json',
+              'Authorization': 'Bearer ' + getToken(), 
+            },
+          })
+          .then((response) => {
+            console.log(response.data);
+            setCourseReviews(response.data.data);
+          })
+          .catch((err) => {
+            console.log(err);
+          });
+        }
+        fetchReviews();
     }, [courseId, course.authorName]);
 
     function handleReviewFormSubmit (rating, review) {
@@ -264,6 +284,45 @@ export default function ViewCourse() {
                                       }
                                     </div>
                                 </div>
+
+                                <div style={{height:'25px'}} className="row"></div>
+
+                                {
+                                  courseReviews.length > 0 ? (
+                                    <>
+                                      <div className="row">
+                                        <h3>Reviews</h3>
+                                        {
+                                          courseReviews.map((review, index) => {
+                                            return (
+                                              <div className="review_card" key={index}>
+                                                <div className='author_rating'>
+                                                  <div className='author_name'>
+                                                    <ImageAvatar imagePath={null} username={review.authorName} size='36px' />
+                                                    &nbsp;&nbsp;
+                                                    <h4>{review.authorName}</h4>
+                                                  </div>
+                                                  <div className='course_rating'>
+                                                    <BasicRating type='read' size='medium' rating={review.rating} />
+                                                  </div>
+                                                </div>
+                                                <div className='author_role'>
+                                                    <p style={{ textAlign: 'left' }} >{formatDistance(new Date(review.createdAt), new Date(), {
+                                                        addSuffix: true
+                                                    })}</p>
+                                                    <p>{review.authorRole}</p>
+                                                </div>
+                                                <div className='course_review'>
+                                                  {review.review}
+                                                </div>
+                                              </div>
+                                            );
+                                          })
+                                        }
+                                      </div>
+                                    </>
+                                  ) : null
+                                }
                         </div>
                     </div>
                 </div>

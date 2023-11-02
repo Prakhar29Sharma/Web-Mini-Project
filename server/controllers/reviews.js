@@ -1,6 +1,19 @@
 const CourseReview = require('../models/CourseReview');
 const Course = require('../models/Course');
 
+const getReviewsByCourseId = async (req, res) => {
+    try {
+        const { courseId } = req.params;
+        const reviews = await CourseReview.find({ courseId: courseId });
+        res.json({
+            status: 'ok',
+            data: reviews
+        })
+    } catch (err) {
+        res.json({ status: 'error', error: err });
+    }
+}
+
 const createCourseReview = async (req, res) => {
     try {
         const { courseId, authorId, authorName, authorRole, rating, review } = req.body;
@@ -28,5 +41,6 @@ const createCourseReview = async (req, res) => {
 }
 
 module.exports = {
-    createCourseReview
+    createCourseReview,
+    getReviewsByCourseId
 }
