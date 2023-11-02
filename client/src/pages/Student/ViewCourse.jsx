@@ -169,7 +169,8 @@ export default function ViewCourse() {
           setViewRateAndReviewButton(false);
           createNotification(course.authorName, 'Course Review', `Student ${user.username} has reviewed your course ${course.unitData.unitName}.`)
           setTimeout(() => {
-            window.location.href = '/student';
+            // reload
+            window.location.reload();
           }, 2000);
         }
       })
