@@ -52,7 +52,7 @@ Sraina Panchangam : https://github.com/PSraina
 <img id="contrib_notifications" src="snippets/ContributorNotifications.png">
 <img id="contrib_view_course" src="snippets/ContributorViewCourse.png">
 <h3 id="evaluator_header">Evaluator</h3>
-<img id="eval_dashboard" src="snippets/EvaluatorDashboard.png">
+<img id="eval_dashboard" src="snippets/EvaluatorsDashboard.png">
 <img id="eval_course_eval" src="snippets/EvaluatorCourseEvaluation.png">
 <h3 id="std_header">Student</h3>
 <img id="student_dashboard" src="snippets/StudentDashboard.png">
